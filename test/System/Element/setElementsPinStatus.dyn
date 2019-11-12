@@ -1,0 +1,167 @@
+{
+  "Uuid": "47a37382-97ed-4895-b327-e14fa8b99831",
+  "IsCustomNode": false,
+  "Description": null,
+  "Name": "setElementsPinStatus",
+  "ElementResolver": {
+    "ResolutionMap": {}
+  },
+  "Inputs": [],
+  "Outputs": [],
+  "Nodes": [
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.ZeroTouch.DSFunction, DynamoCore",
+      "NodeType": "FunctionNode",
+      "FunctionSignature": "Revit.Elements.Element.SetPinnedStatus@bool",
+      "Id": "fefd9d4abf2d47279ec1637e22518e67",
+      "Inputs": [
+        {
+          "Id": "c74051c554394896be73dfb065ed1511",
+          "Name": "element",
+          "Description": "Revit.Elements.Element",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "101ffbe3a11f4aa0927739e6731b3422",
+          "Name": "value",
+          "Description": "Value for pin status true/false\n\nbool",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "6719b32bb61f483fadc8ff19837798e1",
+          "Name": "void",
+          "Description": "void",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Auto",
+      "Description": "Sets an exsisting element's pinned status\n\nElement.SetPinnedStatus (value: bool): void"
+    },
+    {
+      "ConcreteType": "Dynamo.Nodes.DSModelElementsSelection, DSRevitNodesUI",
+      "NodeType": "ExtensionNode",
+      "InstanceId": [
+        "f49d6941-4497-43c3-9a52-fe4e5424e4e7-0002cf70",
+        "fd3a4d17-47e3-4720-b3a9-b8f28e80f6d1-0002d004"
+      ],
+      "Id": "e8c04eafe7c44a4b8d174aad474cbd32",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "89a16d84c02d4fb6be0f00239a880243",
+          "Name": "Elements",
+          "Description": "The selected elements.",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled"
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.CodeBlockNodeModel, DynamoCore",
+      "NodeType": "CodeBlockNode",
+      "Code": "[false,true];",
+      "Id": "3c6486f2fbdc40a69447381f6c304bed",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "e22cd8ea1ed24f02b8aede12f20dc060",
+          "Name": "",
+          "Description": "Value of expression at line 1",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Allows for DesignScript code to be authored directly"
+    }
+  ],
+  "Connectors": [
+    {
+      "Start": "89a16d84c02d4fb6be0f00239a880243",
+      "End": "c74051c554394896be73dfb065ed1511",
+      "Id": "5ccbccfc070a4b2daae3a90e7e55a508"
+    },
+    {
+      "Start": "e22cd8ea1ed24f02b8aede12f20dc060",
+      "End": "101ffbe3a11f4aa0927739e6731b3422",
+      "Id": "45636227b85e4f73adb3093d62af90df"
+    }
+  ],
+  "Dependencies": [],
+  "NodeLibraryDependencies": [],
+  "Bindings": [],
+  "View": {
+    "Dynamo": {
+      "ScaleFactor": 1.0,
+      "HasRunWithoutCrash": true,
+      "IsVisibleInDynamoLibrary": true,
+      "Version": "2.5.0.5905",
+      "RunType": "Automatic",
+      "RunPeriod": "1000"
+    },
+    "Camera": {
+      "Name": "Background Preview",
+      "EyeX": -17.0,
+      "EyeY": 24.0,
+      "EyeZ": 50.0,
+      "LookX": 12.0,
+      "LookY": -13.0,
+      "LookZ": -58.0,
+      "UpX": 0.0,
+      "UpY": 1.0,
+      "UpZ": 0.0
+    },
+    "NodeViews": [
+      {
+        "ShowGeometry": true,
+        "Name": "Element.SetPinnedStatus",
+        "Id": "fefd9d4abf2d47279ec1637e22518e67",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 262.4,
+        "Y": 217.20000000000002
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Select Model Elements",
+        "Id": "e8c04eafe7c44a4b8d174aad474cbd32",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 25.599999999999909,
+        "Y": 45.599999999999994
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Code Block",
+        "Id": "3c6486f2fbdc40a69447381f6c304bed",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 68.600000000000023,
+        "Y": 246.59999999999991
+      }
+    ],
+    "Annotations": [],
+    "X": 19.907999999999987,
+    "Y": 28.476,
+    "Zoom": 0.8425
+  }
+}

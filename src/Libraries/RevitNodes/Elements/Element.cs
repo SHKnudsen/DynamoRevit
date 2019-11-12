@@ -705,6 +705,18 @@ namespace Revit.Elements
         }
 
         #region Location extraction & manipulation
+        /// <summary>
+        /// Sets an exsisting element's pinned status
+        /// </summary>
+        /// <param name="value">Value for pin status true/false</param>
+        public void SetPinnedStatus(bool value)
+        {
+            if (this.InternalElement.Pinned == value) return;
+
+            TransactionManager.Instance.EnsureInTransaction(Application.Document.Current.InternalDocument);
+            this.InternalElement.Pinned = value;
+            TransactionManager.Instance.TransactionTaskDone();
+        }
 
         /// <summary>
         /// Update an existing element's location

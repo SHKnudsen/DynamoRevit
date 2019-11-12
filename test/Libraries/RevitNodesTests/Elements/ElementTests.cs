@@ -283,6 +283,26 @@ namespace RevitNodesTests.Elements
             var unPinnedElement = ElementSelector.ByElementId(184324, true);
             GetExpectedElementPinStatus(unPinnedElement, false);
         }
+
+        private static void SetElementPinnedStatus(Element element)
+        {
+            // check if elements Pinned status can be set as both true and false
+            element.SetPinnedStatus(true);
+            Assert.IsTrue(element.IsPinned);
+
+            element.SetPinnedStatus(false);
+            Assert.IsFalse(element.IsPinned);
+        }
+        /// <summary>
+        /// Checks if Pin status can be set correctly
+        /// </summary>
+        [Test]
+        [TestModel(@".\element.rvt")]
+        public void CanSuccessfullySetElementPinnedStatus()
+        {
+            var elem = ElementSelector.ByElementId(184176, true);
+            SetElementPinnedStatus(elem);
+        }
         #endregion
 
     }

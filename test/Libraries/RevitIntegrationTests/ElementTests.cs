@@ -50,5 +50,20 @@ namespace RevitSystemTests
             RunCurrentModel();
         }
 
+        /// <summary>
+        /// Checks if Elements pin status can be set from Dynamo
+        /// </summary>
+        [Test]
+        [TestModel(@".\element.rvt")]
+        public void CanSetPinnedStatus()
+        {
+            string samplePath = Path.Combine(workingDirectory, @".\Element\setElementsPinStatus.dyn");
+            string testPath = Path.GetFullPath(samplePath);
+
+            ViewModel.OpenCommand.Execute(testPath);
+
+            RunCurrentModel();
+        }
+
     }
 }
