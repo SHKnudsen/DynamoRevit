@@ -37,6 +37,18 @@ namespace RevitSystemTests
             // query count node to verify 1 item deleted as a result of the wall deletion. 
             Assert.AreEqual(1, GetPreviewValue("ccd8a5ba37fd4b1297def564392ccf54"));
          }
-        
+
+        [Test]
+        [TestModel(@".\element.rvt")]
+        public void CanGetPinnedStatus()
+        {
+            string samplePath = Path.Combine(workingDirectory, @".\Element\deleteWallFromDocument.dyn");
+            string testPath = Path.GetFullPath(samplePath);
+
+            ViewModel.OpenCommand.Execute(testPath);
+
+            RunCurrentModel();
+        }
+
     }
 }

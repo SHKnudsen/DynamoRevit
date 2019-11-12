@@ -152,6 +152,17 @@ namespace Revit.Elements
         }
 
         /// <summary>
+        /// Get the Element Pinned status
+        /// </summary>
+        public bool IsPinned
+        {
+            get 
+            { 
+                return this.InternalElement.Pinned; 
+            }
+        }
+
+        /// <summary>
         /// A reference to the element
         /// </summary>
         [SupressImportIntoVM]
