@@ -37,6 +37,20 @@ namespace RevitSystemTests
             // query count node to verify 1 item deleted as a result of the wall deletion. 
             Assert.AreEqual(1, GetPreviewValue("ccd8a5ba37fd4b1297def564392ccf54"));
          }
-        
+
+        [Test]
+        [TestModel(@".\elementJoin.rvt")]
+        public void CanCheckIfElmentsAreJoined()
+        {
+            string samplePath = Path.Combine(workingDirectory, @".\Element\IsJoined_System_Test");
+            string testPath = Path.GetFullPath(samplePath);
+
+            ViewModel.OpenCommand.Execute(testPath);
+
+            RunCurrentModel();
+
+            // query count node to verify 1 item deleted as a result of the wall deletion. 
+            // Assert.AreEqual(1, GetPreviewValue("ccd8a5ba37fd4b1297def564392ccf54"));
+        }
     }
 }
