@@ -152,6 +152,24 @@ namespace Revit.Elements
         }
 
         /// <summary>
+        /// Checks if two elements are joined
+        /// </summary>
+        /// <param name="otherElement">Element to check</param>
+        /// <returns></returns>
+        public bool IsJoined(Element otherElement)
+        {
+            if (this.InternalElement == null)
+                throw new Exception(nameof(this.InternalElement));
+            if (otherElement == null)
+                throw new Exception(nameof(otherElement));
+
+            bool result = JoinGeometryUtils.AreElementsJoined(Document,
+                                                              this.InternalElement,
+                                                              otherElement.InternalElement);
+            return result;
+        }
+
+        /// <summary>
         /// A reference to the element
         /// </summary>
         [SupressImportIntoVM]
