@@ -261,27 +261,28 @@ namespace RevitNodesTests.Elements
         #endregion
 
         #region Pin settings
-        private static void GetExpectedElementPinStatus(Element element, bool value)
-        {
-            bool pinStatus = element.IsPinned;
 
-            Assert.NotNull(pinStatus);
-            Assert.IsTrue(value);
-        }
         /// <summary>
-        /// Checks if IsPinned returns the correct value
+        /// gets the pinned status of an element from the model
+        /// and checks if IsPinned is the correct value
         /// </summary>
         [Test]
         [TestModel(@".\element.rvt")]
         public void CanSuccessfullyGetElementPinnedStatus()
         {
-            // gets the pinned  an element from the model
-            // and checks if IsPinned is the correct value
             var pinnedElement = ElementSelector.ByElementId(184176, true);
-            GetExpectedElementPinStatus(pinnedElement, true);
+            AssertElementPinStatusIs(pinnedElement, true);
 
             var unPinnedElement = ElementSelector.ByElementId(184324, true);
-            GetExpectedElementPinStatus(unPinnedElement, false);
+            AssertElementPinStatusIs(unPinnedElement, false);
+        }
+
+        private static void AssertElementPinStatusIs(Element element, bool expectedValue)
+        {
+            bool pinStatus = element.IsPinned;
+
+            Assert.NotNull(pinStatus);
+            Assert.AreEqual(expectedValue, pinStatus);
         }
 
         private static void SetElementPinnedStatus(Element element)
