@@ -261,7 +261,7 @@ namespace RevitNodesTests.Elements
         #endregion
 
         #region Pin settings
-        private static void GetExpectedElementPinStatus(Element element, bool value)
+        private static void AssertElementPinStatusIs(Element element, bool expectedValue)
         {
             bool pinStatus = element.IsPinned;
 
