@@ -263,14 +263,13 @@ namespace RevitNodesTests.Elements
         #region Pin settings
 
         /// <summary>
-        /// Checks if IsPinned returns the correct value
+        /// gets the pinned status of an element from the model
+        /// and checks if IsPinned is the correct value
         /// </summary>
         [Test]
         [TestModel(@".\element.rvt")]
         public void CanSuccessfullyGetElementPinnedStatus()
         {
-            // gets the pinned  an element from the model
-            // and checks if IsPinned is the correct value
             var pinnedElement = ElementSelector.ByElementId(184176, true);
             AssertElementPinStatusIs(pinnedElement, true);
 
