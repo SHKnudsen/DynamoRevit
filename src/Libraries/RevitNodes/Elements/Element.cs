@@ -158,7 +158,7 @@ namespace Revit.Elements
         {
             get 
             { 
-                return this.InternalElement.Pinned; 
+                return this.InternalElement?.Pinned; 
             }
         }
 
