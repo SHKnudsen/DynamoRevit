@@ -266,7 +266,7 @@ namespace RevitNodesTests.Elements
             bool pinStatus = element.IsPinned;
 
             Assert.NotNull(pinStatus);
-            Assert.IsTrue(value);
+            Assert.AreEqual(value, pinStatus);
         }
         /// <summary>
         /// Checks if IsPinned returns the correct value
