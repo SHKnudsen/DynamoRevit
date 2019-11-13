@@ -755,6 +755,21 @@ namespace Revit.Elements
             }
         }
 
+        public Element[] GetJoinedElements()
+        {
+            if (this.InternalElement == null)
+                throw new Exception(nameof(this.InternalElement));
+            if (Document == null)
+                throw new Exception(nameof(Document));
+
+            ElementId[] joinedElementIds = JoinGeometryUtils.GetJoinedElements(Document, this.InternalElement)
+                                                            .ToArray();
+
+            Element[] joinedElements = joinedElementIds.Select(id => Document.GetElement(id).ToDSType(true))
+                                                       .ToArray<Element>();
+            return joinedElements;
+        }
+
         /// <summary>
         /// Move Revit Element by Vector
         /// </summary>
