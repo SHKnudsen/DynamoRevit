@@ -260,6 +260,32 @@ namespace RevitNodesTests.Elements
 
         #endregion
 
+        private static void GetHostedElements(Element elem)
+        {
+            var hostedElementsIncludeNothing = elem.GetHostedElements();
+            var hostedElementsIncludeOpenings = elem.GetHostedElements(true);
+            var hostedElementsIncludeEmbeddedWalls = elem.GetHostedElements(false, false, true, false);
+            var hostedElementsIncludeOpeningsAndEmbeddedWalls = elem.GetHostedElements(true, false, true, false);
+
+            //Assert right amount
+            Assert.AreEqual(3, hostedElementsIncludeNothing.Length);
+            Assert.AreEqual(4, hostedElementsIncludeOpenings.Length);
+            Assert.AreEqual(4, hostedElementsIncludeEmbeddedWalls.Length);
+            Assert.AreEqual(5, hostedElementsIncludeOpeningsAndEmbeddedWalls.Length);
+
+            //Assert right elements
+            string[] expected = new[] { "600 x 3100", "600 x 3100", "600 x 3100" };
+            CollectionAssert.AreEqual(expected, hostedElementsIncludeNothing.Select(x => x.Name)
+                                                                            .ToArray());
+        }
+
+        [Test]
+        [TestModel(@".\element.rvt")]
+        public void CanSuccessfullyGetHostedElements()
+        {
+            var wall = ElementSelector.ByElementId(184176, true);
+            GetExpectedWallHeight(wall, 20);
+        }
 
     }
 }
