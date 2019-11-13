@@ -261,5 +261,16 @@ namespace RevitNodesTests.Elements
         #endregion
 
 
+        [Test]
+        [TestModel(@".\elementJoin.rvt")]
+        public void CanSuccessfullyGetJoinedElementsFromElement()
+        {
+            var element = ElementSelector.ByElementId(184176, true);
+
+            Element[] joinedElements = element.GetJoinedElements();
+            Assert.AreEqual(3, joinedElements.Length);
+            int[] joinedElementIds = joinedElements.Select(elem => elem.Id).ToArray();
+            CollectionAssert.AreEqual(new int[] { 207960, 208259, 208422 }, joinedElementIds);
+        }
     }
 }
