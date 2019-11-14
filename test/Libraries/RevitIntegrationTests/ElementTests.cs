@@ -9,6 +9,8 @@ using System.Linq;
 using Dynamo.Graph;
 using Dynamo.Graph.Nodes;
 using RevitServices.Materials;
+using System.Collections.Generic;
+
 namespace RevitSystemTests
 {
     [TestFixture]
@@ -42,15 +44,32 @@ namespace RevitSystemTests
         /// Checks if Elements hosted elements can be retrived from Dynamo
         /// </summary>
         [Test]
-        [TestModel(@".\element.rvt")]
+        [TestModel(@".\Element\hostedElements.rvt")]
         public void CanGetHostedElements()
         {
-            string samplePath = Path.Combine(workingDirectory, @".\Element\GetHostElements_System_Test.dyn");
+            #region Arrange
+            // set-up to run dynamo script
+            string samplePath = Path.Combine(workingDirectory, @".\Element\canSuccessfullyGetHostedElements.dyn");
             string testPath = Path.GetFullPath(samplePath);
 
             ViewModel.OpenCommand.Execute(testPath);
-
             RunCurrentModel();
+
+            #endregion
+
+            #region Act
+            // get output of Element.Names in dynamo script
+            List<string> hostedElementNames = GetPreviewValue("d9a3fb06d30a4c088c582ae81ca4245f") as List<string>;
+            List<string> expectedValues = new List<string>() { "600 x 3100", "600 x 3100", "600 x 3100", "Rectangular Straight Wall Opening" };
+            
+            #endregion
+
+            #region Assert
+            // check if outcome is the same as the expected collection
+            CollectionAssert.AreEqual(expectedValues, hostedElementNames);
+
+            #endregion
+
         }
 
     }
