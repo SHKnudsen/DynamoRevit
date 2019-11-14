@@ -9,6 +9,8 @@ using System.Linq;
 using Dynamo.Graph;
 using Dynamo.Graph.Nodes;
 using RevitServices.Materials;
+using Revit.Elements;
+
 namespace RevitSystemTests
 {
     [TestFixture]
@@ -54,7 +56,7 @@ namespace RevitSystemTests
         }
 
         /// <summary>
-        /// Checks if Elements pin status can be set from Dynamo
+        /// Checks that an Element's pinned status can be set from Dynamo.
         /// </summary>
         [Test]
         [TestModel(@".\element.rvt")]
@@ -66,6 +68,27 @@ namespace RevitSystemTests
             ViewModel.OpenCommand.Execute(testPath);
 
             RunCurrentModel();
+            //check Select Model Element
+            var selectElement = "f49d6941-4497-43c3-9a52-fe4e5424e4e7-0002cf70;";
+            var selectElementValue = GetPreviewValue(selectElement) as Element;
+            Assert.IsNotNull(selectElementValue);
+
+            bool? originalPinnedStatus = selectElementValue.IsPinned;
+            Assert.IsNotNull(originalPinnedStatus);
+            Assert.AreEqual(false, originalPinnedStatus);
+
+            //now flip the switch for setting the pinned status to true
+            var boolNode = ViewModel.Model.CurrentWorkspace.Nodes.Where(x => x is CoreNodeModels.Input.BoolSelector).First();
+            Assert.IsNotNull(boolNode);
+            bool boolNodeValue = true;
+            ((CoreNodeModels.Input.BasicInteractive<bool>)boolNode).Value = boolNodeValue;
+
+            RunCurrentModel();
+            bool? newPinnedStatus = selectElementValue.IsPinned;
+            Assert.AreNotEqual(originalPinnedStatus, newPinnedStatus);
+            Assert.IsNotNull(newPinnedStatus);
+            Assert.AreEqual(boolNodeValue, newPinnedStatus);
+            
         }
 
     }

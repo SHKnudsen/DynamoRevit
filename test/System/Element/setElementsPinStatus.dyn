@@ -26,7 +26,7 @@
         },
         {
           "Id": "101ffbe3a11f4aa0927739e6731b3422",
-          "Name": "value",
+          "Name": "pinned",
           "Description": "Value for pin status true/false\n\nbool",
           "UsingDefaultValue": false,
           "Level": 2,
@@ -46,14 +46,13 @@
         }
       ],
       "Replication": "Auto",
-      "Description": "Sets an exsisting element's pinned status\n\nElement.SetPinnedStatus (value: bool): void"
+      "Description": "Sets an exsisting element's pinned status\n\nElement.SetPinnedStatus (pinned: bool): void"
     },
     {
       "ConcreteType": "Dynamo.Nodes.DSModelElementsSelection, DSRevitNodesUI",
       "NodeType": "ExtensionNode",
       "InstanceId": [
-        "f49d6941-4497-43c3-9a52-fe4e5424e4e7-0002cf70",
-        "fd3a4d17-47e3-4720-b3a9-b8f28e80f6d1-0002d004"
+        "f49d6941-4497-43c3-9a52-fe4e5424e4e7-0002cf70"
       ],
       "Id": "e8c04eafe7c44a4b8d174aad474cbd32",
       "Inputs": [],
@@ -71,16 +70,16 @@
       "Replication": "Disabled"
     },
     {
-      "ConcreteType": "Dynamo.Graph.Nodes.CodeBlockNodeModel, DynamoCore",
-      "NodeType": "CodeBlockNode",
-      "Code": "[false,true];",
-      "Id": "3c6486f2fbdc40a69447381f6c304bed",
+      "ConcreteType": "CoreNodeModels.Input.BoolSelector, CoreNodeModels",
+      "NodeType": "BooleanInputNode",
+      "InputValue": true,
+      "Id": "6263b7205253436495d80743cd8bdada",
       "Inputs": [],
       "Outputs": [
         {
-          "Id": "e22cd8ea1ed24f02b8aede12f20dc060",
+          "Id": "705c2aad968440d6a6e665c2de8307d9",
           "Name": "",
-          "Description": "Value of expression at line 1",
+          "Description": "Boolean",
           "UsingDefaultValue": false,
           "Level": 2,
           "UseLevels": false,
@@ -88,7 +87,7 @@
         }
       ],
       "Replication": "Disabled",
-      "Description": "Allows for DesignScript code to be authored directly"
+      "Description": "Selection between a true and false."
     }
   ],
   "Connectors": [
@@ -98,9 +97,9 @@
       "Id": "5ccbccfc070a4b2daae3a90e7e55a508"
     },
     {
-      "Start": "e22cd8ea1ed24f02b8aede12f20dc060",
+      "Start": "705c2aad968440d6a6e665c2de8307d9",
       "End": "101ffbe3a11f4aa0927739e6731b3422",
-      "Id": "45636227b85e4f73adb3093d62af90df"
+      "Id": "7e805e1a99d84b2c9b7c6ae9bead7937"
     }
   ],
   "Dependencies": [],
@@ -145,23 +144,23 @@
         "IsSetAsInput": false,
         "IsSetAsOutput": false,
         "Excluded": false,
-        "X": 25.599999999999909,
-        "Y": 45.599999999999994
+        "X": 30.631220162960062,
+        "Y": 132.80781615797804
       },
       {
         "ShowGeometry": true,
-        "Name": "Code Block",
-        "Id": "3c6486f2fbdc40a69447381f6c304bed",
+        "Name": "Boolean",
+        "Id": "6263b7205253436495d80743cd8bdada",
         "IsSetAsInput": false,
         "IsSetAsOutput": false,
         "Excluded": false,
-        "X": 68.600000000000023,
-        "Y": 246.59999999999991
+        "X": 72.275370919881141,
+        "Y": 272.59737102470416
       }
     ],
     "Annotations": [],
-    "X": 19.907999999999987,
-    "Y": 28.476,
-    "Zoom": 0.8425
+    "X": -2.9932513805057397,
+    "Y": -5.8280936018743432,
+    "Zoom": 0.95404292488281262
   }
 }

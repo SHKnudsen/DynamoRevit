@@ -279,21 +279,12 @@ namespace RevitNodesTests.Elements
 
         private static void AssertElementPinStatusIs(Element element, bool expectedValue)
         {
-            bool pinStatus = element.IsPinned;
+            bool? pinStatus = element.IsPinned;
 
             Assert.NotNull(pinStatus);
             Assert.AreEqual(expectedValue, pinStatus);
         }
 
-        private static void SetElementPinnedStatus(Element element)
-        {
-            // check if elements Pinned status can be set as both true and false
-            element.SetPinnedStatus(true);
-            Assert.IsTrue(element.IsPinned);
-
-            element.SetPinnedStatus(false);
-            Assert.IsFalse(element.IsPinned);
-        }
         /// <summary>
         /// Checks if Pin status can be set correctly
         /// </summary>
@@ -302,7 +293,15 @@ namespace RevitNodesTests.Elements
         public void CanSuccessfullySetElementPinnedStatus()
         {
             var elem = ElementSelector.ByElementId(184176, true);
-            SetElementPinnedStatus(elem);
+            Assert.IsNotNull(elem);
+
+            bool? originalPinStatus = elem.IsPinned;
+
+            elem.SetPinnedStatus(true);
+            Assert.AreNotEqual(originalPinStatus, elem.IsPinned);
+
+            elem.SetPinnedStatus(false);
+            Assert.AreEqual(originalPinStatus, elem.IsPinned);
         }
         #endregion
 
