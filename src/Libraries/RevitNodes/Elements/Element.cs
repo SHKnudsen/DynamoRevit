@@ -692,6 +692,29 @@ namespace Revit.Elements
                 return !ElementIDLifecycleManager<int>.GetInstance().IsRevitDeleted(InternalElementId.IntegerValue);
             }
         }
+        /// <summary>
+        /// Finds the elements that are joined with the given element.
+        /// </summary>
+        /// <returns>all elements joined to the given element</returns>
+        public List<Element> GetJoinedElements()
+        {
+            if (this.InternalElement == null)
+                throw new Exception(nameof(this.InternalElement));
+            if (Document == null)
+                throw new Exception(nameof(Document));
+
+            ElementId[] joinedElementIds = JoinGeometryUtils.GetJoinedElements(Document, this.InternalElement)
+                                                            .ToArray();
+            
+            List<Element> joinedElements = new List<Element>();
+            for (int i = 0; i < joinedElementIds.Length; i++)
+            {
+                joinedElements.Add(Document.GetElement(joinedElementIds[i]).ToDSType(true));
+            }
+
+            return joinedElements;
+        }
+
 
         #region Location extraction & manipulation
 
@@ -753,21 +776,6 @@ namespace Revit.Elements
             {
                 throw new Exception(Properties.Resources.InvalidElementLocation);
             }
-        }
-
-        public Element[] GetJoinedElements()
-        {
-            if (this.InternalElement == null)
-                throw new Exception(nameof(this.InternalElement));
-            if (Document == null)
-                throw new Exception(nameof(Document));
-
-            ElementId[] joinedElementIds = JoinGeometryUtils.GetJoinedElements(Document, this.InternalElement)
-                                                            .ToArray();
-
-            Element[] joinedElements = joinedElementIds.Select(id => Document.GetElement(id).ToDSType(true))
-                                                       .ToArray<Element>();
-            return joinedElements;
         }
 
         /// <summary>
