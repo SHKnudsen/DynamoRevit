@@ -516,13 +516,14 @@ namespace Revit.Elements
         /// Sets an exsisting element's pinned status
         /// </summary>
         /// <param name="pinned">Value for pin status true/false</param>
-        public void SetPinnedStatus(bool pinned)
+        public Element SetPinnedStatus(bool pinned)
         {
-            if (this.InternalElement.Pinned == pinned) return;
+            if (this.InternalElement.Pinned == pinned) return this;
 
             TransactionManager.Instance.EnsureInTransaction(Application.Document.Current.InternalDocument);
             this.InternalElement.Pinned = pinned;
             TransactionManager.Instance.TransactionTaskDone();
+            return this;
         }
 
         #region Geometry extraction

@@ -37,8 +37,8 @@
       "Outputs": [
         {
           "Id": "6719b32bb61f483fadc8ff19837798e1",
-          "Name": "void",
-          "Description": "void",
+          "Name": "Element",
+          "Description": "Element",
           "UsingDefaultValue": false,
           "Level": 2,
           "UseLevels": false,
@@ -46,7 +46,7 @@
         }
       ],
       "Replication": "Auto",
-      "Description": "Sets an exsisting element's pinned status\n\nElement.SetPinnedStatus (pinned: bool): void"
+      "Description": "Sets an exsisting element's pinned status\n\nElement.SetPinnedStatus (pinned: bool): Element"
     },
     {
       "ConcreteType": "Dynamo.Nodes.DSModelElementsSelection, DSRevitNodesUI",
@@ -111,7 +111,7 @@
       "HasRunWithoutCrash": true,
       "IsVisibleInDynamoLibrary": true,
       "Version": "2.5.0.5905",
-      "RunType": "Automatic",
+      "RunType": "Manual",
       "RunPeriod": "1000"
     },
     "Camera": {
@@ -128,31 +128,31 @@
     },
     "NodeViews": [
       {
-        "ShowGeometry": true,
-        "Name": "Element.SetPinnedStatus",
         "Id": "fefd9d4abf2d47279ec1637e22518e67",
         "IsSetAsInput": false,
         "IsSetAsOutput": false,
+        "Name": "Element.SetPinnedStatus",
+        "ShowGeometry": true,
         "Excluded": false,
         "X": 262.4,
         "Y": 217.20000000000002
       },
       {
-        "ShowGeometry": true,
-        "Name": "Select Model Elements",
         "Id": "e8c04eafe7c44a4b8d174aad474cbd32",
         "IsSetAsInput": false,
         "IsSetAsOutput": false,
+        "Name": "Select Model Elements",
+        "ShowGeometry": true,
         "Excluded": false,
         "X": 30.631220162960062,
         "Y": 132.80781615797804
       },
       {
-        "ShowGeometry": true,
-        "Name": "Boolean",
         "Id": "6263b7205253436495d80743cd8bdada",
         "IsSetAsInput": false,
         "IsSetAsOutput": false,
+        "Name": "Boolean",
+        "ShowGeometry": true,
         "Excluded": false,
         "X": 72.275370919881141,
         "Y": 272.59737102470416
