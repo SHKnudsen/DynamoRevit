@@ -40,7 +40,7 @@ namespace RevitSystemTests
 
         [Test]
         [TestModel(@".\elementJoin.rvt")]
-        public void CanCheckIfElmentsAreJoined()
+        public void CanCheckIfTwoElementsAreJoined()
         {
             string samplePath = Path.Combine(workingDirectory, @".\Element\IsJoined_System_Test");
             string testPath = Path.GetFullPath(samplePath);
