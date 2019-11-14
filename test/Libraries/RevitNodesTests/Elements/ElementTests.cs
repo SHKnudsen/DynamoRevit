@@ -262,10 +262,10 @@ namespace RevitNodesTests.Elements
 
         #region Join tests
 
-        private static void AreElementsJoined(Element element, Element otherElement, bool expected)
+        private static void AssertElementsAreJoined(Element element, Element otherElement, bool expected)
         {
-            bool result = element.IsJoined(otherElement);
-            Assert.AreEqual(expected, result);
+            bool arejoined = element.IsJoined(otherElement);
+            Assert.AreEqual(expected, arejoined);
         }
 
         [Test]
@@ -279,13 +279,20 @@ namespace RevitNodesTests.Elements
             var beam2 = ElementSelector.ByElementId(208572, true);
 
             // Check if different kinds of elements are joined
-            AreElementsJoined(wall1, wall2, true);
-            AreElementsJoined(wall1, floor, true);
-            AreElementsJoined(wall2, floor, false);
-            AreElementsJoined(wall1, beam1, true);
-            AreElementsJoined(wall2, beam2, false);
-            AreElementsJoined(beam1, beam2, true);
-            AreElementsJoined(beam1, floor, true);
+            // wall1 and wall2 are joined
+            AssertElementsAreJoined(wall1, wall2, true);
+            // wall1 and floor are joined
+            AssertElementsAreJoined(wall1, floor, true);
+            // wall2 and floor are not joined
+            AssertElementsAreJoined(wall2, floor, false);
+            // wall1 and beam1 are joined
+            AssertElementsAreJoined(wall1, beam1, true);
+            // wall2 and beam2 are not joined
+            AssertElementsAreJoined(wall2, beam2, false);
+            // beam1 and beam2 are joined
+            AssertElementsAreJoined(beam1, beam2, true);
+            // beam1 and floor are joined
+            AssertElementsAreJoined(beam1, floor, true);
         }
 
         #endregion
