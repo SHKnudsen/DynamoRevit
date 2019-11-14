@@ -704,6 +704,19 @@ namespace Revit.Elements
             }
         }
 
+        /// <summary>
+        /// Sets an exsisting element's pinned status
+        /// </summary>
+        /// <param name="pinned">Value for pin status true/false</param>
+        public void SetPinnedStatus(bool pinned)
+        {
+            if (this.InternalElement.Pinned == pinned) return;
+
+            TransactionManager.Instance.EnsureInTransaction(Application.Document.Current.InternalDocument);
+            this.InternalElement.Pinned = pinned;
+            TransactionManager.Instance.TransactionTaskDone();
+        }
+
         #region Location extraction & manipulation
         /// <summary>
         /// Update an existing element's location
@@ -807,17 +820,5 @@ namespace Revit.Elements
 
         #endregion
 
-        /// <summary>
-        /// Sets an exsisting element's pinned status
-        /// </summary>
-        /// <param name="pinned">Value for pin status true/false</param>
-        public void SetPinnedStatus(bool pinned)
-        {
-            if (this.InternalElement.Pinned == pinned) return;
-
-            TransactionManager.Instance.EnsureInTransaction(Application.Document.Current.InternalDocument);
-            this.InternalElement.Pinned = pinned;
-            TransactionManager.Instance.TransactionTaskDone();
-        }
     }
 }
