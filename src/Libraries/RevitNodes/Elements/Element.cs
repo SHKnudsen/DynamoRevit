@@ -163,7 +163,7 @@ namespace Revit.Elements
             if (otherElement == null)
                 throw new Exception(nameof(otherElement));
 
-            bool result = JoinGeometryUtils.AreElementsJoined(Document,
+            bool areJoined= JoinGeometryUtils.AreElementsJoined(Document,
                                                               this.InternalElement,
                                                               otherElement.InternalElement);
             return result;
