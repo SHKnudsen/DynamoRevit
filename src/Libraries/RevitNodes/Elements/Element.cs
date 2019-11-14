@@ -166,7 +166,7 @@ namespace Revit.Elements
             bool areJoined= JoinGeometryUtils.AreElementsJoined(Document,
                                                               this.InternalElement,
                                                               otherElement.InternalElement);
-            return result;
+            return areJoined;
         }
 
         /// <summary>
