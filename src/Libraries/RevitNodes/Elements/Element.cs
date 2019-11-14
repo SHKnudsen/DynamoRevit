@@ -155,7 +155,7 @@ namespace Revit.Elements
         /// Checks if two elements are joined
         /// </summary>
         /// <param name="otherElement">Element to check</param>
-        /// <returns></returns>
+        /// <returns>True if the two elements are joined, False otherwise</returns>
         public bool IsJoined(Element otherElement)
         {
             if (this.InternalElement == null)
