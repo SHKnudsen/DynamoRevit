@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 
 using Autodesk.DesignScript.Geometry;
 using Autodesk.Revit.DB;
@@ -260,31 +261,84 @@ namespace RevitNodesTests.Elements
 
         #endregion
 
-        private static void GetHostedElements(Element elem)
-        {
-            var hostedElementsIncludeNothing = elem.GetHostedElements();
-            var hostedElementsIncludeOpenings = elem.GetHostedElements(true);
-            var hostedElementsIncludeEmbeddedWalls = elem.GetHostedElements(false, false, true, false);
-            var hostedElementsIncludeOpeningsAndEmbeddedWalls = elem.GetHostedElements(true, false, true, false);
-
-            //Assert right amount
-            Assert.AreEqual(3, hostedElementsIncludeNothing.Length);
-            Assert.AreEqual(4, hostedElementsIncludeOpenings.Length);
-            Assert.AreEqual(4, hostedElementsIncludeEmbeddedWalls.Length);
-            Assert.AreEqual(5, hostedElementsIncludeOpeningsAndEmbeddedWalls.Length);
-
-            //Assert right elements
-            string[] expected = new[] { "600 x 3100", "600 x 3100", "600 x 3100" };
-            CollectionAssert.AreEqual(expected, hostedElementsIncludeNothing.Select(x => x.Name)
-                                                                            .ToArray());
-        }
 
         [Test]
-        [TestModel(@".\element.rvt")]
+        [TestModel(@".\Element\hostedElements.rvt")]
         public void CanSuccessfullyGetHostedElements()
         {
-            var wall = ElementSelector.ByElementId(184176, true);
-            GetExpectedWallHeight(wall, 20);
+            #region Arrange
+            // Select the wall element in revit by it Id
+            var elem = ElementSelector.ByElementId(261723, true);
+            #endregion
+
+            #region Act
+            // Invoke GetHostedElements with all possible cobinations
+            var hostedElementsIncludeNothing = elem.GetHostedElements();
+            var hostedElementsIncludeEverything = elem.GetHostedElements(true, true, true, true);
+
+            var hostedElementsIncludeOpenings = elem.GetHostedElements(true, false, false, false);
+            var hostedElementsIncludeOpeningsAndShadows = elem.GetHostedElements(true, true, false, false);
+            var hostedElementsIncludeOpeningsAndShadowsAndEmbeddedWalls = elem.GetHostedElements(true, true, true, false);
+
+            var hostedElementsIncludeShadows = elem.GetHostedElements(false, true, false, false);
+            var hostedElementsIncludeShadowsAndEmbeddedWalls = elem.GetHostedElements(false, true, true, false);
+            var hostedElementsIncludeShadowsAndEmbeddedWallsAndEmbeddedInserts = elem.GetHostedElements(false, true, true, true);
+
+            var hostedElementsIncludeEmbeddedWalls = elem.GetHostedElements(false, false, true, false);
+            var hostedElementsIncludeEmbeddedWallsAndEmbeddedInserts = elem.GetHostedElements(false, false, true, true);
+            var hostedElementsIncludeEmbeddedWallsAndEmbeddedInsertsAndOpenings = elem.GetHostedElements(true, false, true, true);
+
+            var hostedElementsIncludeEmbeddedInserts = elem.GetHostedElements(false, false, false, true);
+            var hostedElementsIncludeSEmbeddedInsertsAndOpenings = elem.GetHostedElements(true, false, false, true);
+            var hostedElementsIncludeEmbeddedInsertsAndOpeningsAndShadows = elem.GetHostedElements(true, true, false, true);
+            #endregion
+
+            #region Assert
+            //Assert all combinations has the right amount of output elements
+            Assert.AreEqual(3, hostedElementsIncludeNothing.Count);
+            Assert.AreEqual(5, hostedElementsIncludeEverything.Count);
+
+            Assert.AreEqual(4, hostedElementsIncludeOpenings.Count);
+            Assert.AreEqual(4, hostedElementsIncludeOpeningsAndShadows.Count);
+            Assert.AreEqual(5, hostedElementsIncludeOpeningsAndShadowsAndEmbeddedWalls.Count);
+
+            Assert.AreEqual(3, hostedElementsIncludeShadows.Count);
+            Assert.AreEqual(4, hostedElementsIncludeShadowsAndEmbeddedWalls.Count);
+            Assert.AreEqual(4, hostedElementsIncludeShadowsAndEmbeddedWallsAndEmbeddedInserts.Count);
+
+            Assert.AreEqual(4, hostedElementsIncludeEmbeddedWalls.Count);
+            Assert.AreEqual(4, hostedElementsIncludeEmbeddedWallsAndEmbeddedInserts.Count);
+            Assert.AreEqual(5, hostedElementsIncludeEmbeddedWallsAndEmbeddedInsertsAndOpenings.Count);
+
+            Assert.AreEqual(3, hostedElementsIncludeEmbeddedInserts.Count);
+            Assert.AreEqual(4, hostedElementsIncludeSEmbeddedInsertsAndOpenings.Count);
+            Assert.AreEqual(4, hostedElementsIncludeEmbeddedInsertsAndOpeningsAndShadows.Count);
+
+            //Assert all combinations has the right elements as output
+            AssertExpectedElementNameCollection(new[] { "600 x 3100", "600 x 3100", "600 x 3100" }, hostedElementsIncludeNothing);
+            AssertExpectedElementNameCollection(new[] { "Curtain Wall", "600 x 3100", "600 x 3100", "600 x 3100", "Rectangular Straight Wall Opening" }, hostedElementsIncludeEverything);
+
+            AssertExpectedElementNameCollection(new[] { "600 x 3100", "600 x 3100", "600 x 3100", "Rectangular Straight Wall Opening" }, hostedElementsIncludeOpenings);
+            AssertExpectedElementNameCollection(new[] { "600 x 3100", "600 x 3100", "600 x 3100", "Rectangular Straight Wall Opening" }, hostedElementsIncludeOpeningsAndShadows);
+            AssertExpectedElementNameCollection(new[] { "Curtain Wall", "600 x 3100", "600 x 3100", "600 x 3100", "Rectangular Straight Wall Opening" }, hostedElementsIncludeOpeningsAndShadowsAndEmbeddedWalls);
+
+            AssertExpectedElementNameCollection(new[] { "600 x 3100", "600 x 3100", "600 x 3100"}, hostedElementsIncludeShadows);
+            AssertExpectedElementNameCollection(new[] { "Curtain Wall", "600 x 3100", "600 x 3100", "600 x 3100" }, hostedElementsIncludeShadowsAndEmbeddedWalls);
+            AssertExpectedElementNameCollection(new[] { "Curtain Wall", "600 x 3100", "600 x 3100", "600 x 3100" }, hostedElementsIncludeShadowsAndEmbeddedWallsAndEmbeddedInserts);
+
+            AssertExpectedElementNameCollection(new[] { "Curtain Wall", "600 x 3100", "600 x 3100", "600 x 3100" }, hostedElementsIncludeEmbeddedWalls);
+            AssertExpectedElementNameCollection(new[] { "Curtain Wall", "600 x 3100", "600 x 3100", "600 x 3100" }, hostedElementsIncludeEmbeddedWallsAndEmbeddedInserts);
+            AssertExpectedElementNameCollection(new[] { "Curtain Wall", "600 x 3100", "600 x 3100", "600 x 3100", "Rectangular Straight Wall Opening" }, hostedElementsIncludeEmbeddedWallsAndEmbeddedInsertsAndOpenings);
+
+            AssertExpectedElementNameCollection(new[] { "600 x 3100", "600 x 3100", "600 x 3100" }, hostedElementsIncludeEmbeddedInserts);
+            AssertExpectedElementNameCollection(new[] { "600 x 3100", "600 x 3100", "600 x 3100", "Rectangular Straight Wall Opening" }, hostedElementsIncludeSEmbeddedInsertsAndOpenings);
+            AssertExpectedElementNameCollection(new[] { "600 x 3100", "600 x 3100", "600 x 3100", "Rectangular Straight Wall Opening" }, hostedElementsIncludeEmbeddedInsertsAndOpeningsAndShadows);
+            #endregion
+        }
+
+        private static void AssertExpectedElementNameCollection(string[] expectedNameCollection, List<Element> hostedElementCollection)
+        {
+            CollectionAssert.AreEqual(expectedNameCollection, hostedElementCollection.Select(x => x.Name).ToArray());
         }
 
     }
