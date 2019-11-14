@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 
 using Autodesk.DesignScript.Geometry;
 using Autodesk.Revit.DB;
@@ -267,9 +268,15 @@ namespace RevitNodesTests.Elements
         {
             var element = ElementSelector.ByElementId(184176, true);
 
-            Element[] joinedElements = element.GetJoinedElements();
-            Assert.AreEqual(3, joinedElements.Length);
-            int[] joinedElementIds = joinedElements.Select(elem => elem.Id).ToArray();
+            List<Element> joinedElements = element.GetJoinedElements();
+            Assert.AreEqual(3, joinedElements.Count);
+
+            List<int> joinedElementIds = new List<int>();
+            for (int i = 0; i < joinedElements.Count; i++)
+            {
+                joinedElementIds.Add(joinedElements[i].Id);
+            }
+
             CollectionAssert.AreEqual(new int[] { 207960, 208259, 208422 }, joinedElementIds);
         }
     }
