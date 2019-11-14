@@ -501,6 +501,45 @@ namespace Revit.Elements
             return converted.ToArray();
         }
 
+        /// <summary>
+        /// Gets all elements hosted by the supplied element
+        /// </summary>
+        /// <param name="includeOpenings">Include rectangular openings in output</param>
+        /// <param name="includeShadows">Include shadows in output</param>
+        /// <param name="includeEmbeddedWalls">Include embedded walls in output</param>
+        /// <param name="includeSharedEmbeddedInserts">Include shared embedded elements in output</param>
+        /// <returns>Hosted Elements</returns>
+        public List<Element> GetHostedElements(bool includeOpenings = false,
+                                           bool includeShadows = false,
+                                           bool includeEmbeddedWalls = false,
+                                           bool includeSharedEmbeddedInserts = false)
+        {
+            if (this.InternalElement == null)
+                throw new NullReferenceException();
+            if (Document == null)
+                throw new NullReferenceException();
+
+            HostObject hostObject = this.InternalElement as HostObject;
+            if (hostObject == null)
+                throw new NullReferenceException();
+            
+
+            IList<ElementId> inserts = hostObject.FindInserts(includeOpenings,
+                                                              includeShadows,
+                                                              includeEmbeddedWalls,
+                                                              includeSharedEmbeddedInserts);
+
+            // Get all hosted elements from their Id's 
+            // and convert them to DS type
+            List<Element> hostedElements = new List<Element>();
+            for (int i = 0; i < inserts.Count; i++)
+            {
+                Element elem = Document.GetElement(inserts[i]).ToDSType(true);
+                hostedElements.Add(elem);
+            }
+            return hostedElements;
+        }
+
         #region Geometry extraction
 
         /// <summary>
@@ -753,45 +792,6 @@ namespace Revit.Elements
             {
                 throw new Exception(Properties.Resources.InvalidElementLocation);
             }
-        }
-
-        /// <summary>
-        /// Gets all elements hosted to this host
-        /// </summary>
-        /// <param name="includeOpenings">Include rectangular openings in output</param>
-        /// <param name="includeShadows">Include shadows in output</param>
-        /// <param name="includeEmbeddedWalls">Include embedded walls in output</param>
-        /// <param name="includeSharedEmbeddedInserts">Include shared embedded elements in output</param>
-        /// <returns>Hosted Elements</returns>
-        public Element[] GetHostedElements(bool includeOpenings = false,
-                                           bool includeShadows = false,
-                                           bool includeEmbeddedWalls = false,
-                                           bool includeSharedEmbeddedInserts = false)
-        {
-            if (this.InternalElement == null)
-                throw new Exception(nameof(this.InternalElement));
-
-            HostObject hostObject = this.InternalElement as HostObject;
-            if (hostObject == null)
-                throw new Exception(nameof(hostObject));
-
-            // Document to work with
-            Autodesk.Revit.DB.Document document = DocumentManager.Instance.CurrentDBDocument;
-
-            IList<ElementId> inserts = hostObject.FindInserts(includeOpenings,
-                                                              includeShadows,
-                                                              includeEmbeddedWalls,
-                                                              includeSharedEmbeddedInserts);
-
-            // Get all hosted elements from their Id's 
-            // and convert them to DS type
-            var hostedElements = inserts
-                .Select(insert => document
-                .GetElement(insert)
-                .ToDSType(true))
-                .ToArray<Element>();
-
-            return hostedElements;
         }
 
         /// <summary>
