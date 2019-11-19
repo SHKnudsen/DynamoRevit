@@ -73,7 +73,7 @@ namespace RevitSystemTests
             var selectElementValue = GetPreviewValue(selectElement) as Element;
             Assert.IsNotNull(selectElementValue);
 
-            bool? originalPinnedStatus = selectElementValue.IsPinned;
+            bool originalPinnedStatus = selectElementValue.IsPinned;
             Assert.IsNotNull(originalPinnedStatus);
             Assert.AreEqual(false, originalPinnedStatus);
 
@@ -84,7 +84,7 @@ namespace RevitSystemTests
             ((CoreNodeModels.Input.BasicInteractive<bool>)boolNode).Value = boolNodeValue;
 
             RunCurrentModel();
-            bool? newPinnedStatus = selectElementValue.IsPinned;
+            bool newPinnedStatus = selectElementValue.IsPinned;
             Assert.AreNotEqual(originalPinnedStatus, newPinnedStatus);
             Assert.IsNotNull(newPinnedStatus);
             Assert.AreEqual(boolNodeValue, newPinnedStatus);
