@@ -271,13 +271,13 @@ namespace RevitNodesTests.Elements
         public void CanSuccessfullyGetElementPinnedStatus()
         {
             var pinnedElement = ElementSelector.ByElementId(184176, true);
-            AssertElementPinStatusIs(pinnedElement, true);
+            AssertElementPinnedStatusIs(pinnedElement, true);
 
             var unPinnedElement = ElementSelector.ByElementId(184324, true);
-            AssertElementPinStatusIs(unPinnedElement, false);
+            AssertElementPinnedStatusIs(unPinnedElement, false);
         }
 
-        private static void AssertElementPinStatusIs(Element element, bool expectedValue)
+        private static void AssertElementPinnedStatusIs(Element element, bool expectedValue)
         {
             bool pinStatus = element.IsPinned;
 
