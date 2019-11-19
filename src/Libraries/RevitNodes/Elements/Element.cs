@@ -509,25 +509,27 @@ namespace Revit.Elements
         /// <param name="includeEmbeddedWalls">Include embedded walls in output</param>
         /// <param name="includeSharedEmbeddedInserts">Include shared embedded elements in output</param>
         /// <returns>Hosted Elements</returns>
-        public List<Element> GetHostedElements(bool includeOpenings = false,
-                                           bool includeShadows = false,
-                                           bool includeEmbeddedWalls = false,
-                                           bool includeSharedEmbeddedInserts = false)
+        public List<Element> GetHostedElements(
+            bool includeOpenings = false,
+            bool includeShadows = false,
+            bool includeEmbeddedWalls = false,
+            bool includeSharedEmbeddedInserts = false)
         {
             if (this.InternalElement == null)
-                throw new NullReferenceException();
+                throw new NullReferenceException("Cannot get hosted elements for a null Element");
             if (Document == null)
-                throw new NullReferenceException();
+                throw new NullReferenceException("Cannot get hosted elements for a null Element");
 
             HostObject hostObject = this.InternalElement as HostObject;
             if (hostObject == null)
-                throw new NullReferenceException();
+                throw new NullReferenceException("Element is not a Host Element");
             
 
-            IList<ElementId> inserts = hostObject.FindInserts(includeOpenings,
-                                                              includeShadows,
-                                                              includeEmbeddedWalls,
-                                                              includeSharedEmbeddedInserts);
+            IList<ElementId> inserts = hostObject.FindInserts(
+                includeOpenings,
+                includeShadows,
+                includeEmbeddedWalls,
+                includeSharedEmbeddedInserts);
 
             // Get all hosted elements from their Id's 
             // and convert them to DS type

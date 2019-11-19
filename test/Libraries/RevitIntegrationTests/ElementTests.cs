@@ -47,7 +47,7 @@ namespace RevitSystemTests
         [TestModel(@".\Element\hostedElements.rvt")]
         public void CanGetHostedElements()
         {
-            #region Arrange
+            // Arrange
             // set-up to run dynamo script
             string samplePath = Path.Combine(workingDirectory, @".\Element\canSuccessfullyGetHostedElements.dyn");
             string testPath = Path.GetFullPath(samplePath);
@@ -55,20 +55,15 @@ namespace RevitSystemTests
             ViewModel.OpenCommand.Execute(testPath);
             RunCurrentModel();
 
-            #endregion
-
-            #region Act
+            // Act
             // get output of Element.Names in dynamo script
             List<string> hostedElementNames = GetPreviewValue("d9a3fb06d30a4c088c582ae81ca4245f") as List<string>;
             List<string> expectedValues = new List<string>() { "600 x 3100", "600 x 3100", "600 x 3100", "Rectangular Straight Wall Opening" };
-            
-            #endregion
 
-            #region Assert
+            // Assert
             // check if outcome is the same as the expected collection
             CollectionAssert.AreEqual(expectedValues, hostedElementNames);
 
-            #endregion
 
         }
 

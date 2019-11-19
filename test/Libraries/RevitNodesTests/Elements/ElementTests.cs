@@ -266,13 +266,13 @@ namespace RevitNodesTests.Elements
         [TestModel(@".\Element\hostedElements.rvt")]
         public void CanSuccessfullyGetHostedElements()
         {
-            #region Arrange
-            // Select the wall element in revit by it Id
+            // Arrange - Select the wall element in revit by it Id
             var elem = ElementSelector.ByElementId(261723, true);
-            #endregion
+            var nameCombo1 = new[] { "600 x 3100", "600 x 3100", "600 x 3100" };
+            var nameCombo2 = 
 
-            #region Act
-            // Invoke GetHostedElements with all possible cobinations
+
+            // Act - Invoke GetHostedElements with all possible cobinations
             var hostedElementsIncludeNothing = elem.GetHostedElements();
             var hostedElementsIncludeEverything = elem.GetHostedElements(true, true, true, true);
 
@@ -315,8 +315,8 @@ namespace RevitNodesTests.Elements
             Assert.AreEqual(4, hostedElementsIncludeEmbeddedInsertsAndOpeningsAndShadows.Count);
 
             //Assert all combinations has the right elements as output
-            AssertExpectedElementNameCollection(new[] { "600 x 3100", "600 x 3100", "600 x 3100" }, hostedElementsIncludeNothing);
-            AssertExpectedElementNameCollection(new[] { "Curtain Wall", "600 x 3100", "600 x 3100", "600 x 3100", "Rectangular Straight Wall Opening" }, hostedElementsIncludeEverything);
+            AssertExpectedElementNameCollection(nameCombo1, hostedElementsIncludeNothing);
+            AssertExpectedElementNameCollection(nameCombo2, hostedElementsIncludeEverything);
 
             AssertExpectedElementNameCollection(new[] { "600 x 3100", "600 x 3100", "600 x 3100", "Rectangular Straight Wall Opening" }, hostedElementsIncludeOpenings);
             AssertExpectedElementNameCollection(new[] { "600 x 3100", "600 x 3100", "600 x 3100", "Rectangular Straight Wall Opening" }, hostedElementsIncludeOpeningsAndShadows);
