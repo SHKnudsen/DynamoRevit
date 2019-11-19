@@ -513,7 +513,7 @@ namespace Revit.Elements
         }
 
         /// <summary>
-        /// Sets an exsisting element's pinned status
+        /// Sets an existing elements pinned status
         /// </summary>
         /// <param name="pinned">Value for pin status true/false</param>
         public Element SetPinnedStatus(bool pinned)
