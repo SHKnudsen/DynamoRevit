@@ -699,9 +699,9 @@ namespace Revit.Elements
         public List<Element> GetJoinedElements()
         {
             if (this.InternalElement == null)
-                throw new Exception(nameof(this.InternalElement));
+                throw new NullReferenceException("Cannot get joined elements from a null Element");
             if (Document == null)
-                throw new Exception(nameof(Document));
+                throw new NullReferenceException("Cannot get joined elements from a null Element");
 
             ElementId[] joinedElementIds = JoinGeometryUtils.GetJoinedElements(Document, this.InternalElement)
                                                             .ToArray();

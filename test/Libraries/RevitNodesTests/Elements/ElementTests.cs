@@ -266,9 +266,13 @@ namespace RevitNodesTests.Elements
         [TestModel(@".\elementJoin.rvt")]
         public void CanSuccessfullyGetJoinedElementsFromElement()
         {
+            // Arrange - get element from model
             var element = ElementSelector.ByElementId(184176, true);
 
+            // Act
             List<Element> joinedElements = element.GetJoinedElements();
+
+            // Assert
             Assert.AreEqual(3, joinedElements.Count);
 
             List<int> joinedElementIds = new List<int>();
