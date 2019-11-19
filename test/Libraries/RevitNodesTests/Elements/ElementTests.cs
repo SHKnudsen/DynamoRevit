@@ -268,9 +268,15 @@ namespace RevitNodesTests.Elements
         {
             // Arrange - Select the wall element in revit by it Id
             var elem = ElementSelector.ByElementId(261723, true);
-            var nameCombo1 = new[] { "600 x 3100", "600 x 3100", "600 x 3100" };
-            var nameCombo2 = 
-
+            // Model element names
+            string windowFamName = "600 x 3100";
+            string curtainWallFamName = "Curtain Wall";
+            string wallOpeningFamName = "Rectangular Straight Wall Opening";
+            // Assert lists
+            var nameCombo1 = new[] { windowFamName, windowFamName, windowFamName };
+            var nameCombo2 = new[] { curtainWallFamName, windowFamName, windowFamName, windowFamName, wallOpeningFamName };
+            var nameCombo3 = new[] { windowFamName, windowFamName, windowFamName, wallOpeningFamName };
+            var nameCombo4 = new[] { curtainWallFamName, windowFamName, windowFamName, windowFamName };
 
             // Act - Invoke GetHostedElements with all possible cobinations
             var hostedElementsIncludeNothing = elem.GetHostedElements();
@@ -291,9 +297,7 @@ namespace RevitNodesTests.Elements
             var hostedElementsIncludeEmbeddedInserts = elem.GetHostedElements(false, false, false, true);
             var hostedElementsIncludeSEmbeddedInsertsAndOpenings = elem.GetHostedElements(true, false, false, true);
             var hostedElementsIncludeEmbeddedInsertsAndOpeningsAndShadows = elem.GetHostedElements(true, true, false, true);
-            #endregion
 
-            #region Assert
             //Assert all combinations has the right amount of output elements
             Assert.AreEqual(3, hostedElementsIncludeNothing.Count);
             Assert.AreEqual(5, hostedElementsIncludeEverything.Count);
@@ -315,31 +319,24 @@ namespace RevitNodesTests.Elements
             Assert.AreEqual(4, hostedElementsIncludeEmbeddedInsertsAndOpeningsAndShadows.Count);
 
             //Assert all combinations has the right elements as output
-            AssertExpectedElementNameCollection(nameCombo1, hostedElementsIncludeNothing);
-            AssertExpectedElementNameCollection(nameCombo2, hostedElementsIncludeEverything);
+            CollectionAssert.AreEqual(nameCombo1, hostedElementsIncludeNothing.Select(x => x.Name).ToArray());
+            CollectionAssert.AreEqual(nameCombo2, hostedElementsIncludeEverything.Select(x => x.Name).ToArray());
 
-            AssertExpectedElementNameCollection(new[] { "600 x 3100", "600 x 3100", "600 x 3100", "Rectangular Straight Wall Opening" }, hostedElementsIncludeOpenings);
-            AssertExpectedElementNameCollection(new[] { "600 x 3100", "600 x 3100", "600 x 3100", "Rectangular Straight Wall Opening" }, hostedElementsIncludeOpeningsAndShadows);
-            AssertExpectedElementNameCollection(new[] { "Curtain Wall", "600 x 3100", "600 x 3100", "600 x 3100", "Rectangular Straight Wall Opening" }, hostedElementsIncludeOpeningsAndShadowsAndEmbeddedWalls);
+            CollectionAssert.AreEqual(nameCombo3, hostedElementsIncludeOpenings.Select(x => x.Name).ToArray());
+            CollectionAssert.AreEqual(nameCombo3, hostedElementsIncludeOpeningsAndShadows.Select(x => x.Name).ToArray());
+            CollectionAssert.AreEqual(nameCombo2, hostedElementsIncludeOpeningsAndShadowsAndEmbeddedWalls.Select(x => x.Name).ToArray());
 
-            AssertExpectedElementNameCollection(new[] { "600 x 3100", "600 x 3100", "600 x 3100"}, hostedElementsIncludeShadows);
-            AssertExpectedElementNameCollection(new[] { "Curtain Wall", "600 x 3100", "600 x 3100", "600 x 3100" }, hostedElementsIncludeShadowsAndEmbeddedWalls);
-            AssertExpectedElementNameCollection(new[] { "Curtain Wall", "600 x 3100", "600 x 3100", "600 x 3100" }, hostedElementsIncludeShadowsAndEmbeddedWallsAndEmbeddedInserts);
+            CollectionAssert.AreEqual(nameCombo1, hostedElementsIncludeShadows.Select(x => x.Name).ToArray());
+            CollectionAssert.AreEqual(nameCombo4, hostedElementsIncludeShadowsAndEmbeddedWalls.Select(x => x.Name).ToArray());
+            CollectionAssert.AreEqual(nameCombo4, hostedElementsIncludeShadowsAndEmbeddedWallsAndEmbeddedInserts.Select(x => x.Name).ToArray());
 
-            AssertExpectedElementNameCollection(new[] { "Curtain Wall", "600 x 3100", "600 x 3100", "600 x 3100" }, hostedElementsIncludeEmbeddedWalls);
-            AssertExpectedElementNameCollection(new[] { "Curtain Wall", "600 x 3100", "600 x 3100", "600 x 3100" }, hostedElementsIncludeEmbeddedWallsAndEmbeddedInserts);
-            AssertExpectedElementNameCollection(new[] { "Curtain Wall", "600 x 3100", "600 x 3100", "600 x 3100", "Rectangular Straight Wall Opening" }, hostedElementsIncludeEmbeddedWallsAndEmbeddedInsertsAndOpenings);
+            CollectionAssert.AreEqual(nameCombo4, hostedElementsIncludeEmbeddedWalls.Select(x => x.Name).ToArray());
+            CollectionAssert.AreEqual(nameCombo4, hostedElementsIncludeEmbeddedWallsAndEmbeddedInserts.Select(x => x.Name).ToArray());
+            CollectionAssert.AreEqual(nameCombo2, hostedElementsIncludeEmbeddedWallsAndEmbeddedInsertsAndOpenings.Select(x => x.Name).ToArray());
 
-            AssertExpectedElementNameCollection(new[] { "600 x 3100", "600 x 3100", "600 x 3100" }, hostedElementsIncludeEmbeddedInserts);
-            AssertExpectedElementNameCollection(new[] { "600 x 3100", "600 x 3100", "600 x 3100", "Rectangular Straight Wall Opening" }, hostedElementsIncludeSEmbeddedInsertsAndOpenings);
-            AssertExpectedElementNameCollection(new[] { "600 x 3100", "600 x 3100", "600 x 3100", "Rectangular Straight Wall Opening" }, hostedElementsIncludeEmbeddedInsertsAndOpeningsAndShadows);
-            #endregion
+            CollectionAssert.AreEqual(nameCombo1, hostedElementsIncludeEmbeddedInserts.Select(x => x.Name).ToArray());
+            CollectionAssert.AreEqual(nameCombo3, hostedElementsIncludeSEmbeddedInsertsAndOpenings.Select(x => x.Name).ToArray());
+            CollectionAssert.AreEqual(nameCombo3, hostedElementsIncludeEmbeddedInsertsAndOpeningsAndShadows.Select(x => x.Name).ToArray());
         }
-
-        private static void AssertExpectedElementNameCollection(string[] expectedNameCollection, List<Element> hostedElementCollection)
-        {
-            CollectionAssert.AreEqual(expectedNameCollection, hostedElementCollection.Select(x => x.Name).ToArray());
-        }
-
     }
 }
