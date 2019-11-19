@@ -154,11 +154,13 @@ namespace Revit.Elements
         /// <summary>
         /// Get the Element Pinned status
         /// </summary>
-        public bool? IsPinned
+        public bool IsPinned
         {
             get 
-            { 
-                return this.InternalElement?.Pinned; 
+            {
+                if (InternalElement == null)
+                    return false;
+                return this.InternalElement.Pinned; 
             }
         }
         
