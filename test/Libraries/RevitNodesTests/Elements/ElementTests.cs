@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 
 using Autodesk.DesignScript.Geometry;
 using Autodesk.Revit.DB;
@@ -262,6 +263,28 @@ namespace RevitNodesTests.Elements
 
         #region Join tests
 
+        [Test]
+        [TestModel(@".\elementJoin.rvt")]
+        public void CanSuccessfullyGetJoinedElementsFromElement()
+        {
+            // Arrange - get element from model
+            var element = ElementSelector.ByElementId(184176, true);
+
+            // Act
+            List<Element> joinedElements = element.GetJoinedElements();
+
+            // Assert
+            Assert.AreEqual(3, joinedElements.Count);
+
+            List<int> joinedElementIds = new List<int>();
+            for (int i = 0; i < joinedElements.Count; i++)
+            {
+                joinedElementIds.Add(joinedElements[i].Id);
+            }
+
+            CollectionAssert.AreEqual(new int[] { 207960, 208259, 208422 }, joinedElementIds);
+        }
+        
         private static void AssertElementsAreJoined(Element element, Element otherElement, bool expected)
         {
             bool arejoined = element.IsJoined(otherElement);
