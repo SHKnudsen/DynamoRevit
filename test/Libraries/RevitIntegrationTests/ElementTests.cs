@@ -73,6 +73,21 @@ namespace RevitSystemTests
         }
 
         [Test]
+        [TestModel(@".\Element\elementPinned.rvt")]
+        public void CanGetPinnedStatus()
+        {
+            string samplePath = Path.Combine(workingDirectory, @".\Element\canGetPinnedStatus.dyn");
+            string testPath = Path.GetFullPath(samplePath);
+
+            ViewModel.OpenCommand.Execute(testPath);
+
+            RunCurrentModel();
+            
+            // query AllFalse node to check that the output of IsPinned is false for both elements in test model
+            Assert.AreEqual(true, GetPreviewValue("d9811fadc1964cd0b58c440e227ce9ba"));
+        }
+
+        [Test]
         [TestModel(@".\Element\elementJoin.rvt")]
         public void CanCheckIfTwoElementsAreJoined()
         {
