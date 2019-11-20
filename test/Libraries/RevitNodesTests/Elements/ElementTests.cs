@@ -289,7 +289,7 @@ namespace RevitNodesTests.Elements
 
         private static void AssertElementsAreJoined(Element element, Element otherElement, bool expected)
         {
-            bool arejoined = element.IsJoined(otherElement);
+            bool arejoined = element.AreJoined(otherElement);
             Assert.AreEqual(expected, arejoined);
         }
 
