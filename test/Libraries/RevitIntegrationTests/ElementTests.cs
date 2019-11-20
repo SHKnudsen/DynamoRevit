@@ -39,7 +39,7 @@ namespace RevitSystemTests
          }
 
         [Test]
-        [TestModel(@".\element.rvt")]
+        [TestModel(@".\Element\elementPinned.rvt")]
         public void CanGetPinnedStatus()
         {
             string samplePath = Path.Combine(workingDirectory, @".\Element\canGetPinnedStatus.dyn");

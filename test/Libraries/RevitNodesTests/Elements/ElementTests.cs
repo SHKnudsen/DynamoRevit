@@ -267,7 +267,7 @@ namespace RevitNodesTests.Elements
         /// and checks if IsPinned is the correct value
         /// </summary>
         [Test]
-        [TestModel(@".\element.rvt")]
+        [TestModel(@".\Element\elementPinned.rvt")]
         public void CanSuccessfullyGetElementPinnedStatus()
         {
             var pinnedElement = ElementSelector.ByElementId(184176, true);
