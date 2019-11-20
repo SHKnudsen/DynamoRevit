@@ -814,5 +814,16 @@ namespace Revit.Elements
         }
 
         #endregion
+
+        public void UnjoinGeometry(List<Element> elements)
+        {
+            if (elements == null)
+                throw new ArgumentNullException(nameof(elements));
+
+            for (int i = 0; i < elements.Count; i++)
+            {
+
+            }
+        }
     }
 }
