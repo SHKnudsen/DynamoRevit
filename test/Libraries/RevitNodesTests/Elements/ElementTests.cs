@@ -318,6 +318,25 @@ namespace RevitNodesTests.Elements
             AssertElementsAreJoined(beam1, floor, true);
         }
 
+        [Test]
+        [TestModel(@".\Element\elementJoin.rvt")]
+        public void CanSuccessfullyUnjoinListOfElements()
+        {
+            var wall1 = ElementSelector.ByElementId(184176, true);
+            var wall2 = ElementSelector.ByElementId(207960, true);
+            var floor = ElementSelector.ByElementId(208259, true);
+            var beam1 = ElementSelector.ByElementId(208422, true);
+            var beam2 = ElementSelector.ByElementId(208572, true);
+
+            var elementList = new List<Element>() { wall1, wall2, floor, beam1, beam2 };
+
+            Element.UnjoinGeometry(elementList);
+
+        }
+        private static void AssertElementsAreUnjoined(Element firstElem, Element secondElem)
+        {
+            
+        }
         #endregion
     }
 }

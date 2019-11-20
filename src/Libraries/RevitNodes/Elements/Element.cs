@@ -733,6 +733,25 @@ namespace Revit.Elements
             return joinedElements;
         }
 
+        public void UnjoinGeometry(List<Element> elements)
+        {
+            if (elements == null)
+                throw new ArgumentNullException(nameof(elements));
+            if (Document == null)
+                throw new ArgumentNullException(nameof(Document));
+
+            for (int i = 0; i < elements.Count; i++)
+            {
+                List<Element> joinedElements = elements[i].GetJoinedElements();
+                if (joinedElements.Count > 0)
+                {
+                    for (int j = 0; j < joinedElements.Count; j++)
+                    {
+                        JoinGeometryUtils.UnjoinGeometry(Document, elements[i].InternalElement, joinedElements[j].InternalElement);
+                    }
+                }
+            }
+        }
 
         #region Location extraction & manipulation
 
@@ -838,15 +857,6 @@ namespace Revit.Elements
 
         #endregion
 
-        public void UnjoinGeometry(List<Element> elements)
-        {
-            if (elements == null)
-                throw new ArgumentNullException(nameof(elements));
 
-            for (int i = 0; i < elements.Count; i++)
-            {
-
-            }
-        }
     }
 }
