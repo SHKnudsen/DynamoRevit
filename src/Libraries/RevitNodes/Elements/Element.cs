@@ -746,13 +746,19 @@ namespace Revit.Elements
             return joinedElements;
         }
 
-        public void UnjoinGeometry(List<Element> elements)
+        /// <summary>
+        /// Unjoins elements If they are joined 
+        /// </summary>
+        /// <param name="elements">List of elements to unjoin</param>
+        /// <returns>Elements that have been unjoined</returns>
+        public static List<Element> UnjoinGeometry(List<Element> elements)
         {
             if (elements == null)
                 throw new ArgumentNullException(nameof(elements));
             if (Document == null)
                 throw new ArgumentNullException(nameof(Document));
 
+            List<Element> modifiedElements = new List<Element>();
             for (int i = 0; i < elements.Count; i++)
             {
                 List<Element> joinedElements = elements[i].GetJoinedElements();
@@ -760,10 +766,26 @@ namespace Revit.Elements
                 {
                     for (int j = 0; j < joinedElements.Count; j++)
                     {
-                        JoinGeometryUtils.UnjoinGeometry(Document, elements[i].InternalElement, joinedElements[j].InternalElement);
+                        JoinGeometryUtils.UnjoinGeometry(
+                            Document,
+                            elements[i].InternalElement,
+                            joinedElements[j].InternalElement);
+                        // check if the unjoined element is already in the modifiedElements list 
+                        // if not we add it here
+                        if (!modifiedElements.Any(item => item.Id == joinedElements[j].Id))
+                        {
+                            modifiedElements.Add(joinedElements[j]);
+                        }
+                            
                     }
+                    // add the modified element to modifiedElements if its not already there
+                    if (!modifiedElements.Any(item => item.Id == elements[i].Id))
+                    {
+                        modifiedElements.Add(elements[i]);
+                    }   
                 }
             }
+            return modifiedElements;
         }
 
         #region Location extraction & manipulation
