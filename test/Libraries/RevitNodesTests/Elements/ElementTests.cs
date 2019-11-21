@@ -350,17 +350,29 @@ namespace RevitNodesTests.Elements
             var wall1 = ElementSelector.ByElementId(184176, true);
             var wall2 = ElementSelector.ByElementId(207960, true);
             var floor = ElementSelector.ByElementId(208259, true);
-            var beam1 = ElementSelector.ByElementId(208422, true);
-            var beam2 = ElementSelector.ByElementId(208572, true);
 
-            var elementList = new List<Element>() { wall1, wall2, floor, beam1, beam2 };
+            // Are joined
+            bool orignalWall1AndWall2JoinedValue = wall1.AreJoined(wall2);
+            // Are joined
+            bool orignalWall1AndFloorJoinedValue = wall1.AreJoined(floor);
+            // Are not joined
+            bool orignalWall2AndFloorJoinedValue = wall2.AreJoined(floor);
+  
+            var elementList = new List<Element>() { wall1, wall2, floor };
 
             Element.UnjoinGeometry(elementList);
 
-        }
-        private static void AssertElementsAreUnjoined(Element firstElem, Element secondElem)
-        {
-            
+            bool newWall1AndWall2JoinedValue = wall1.AreJoined(wall2);
+            bool newWall1AndFloorJoinedValue = wall1.AreJoined(floor);
+            bool newWall2AndFloorJoinedValue = wall2.AreJoined(floor);
+
+            // Are joined should have changed
+            Assert.AreNotEqual(newWall1AndWall2JoinedValue, orignalWall1AndWall2JoinedValue);
+            // Are joined should have changed 
+            Assert.AreNotEqual(newWall1AndFloorJoinedValue, orignalWall1AndFloorJoinedValue);
+            // Are joined should should be the same 
+            Assert.AreEqual(newWall2AndFloorJoinedValue, orignalWall2AndFloorJoinedValue);
+
         }
         #endregion
     }
