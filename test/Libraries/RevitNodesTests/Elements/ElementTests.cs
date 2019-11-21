@@ -267,7 +267,7 @@ namespace RevitNodesTests.Elements
         /// and checks if IsPinned is the correct value
         /// </summary>
         [Test]
-        [TestModel(@".\element.rvt")]
+        [TestModel(@".\Element\elementPinned.rvt")]
         public void CanSuccessfullyGetElementPinnedStatus()
         {
             var pinnedElement = ElementSelector.ByElementId(184176, true);
@@ -310,7 +310,7 @@ namespace RevitNodesTests.Elements
 
         private static void AssertElementsAreJoined(Element element, Element otherElement, bool expected)
         {
-            bool arejoined = element.IsJoined(otherElement);
+            bool arejoined = element.AreJoined(otherElement);
             Assert.AreEqual(expected, arejoined);
         }
 
