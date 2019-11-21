@@ -152,21 +152,29 @@ namespace Revit.Elements
         }
 
         /// <summary>
+        /// Get the Element Pinned status
+        /// </summary>
+        public bool IsPinned
+        {
+            get 
+            {
+                if (InternalElement == null)
+                    return false;
+                return this.InternalElement.Pinned; 
+            }
+        }
+
+        /// <summary>
         /// Checks if two elements are joined
         /// </summary>
-        /// <param name="otherElement">Element to check</param>
+        /// <param name="otherElement">Second element to check</param>
         /// <returns>True if the two elements are joined, False otherwise</returns>
-        public bool IsJoined(Element otherElement)
+        public bool AreJoined(Element otherElement)
         {
-            if (this.InternalElement == null)
-                throw new Exception(nameof(this.InternalElement));
-            if (otherElement == null)
-                throw new Exception(nameof(otherElement));
-
-            bool areJoined= JoinGeometryUtils.AreElementsJoined(Document,
-                                                              this.InternalElement,
-                                                              otherElement.InternalElement);
-            return areJoined;
+            return JoinGeometryUtils.AreElementsJoined(
+                Document,
+                this.InternalElement,
+                otherElement.InternalElement);
         }
 
         /// <summary>
@@ -553,6 +561,18 @@ namespace Revit.Elements
                 hostedElements.Add(elem);
             }
             return hostedElements;
+
+        /// Sets an existing element's pinned status
+        /// </summary>
+        /// <param name="pinned">Value for pin status true/false</param>
+        public Element SetPinnedStatus(bool pinned)
+        {
+            if (this.InternalElement.Pinned == pinned) return this;
+
+            TransactionManager.Instance.EnsureInTransaction(Application.Document.Current.InternalDocument);
+            this.InternalElement.Pinned = pinned;
+            TransactionManager.Instance.TransactionTaskDone();
+            return this;
         }
 
         #region Geometry extraction
@@ -747,8 +767,8 @@ namespace Revit.Elements
             }
         }
 
-        #region Location extraction & manipulation
 
+        #region Location extraction & manipulation
         /// <summary>
         /// Update an existing element's location
         /// </summary>
@@ -850,5 +870,6 @@ namespace Revit.Elements
         }
 
         #endregion
+
     }
 }

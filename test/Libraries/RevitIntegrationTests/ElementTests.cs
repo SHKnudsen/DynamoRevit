@@ -11,6 +11,9 @@ using Dynamo.Graph.Nodes;
 using RevitServices.Materials;
 using System.Collections.Generic;
 
+using Revit.Elements;
+
+
 namespace RevitSystemTests
 {
     [TestFixture]
@@ -66,6 +69,57 @@ namespace RevitSystemTests
         }
 
         [Test]
+        [TestModel(@".\Element\elementPinned.rvt")]
+        public void CanGetPinnedStatus()
+        {
+            string samplePath = Path.Combine(workingDirectory, @".\Element\canGetPinnedStatus.dyn");
+            string testPath = Path.GetFullPath(samplePath);
+
+            ViewModel.OpenCommand.Execute(testPath);
+
+            RunCurrentModel();
+            
+            // query AllFalse node to check that the output of IsPinned is false for both elements in test model
+            Assert.AreEqual(true, GetPreviewValue("d9811fadc1964cd0b58c440e227ce9ba"));
+        }
+
+        /// <summary>
+        /// Checks that an Element's pinned status can be set from Dynamo.
+        /// </summary>
+        [Test]
+        [TestModel(@".\element.rvt")]
+        public void CanSetPinnedStatus()
+        {
+            string samplePath = Path.Combine(workingDirectory, @".\Element\setElementsPinStatus.dyn");
+            string testPath = Path.GetFullPath(samplePath);
+
+            ViewModel.OpenCommand.Execute(testPath);
+
+            RunCurrentModel();
+            //check Select Model Element
+            var selectElement = "f49d6941-4497-43c3-9a52-fe4e5424e4e7-0002cf70;";
+            var selectElementValue = GetPreviewValue(selectElement) as Element;
+            Assert.IsNotNull(selectElementValue);
+
+            bool originalPinnedStatus = selectElementValue.IsPinned;
+            Assert.IsNotNull(originalPinnedStatus);
+            Assert.AreEqual(false, originalPinnedStatus);
+
+            //now flip the switch for setting the pinned status to true
+            var boolNode = ViewModel.Model.CurrentWorkspace.Nodes.Where(x => x is CoreNodeModels.Input.BoolSelector).First();
+            Assert.IsNotNull(boolNode);
+            bool boolNodeValue = true;
+            ((CoreNodeModels.Input.BasicInteractive<bool>)boolNode).Value = boolNodeValue;
+
+            RunCurrentModel();
+            bool newPinnedStatus = selectElementValue.IsPinned;
+            Assert.AreNotEqual(originalPinnedStatus, newPinnedStatus);
+            Assert.IsNotNull(newPinnedStatus);
+            Assert.AreEqual(boolNodeValue, newPinnedStatus);
+            
+        }
+
+        [Test]
         [TestModel(@".\Element\elementJoin.rvt")]
         public void CanCheckIfTwoElementsAreJoined()
         {
@@ -75,7 +129,7 @@ namespace RevitSystemTests
             
             ViewModel.OpenCommand.Execute(testPath);
             RunCurrentModel();
-            
+           
             // Act - Get values of the two IsJoined nodes
             // first one should return false as it is checking two elements that are not joined
             // second one should return true as it test two joined elements
