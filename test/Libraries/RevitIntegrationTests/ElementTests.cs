@@ -48,25 +48,21 @@ namespace RevitSystemTests
         [TestModel(@".\Element\elementJoin.rvt")]
         public void CanGetJoinedElementsFromElement()
         {
-            // Arrange - set-up to run dynamo script
+            // Arrange - setup to run Dynamo script
             string samplePath = Path.Combine(workingDirectory, @".\Element\canGetJoinedElementsFromElement.dyn");
             string testPath = Path.GetFullPath(samplePath);
-
+            List<int> expectedElementIds = new List<int>() { 184176, 208422 };
             ViewModel.OpenCommand.Execute(testPath);
             RunCurrentModel();
 
-            // Act - get output of Element.GetJoinedElements in dynamo script
             List<Element> joinedElements = GetPreviewValue("bae6e489b6d34519996aa4f9c9ad8e67") as List<Element>;
             Assert.IsNotNull(joinedElements);
 
-            List<int> joinedElementIds = new List<int>();
-            for (int i = 0; i < joinedElementIds.Count; i++)
-            {
-                joinedElementIds.Add(joinedElements[i].Id);
-            }
+            // Act - get output of Element.GetJoinedElements in Dynamo script
+            var joinedElementIds = joinedElements
+                .Select(x => x.Id)
+                .ToArray();
             Assert.IsNotNull(joinedElementIds);
-
-            List<int> expectedElementIds = new List<int>() { 184176,208422 };
 
             // Assert - check if outcome element ids are the same as the expected element ids
             CollectionAssert.AreEqual(expectedElementIds, joinedElementIds);

@@ -713,24 +713,12 @@ namespace Revit.Elements
         /// <summary>
         /// Finds the elements that are joined with the given element.
         /// </summary>
-        /// <returns>all elements joined to the given element</returns>
-        public List<Element> GetJoinedElements()
+        /// <returns>All elements joined to the given element</returns>
+        public Element[] GetJoinedElements()
         {
-            if (this.InternalElement == null)
-                throw new NullReferenceException("Cannot get joined elements from a null Element");
-            if (Document == null)
-                throw new NullReferenceException("Cannot get joined elements from a null Element");
-
-            ElementId[] joinedElementIds = JoinGeometryUtils.GetJoinedElements(Document, this.InternalElement)
-                                                            .ToArray();
-            
-            List<Element> joinedElements = new List<Element>();
-            for (int i = 0; i < joinedElementIds.Length; i++)
-            {
-                joinedElements.Add(Document.GetElement(joinedElementIds[i]).ToDSType(true));
-            }
-
-            return joinedElements;
+            return JoinGeometryUtils.GetJoinedElements(Document, this.InternalElement)
+                .Select(id => Document.GetElement(id).ToDSType(true))
+                .ToArray();
         }
 
 

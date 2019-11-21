@@ -269,20 +269,17 @@ namespace RevitNodesTests.Elements
         {
             // Arrange - get element from model
             var element = ElementSelector.ByElementId(184176, true);
+            int[] expectedIds = new int[] { 207960, 208259, 208422 };
 
             // Act
-            List<Element> joinedElements = element.GetJoinedElements();
+            Element[] joinedElements = element.GetJoinedElements();
+            var joinedElementIds = joinedElements
+                .Select(x => x.Id)
+                .ToArray();
 
             // Assert
-            Assert.AreEqual(3, joinedElements.Count);
-
-            List<int> joinedElementIds = new List<int>();
-            for (int i = 0; i < joinedElements.Count; i++)
-            {
-                joinedElementIds.Add(joinedElements[i].Id);
-            }
-
-            CollectionAssert.AreEqual(new int[] { 207960, 208259, 208422 }, joinedElementIds);
+            Assert.AreEqual(3, joinedElements.Length);
+            CollectionAssert.AreEqual(expectedIds, joinedElementIds);
         }
         
         private static void AssertElementsAreJoined(Element element, Element otherElement, bool expected)
