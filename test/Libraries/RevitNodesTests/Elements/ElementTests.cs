@@ -278,7 +278,6 @@ namespace RevitNodesTests.Elements
                 .ToArray();
 
             // Assert
-            Assert.AreEqual(3, joinedElements.Length);
             CollectionAssert.AreEqual(expectedIds, joinedElementIds);
         }
         
