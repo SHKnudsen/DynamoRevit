@@ -152,21 +152,29 @@ namespace Revit.Elements
         }
 
         /// <summary>
+        /// Get the Element Pinned status
+        /// </summary>
+        public bool IsPinned
+        {
+            get 
+            {
+                if (InternalElement == null)
+                    return false;
+                return this.InternalElement.Pinned; 
+            }
+        }
+
+        /// <summary>
         /// Checks if two elements are joined
         /// </summary>
-        /// <param name="otherElement">Element to check</param>
+        /// <param name="otherElement">Second element to check</param>
         /// <returns>True if the two elements are joined, False otherwise</returns>
-        public bool IsJoined(Element otherElement)
+        public bool AreJoined(Element otherElement)
         {
-            if (this.InternalElement == null)
-                throw new Exception(nameof(this.InternalElement));
-            if (otherElement == null)
-                throw new Exception(nameof(otherElement));
-
-            bool areJoined= JoinGeometryUtils.AreElementsJoined(Document,
-                                                              this.InternalElement,
-                                                              otherElement.InternalElement);
-            return areJoined;
+            return JoinGeometryUtils.AreElementsJoined(
+                Document,
+                this.InternalElement,
+                otherElement.InternalElement);
         }
 
         /// <summary>
@@ -519,6 +527,54 @@ namespace Revit.Elements
             return converted.ToArray();
         }
 
+        /// <summary>
+        /// Gets all elements hosted by the supplied element
+        /// </summary>
+        /// <param name="includeOpenings">Include rectangular openings in output</param>
+        /// <param name="includeShadows">Include shadows in output</param>
+        /// <param name="includeEmbeddedWalls">Include embedded walls in output</param>
+        /// <param name="includeSharedEmbeddedInserts">Include shared embedded elements in output</param>
+        /// <returns>Hosted Elements</returns>
+        public List<Element> GetHostedElements(
+            bool includeOpenings = false,
+            bool includeShadows = false,
+            bool includeEmbeddedWalls = false,
+            bool includeSharedEmbeddedInserts = false)
+        {
+
+            HostObject hostObject = this.InternalElement as HostObject;
+            if (hostObject == null)
+                throw new NullReferenceException("Element is not a Host Element");
+            
+            IList<ElementId> inserts = hostObject
+                .FindInserts(includeOpenings,
+                             includeShadows,
+                             includeEmbeddedWalls,
+                             includeSharedEmbeddedInserts);
+
+            // Get all hosted elements from their Id's 
+            // and convert them to DS type
+            List<Element> hostedElements = new List<Element>();
+            for (int i = 0; i < inserts.Count; i++)
+            {
+                Element elem = Document.GetElement(inserts[i]).ToDSType(true);
+                hostedElements.Add(elem);
+            }
+            return hostedElements;
+
+        /// Sets an existing element's pinned status
+        /// </summary>
+        /// <param name="pinned">Value for pin status true/false</param>
+        public Element SetPinnedStatus(bool pinned)
+        {
+            if (this.InternalElement.Pinned == pinned) return this;
+
+            TransactionManager.Instance.EnsureInTransaction(Application.Document.Current.InternalDocument);
+            this.InternalElement.Pinned = pinned;
+            TransactionManager.Instance.TransactionTaskDone();
+            return this;
+        }
+
         #region Geometry extraction
 
         /// <summary>
@@ -722,8 +778,8 @@ namespace Revit.Elements
         }
 
 
-        #region Location extraction & manipulation
 
+        #region Location extraction & manipulation
         /// <summary>
         /// Update an existing element's location
         /// </summary>
@@ -825,5 +881,6 @@ namespace Revit.Elements
         }
 
         #endregion
+
     }
 }
