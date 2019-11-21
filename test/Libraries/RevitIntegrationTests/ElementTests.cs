@@ -128,11 +128,9 @@ namespace RevitSystemTests
             ViewModel.OpenCommand.Execute(testPath);
 
             RunCurrentModel();
-
             var modifiedElements = GetPreviewValue("cec2cd79cdc64c9c93a5529c32cf18f5");
 
             // Assert
-
             Assert.AreEqual(5, modifiedElements);
         }
     }

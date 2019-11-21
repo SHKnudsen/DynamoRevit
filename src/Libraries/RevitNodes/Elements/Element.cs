@@ -770,6 +770,7 @@ namespace Revit.Elements
                             Document,
                             elements[i].InternalElement,
                             joinedElements[j].InternalElement);
+
                         // check if the unjoined element is already in the modifiedElements list 
                         // if not we add it here
                         if (!modifiedElements.Any(item => item.Id == joinedElements[j].Id))
