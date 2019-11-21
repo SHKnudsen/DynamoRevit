@@ -273,11 +273,11 @@ namespace RevitNodesTests.Elements
             string windowFamName = "600 x 3100";
             string curtainWallFamName = "Curtain Wall";
             string wallOpeningFamName = "Rectangular Straight Wall Opening";
-            // Assert lists
-            var nameCombo1 = new[] { windowFamName, windowFamName, windowFamName };
-            var nameCombo2 = new[] { curtainWallFamName, windowFamName, windowFamName, windowFamName, wallOpeningFamName };
-            var nameCombo3 = new[] { windowFamName, windowFamName, windowFamName, wallOpeningFamName };
-            var nameCombo4 = new[] { curtainWallFamName, windowFamName, windowFamName, windowFamName };
+            // Expected hosted elements lists
+            var famNamesWithShadowsInserts = new[] { windowFamName, windowFamName, windowFamName };
+            var famNamesWithEverything = new[] { curtainWallFamName, windowFamName, windowFamName, windowFamName, wallOpeningFamName };
+            var famNamesWithOpeningsShadows = new[] { windowFamName, windowFamName, windowFamName, wallOpeningFamName };
+            var famNamesWithShadowEmbeddedWallsInserts = new[] { curtainWallFamName, windowFamName, windowFamName, windowFamName };
 
             // Act - Invoke GetHostedElements with all possible cobinations
             var hostedElementsIncludeNothing = elem.GetHostedElements();
@@ -320,29 +320,24 @@ namespace RevitNodesTests.Elements
             Assert.AreEqual(4, hostedElementsIncludeEmbeddedInsertsAndOpeningsAndShadows.Count);
 
             //Assert all combinations has the right elements as output
-            CollectionAssert.AreEqual(nameCombo1, hostedElementsIncludeNothing.Select(x => x.Name).ToArray());
-            CollectionAssert.AreEqual(nameCombo2, hostedElementsIncludeEverything.Select(x => x.Name).ToArray());
+            CollectionAssert.AreEqual(famNamesWithShadowsInserts, hostedElementsIncludeNothing.Select(x => x.Name).ToArray());
+            CollectionAssert.AreEqual(famNamesWithEverything, hostedElementsIncludeEverything.Select(x => x.Name).ToArray());
 
-            CollectionAssert.AreEqual(nameCombo3, hostedElementsIncludeOpenings.Select(x => x.Name).ToArray());
-            CollectionAssert.AreEqual(nameCombo3, hostedElementsIncludeOpeningsAndShadows.Select(x => x.Name).ToArray());
-            CollectionAssert.AreEqual(nameCombo2, hostedElementsIncludeOpeningsAndShadowsAndEmbeddedWalls.Select(x => x.Name).ToArray());
+            CollectionAssert.AreEqual(famNamesWithOpeningsShadows, hostedElementsIncludeOpenings.Select(x => x.Name).ToArray());
+            CollectionAssert.AreEqual(famNamesWithOpeningsShadows, hostedElementsIncludeOpeningsAndShadows.Select(x => x.Name).ToArray());
+            CollectionAssert.AreEqual(famNamesWithEverything, hostedElementsIncludeOpeningsAndShadowsAndEmbeddedWalls.Select(x => x.Name).ToArray());
 
-            CollectionAssert.AreEqual(nameCombo1, hostedElementsIncludeShadows.Select(x => x.Name).ToArray());
-            CollectionAssert.AreEqual(nameCombo4, hostedElementsIncludeShadowsAndEmbeddedWalls.Select(x => x.Name).ToArray());
-            CollectionAssert.AreEqual(nameCombo4, hostedElementsIncludeShadowsAndEmbeddedWallsAndEmbeddedInserts.Select(x => x.Name).ToArray());
+            CollectionAssert.AreEqual(famNamesWithShadowsInserts, hostedElementsIncludeShadows.Select(x => x.Name).ToArray());
+            CollectionAssert.AreEqual(famNamesWithShadowEmbeddedWallsInserts, hostedElementsIncludeShadowsAndEmbeddedWalls.Select(x => x.Name).ToArray());
+            CollectionAssert.AreEqual(famNamesWithShadowEmbeddedWallsInserts, hostedElementsIncludeShadowsAndEmbeddedWallsAndEmbeddedInserts.Select(x => x.Name).ToArray());
 
-            CollectionAssert.AreEqual(nameCombo4, hostedElementsIncludeEmbeddedWalls.Select(x => x.Name).ToArray());
-            CollectionAssert.AreEqual(nameCombo4, hostedElementsIncludeEmbeddedWallsAndEmbeddedInserts.Select(x => x.Name).ToArray());
-            CollectionAssert.AreEqual(nameCombo2, hostedElementsIncludeEmbeddedWallsAndEmbeddedInsertsAndOpenings.Select(x => x.Name).ToArray());
+            CollectionAssert.AreEqual(famNamesWithShadowEmbeddedWallsInserts, hostedElementsIncludeEmbeddedWalls.Select(x => x.Name).ToArray());
+            CollectionAssert.AreEqual(famNamesWithShadowEmbeddedWallsInserts, hostedElementsIncludeEmbeddedWallsAndEmbeddedInserts.Select(x => x.Name).ToArray());
+            CollectionAssert.AreEqual(famNamesWithEverything, hostedElementsIncludeEmbeddedWallsAndEmbeddedInsertsAndOpenings.Select(x => x.Name).ToArray());
 
-            CollectionAssert.AreEqual(nameCombo1, hostedElementsIncludeEmbeddedInserts.Select(x => x.Name).ToArray());
-            CollectionAssert.AreEqual(nameCombo3, hostedElementsIncludeSEmbeddedInsertsAndOpenings.Select(x => x.Name).ToArray());
-            CollectionAssert.AreEqual(nameCombo3, hostedElementsIncludeEmbeddedInsertsAndOpeningsAndShadows.Select(x => x.Name).ToArray());
-        }
-        private static void AssertElementsAreJoined(Element element, Element otherElement, bool expected)
-        {
-            bool arejoined = element.IsJoined(otherElement);
-            Assert.AreEqual(expected, arejoined);
+            CollectionAssert.AreEqual(famNamesWithShadowsInserts, hostedElementsIncludeEmbeddedInserts.Select(x => x.Name).ToArray());
+            CollectionAssert.AreEqual(famNamesWithOpeningsShadows, hostedElementsIncludeSEmbeddedInsertsAndOpenings.Select(x => x.Name).ToArray());
+            CollectionAssert.AreEqual(famNamesWithOpeningsShadows, hostedElementsIncludeEmbeddedInsertsAndOpeningsAndShadows.Select(x => x.Name).ToArray());
         }
 
         [Test]
@@ -370,6 +365,11 @@ namespace RevitNodesTests.Elements
             AssertElementsAreJoined(beam1, beam2, true);
             // beam1 and floor are joined
             AssertElementsAreJoined(beam1, floor, true);
+        }
+        private static void AssertElementsAreJoined(Element element, Element otherElement, bool expected)
+        {
+            bool arejoined = element.IsJoined(otherElement);
+            Assert.AreEqual(expected, arejoined);
         }
 
         #endregion
