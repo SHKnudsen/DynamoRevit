@@ -155,5 +155,23 @@ namespace RevitSystemTests
             Assert.AreEqual(true, isJoinedTrue);
             Assert.AreEqual(false, isJoinedFalse);
         }
+
+        [Test]
+        [TestModel(@".\Element\elementJoin.rvt")]
+        public void CanUnjoinListOfElements()
+        {
+            // Arange
+            string samplePath = Path.Combine(workingDirectory, @".\Element\canUnjoinListOfElements.dyn");
+            string testPath = Path.GetFullPath(samplePath);
+
+            // Act
+            ViewModel.OpenCommand.Execute(testPath);
+
+            RunCurrentModel();
+            var modifiedElements = GetPreviewValue("2bf6ae19361e4c8e841071411eb02fc8");
+
+            // Assert
+            Assert.AreEqual(5, modifiedElements);
+        }
     }
 }
