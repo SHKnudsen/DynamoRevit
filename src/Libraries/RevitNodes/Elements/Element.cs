@@ -779,7 +779,16 @@ namespace Revit.Elements
                 .ToArray();
         }
 
-
+        public IEnumerable<Element> SwitchJoinOrder(Element otherElement)
+        {
+            List<Element> joinedElements = new List<Element>();
+            if (JoinGeometryUtils.AreElementsJoined(Document, this.InternalElement, otherElement.InternalElement))
+            {
+                JoinGeometryUtils.SwitchJoinOrder(Document, this.InternalElement, otherElement.InternalElement);
+                joinedElements.AddRange(new List<Element>() { this, otherElement });
+            }
+            return joinedElements;
+        }
 
         #region Location extraction & manipulation
         /// <summary>
