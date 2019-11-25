@@ -788,7 +788,44 @@ namespace Revit.Elements
             FilteredElementCollector intersecting = new FilteredElementCollector(Document).WherePasses(filter)
                                                                                           .OfCategory(builtInCategory);
             return intersecting.Select(x => x.ToDSType(true)).ToList();
+        }
 
+        /// <summary>
+        /// Unjoins elements if they are joined 
+        /// </summary>
+        /// <param name="elements">List of elements to unjoin</param>
+        /// <returns>Elements that have been unjoined</returns>
+        public static List<Element> UnjoinGeometry(List<Element> elements)
+        {
+            List<Element> modifiedElements = new List<Element>();
+            for (int i = 0; i < elements.Count; i++)
+            {
+                Element[] joinedElements = elements[i].GetJoinedElements();
+                if (joinedElements.Length > 0)
+                {
+                    for (int j = 0; j < joinedElements.Length; j++)
+                    {
+                        JoinGeometryUtils.UnjoinGeometry(
+                            Document,
+                            elements[i].InternalElement,
+                            joinedElements[j].InternalElement);
+
+                        // check if the unjoined element is already in the modifiedElements list 
+                        // if not we add it here
+                        if (!modifiedElements.Any(item => item.Id == joinedElements[j].Id))
+                        {
+                            modifiedElements.Add(joinedElements[j]);
+                        }
+
+                    }
+                    // add the modified element to modifiedElements if its not already there
+                    if (!modifiedElements.Any(item => item.Id == elements[i].Id))
+                    {
+                        modifiedElements.Add(elements[i]);
+                    }
+                }
+            }
+            return modifiedElements;
         }
 
         #region Location extraction & manipulation
