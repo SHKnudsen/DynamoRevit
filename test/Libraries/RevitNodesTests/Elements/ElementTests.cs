@@ -261,8 +261,6 @@ namespace RevitNodesTests.Elements
 
         #endregion
 
-        #region Join tests
-
         private static void AssertElementsAreJoined(Element element, Element otherElement, bool expected)
         {
             bool arejoined = element.IsJoined(otherElement);
