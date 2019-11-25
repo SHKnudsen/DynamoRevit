@@ -436,5 +436,42 @@ namespace RevitNodesTests.Elements
         }
 
         #endregion
+
+        [Test]
+        [TestModel(@".\Element\elementIntersection.rvt")]
+        public void CanSuccessfullyGetIntersectingElementsOfSpeceficCategory()
+        {
+            // Element to check intersections on
+            int intersectionElementId = 316167;
+            var intersectionElement = ElementSelector.ByElementId(intersectionElementId, true);
+
+            // Element intersecting
+            int structuralFramingId = 316318;
+            var structuralFramingElement = ElementSelector.ByElementId(structuralFramingId, true);
+            int floorId = 316539;
+            var floorElement = ElementSelector.ByElementId(floorId, true);
+            int wallId = 316246;
+            var wallElement = ElementSelector.ByElementId(wallId, true);
+
+            // Get intersecting elements of category
+            Revit.Elements.Category structuralFrameCategory = Revit.Elements.Category.ByName("StructuralFraming");
+            int intersectedFraming = intersectionElement.GetIntersectingElementsOfCategory(structuralFrameCategory).FirstOrDefault<Element>().Id;
+
+            Revit.Elements.Category floorCategory = Revit.Elements.Category.ByName("Floors");
+            int intersectedFloor = intersectionElement.GetIntersectingElementsOfCategory(floorCategory).FirstOrDefault<Element>().Id;
+
+            Revit.Elements.Category wallCategory = Revit.Elements.Category.ByName("Walls");
+            int intersectedWall = intersectionElement.GetIntersectingElementsOfCategory(wallCategory).FirstOrDefault<Element>().Id;
+
+            // Check if method returns null if there are no intersecting elements of the specified category
+            Revit.Elements.Category windowCategory = Revit.Elements.Category.ByName("Windows");
+            IEnumerable<Element> intersectedWindow = intersectionElement.GetIntersectingElementsOfCategory(windowCategory);
+
+            // Assert
+            Assert.AreEqual(structuralFramingId, intersectedFraming);
+            Assert.AreEqual(floorId, intersectedFloor);
+            Assert.AreEqual(wallId, intersectedWall);
+            Assert.AreEqual(new List<Element>(), intersectedWindow);
+        }
     }
 }

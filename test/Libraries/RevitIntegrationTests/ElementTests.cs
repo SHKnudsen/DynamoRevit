@@ -155,5 +155,23 @@ namespace RevitSystemTests
             Assert.AreEqual(true, isJoinedTrue);
             Assert.AreEqual(false, isJoinedFalse);
         }
+
+        [Test]
+        [TestModel(@".\Element\elementIntersection.rvt")]
+        public void canGetIntersectingElementsOfSpeceficCategory()
+        {
+            // Arange
+            string samplePath = Path.Combine(workingDirectory, @".\Element\canGetIntersectingElementsOfSpeceficCategory.dyn");
+            string testPath = Path.GetFullPath(samplePath);
+
+            ViewModel.OpenCommand.Execute(testPath);
+            RunCurrentModel();
+
+            // Act
+
+            // Assert
+
+        }
+        
     }
 }
