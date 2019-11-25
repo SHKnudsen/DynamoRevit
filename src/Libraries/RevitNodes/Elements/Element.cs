@@ -779,7 +779,27 @@ namespace Revit.Elements
                 .ToList();
         }
 
-
+        /// <summary>
+        /// Switch the order of how two elements are joined
+        /// </summary>
+        /// <param name="cuttingElement">The element that should be cutting the other element</param>
+        /// <param name="otherElement">The other element that are being cut by the cuttingElement</param>
+        /// <returns>Joined elements</returns>
+        public static IEnumerable<Element> SwitchGeometryJoinOrder(Element cuttingElement, Element otherElement)
+        {
+            if (!JoinGeometryUtils.AreElementsJoined(Document, cuttingElement.InternalElement, otherElement.InternalElement))
+            {
+                return new List<Element>();
+            }
+            if (JoinGeometryUtils.IsCuttingElementInJoin(Document, cuttingElement.InternalElement, otherElement.InternalElement))
+            {
+                return new List<Element>() { cuttingElement, otherElement };
+            }         
+            TransactionManager.Instance.EnsureInTransaction(Document);
+            JoinGeometryUtils.SwitchJoinOrder(Document, cuttingElement.InternalElement, otherElement.InternalElement);
+            TransactionManager.Instance.TransactionTaskDone();
+            return new List<Element>() { cuttingElement, otherElement };
+        }
 
         #region Location extraction & manipulation
         /// <summary>
