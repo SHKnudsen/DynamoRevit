@@ -814,5 +814,42 @@ namespace Revit.Elements
         }
 
         #endregion
+
+        public IEnumerable<Element> JoinGeometry(Element secondElement)
+        {
+            TransactionManager.Instance.EnsureInTransaction(Document);
+
+            var transManager = TransactionManager.Instance.TransactionWrapper;
+            transManager.FailuresRaised += TransManager_FailuresRaised;
+            var joinedElements = new List<Element>();
+
+            var t = transManager.StartTransaction(Document);
+            try
+            {                 
+                JoinGeometryUtils.JoinGeometry(Document, this.InternalElement, secondElement.InternalElement);              
+                joinedElements.AddRange(new List<Element>() { this, secondElement });
+                t.CommitTransaction();
+                TransactionStatus status = t.Status;
+            }
+            catch (Exception ex)
+            {
+                t.CancelTransaction();
+                throw new ArgumentException(ex.Message);
+            }
+
+            TransactionManager.Instance.TransactionTaskDone();
+
+            return joinedElements;
+        }
+
+        private void TransManager_FailuresRaised(FailuresAccessor failures)
+        {
+            bool ol = failures.IsActive();
+            List<FailureMessageAccessor> te = failures.GetFailureMessages() as List<FailureMessageAccessor>;
+            foreach (var t in te)
+            {
+                string messages = t.GetDescriptionText();
+            }
+        }
     }
 }
