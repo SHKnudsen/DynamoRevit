@@ -780,7 +780,8 @@ namespace Revit.Elements
         }
 
         /// <summary>
-        /// Switch the order of how two elements are joined
+        /// Switch the order of how two elements are geometry is joined. 
+        /// Note that changing this in 3D will also affect your 2D views.
         /// </summary>
         /// <param name="cuttingElement">The element that should be cutting the other element</param>
         /// <param name="otherElement">The other element that are being cut by the cuttingElement</param>
