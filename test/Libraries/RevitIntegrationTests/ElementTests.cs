@@ -167,10 +167,12 @@ namespace RevitSystemTests
             ViewModel.OpenCommand.Execute(testPath);
             RunCurrentModel();
 
-            // Act
+            // Act - Get the intersecting element id of wall category
+            var actualIntersectingElementId = GetPreviewValue("438ec88918b94167887c7f4b2813ebfe");
+            int expectedIntersectingElementId = 316246;
 
             // Assert
-
+            Assert.AreEqual(expectedIntersectingElementId, actualIntersectingElementId);
         }
         
     }
