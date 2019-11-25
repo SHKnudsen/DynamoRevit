@@ -114,11 +114,11 @@
     {
       "ConcreteType": "Dynamo.Graph.Nodes.ZeroTouch.DSFunction, DynamoCore",
       "NodeType": "FunctionNode",
-      "FunctionSignature": "Revit.Elements.Element.SwitchJoinGeometryOrder@Revit.Elements.Element,Revit.Elements.Element",
-      "Id": "2615eab5fa7042e4b0c1855c3223d012",
+      "FunctionSignature": "Revit.Elements.Element.SwitchGeometryJoinOrder@Revit.Elements.Element,Revit.Elements.Element",
+      "Id": "d61ea03f28d94a78a817ff0a031a4e36",
       "Inputs": [
         {
-          "Id": "6fa02992756f4190af9b6abf1ba20480",
+          "Id": "6f6d0d45acb247e3a8d3ffef78149fc3",
           "Name": "cuttingElement",
           "Description": "The element that should be cutting the other element\n\nElement",
           "UsingDefaultValue": false,
@@ -127,7 +127,7 @@
           "KeepListStructure": false
         },
         {
-          "Id": "67af97a4dfad4739a75b4ce6ee8eebd5",
+          "Id": "0f605c7803894f8eb7e69da66c9d4223",
           "Name": "otherElement",
           "Description": "The other element that are being cut by the cuttingElement\n\nElement",
           "UsingDefaultValue": false,
@@ -138,7 +138,7 @@
       ],
       "Outputs": [
         {
-          "Id": "3781ab9e74b94c1887247d6be937e90b",
+          "Id": "f51d7c1d544342c78a44160e1a547c8b",
           "Name": "Element[]",
           "Description": "Joined elements",
           "UsingDefaultValue": false,
@@ -148,19 +148,19 @@
         }
       ],
       "Replication": "Auto",
-      "Description": "Switch the order of how two elements are joined\n\nElement.SwitchJoinGeometryOrder (cuttingElement: Element, otherElement: Element): Element[]"
+      "Description": "Switch the order of how two elements are joined\n\nElement.SwitchGeometryJoinOrder (cuttingElement: Element, otherElement: Element): Element[]"
     }
   ],
   "Connectors": [
     {
       "Start": "bc2e0632ff2a42bb8fbf5400b45f6341",
-      "End": "6fa02992756f4190af9b6abf1ba20480",
-      "Id": "703b166f7fc947589ccf2178477fa47d"
+      "End": "6f6d0d45acb247e3a8d3ffef78149fc3",
+      "Id": "40ed5eca414f4df598c667d1ea4b9e1c"
     },
     {
       "Start": "11b09ee26cb7457786aa9f2fbdcc9565",
-      "End": "67af97a4dfad4739a75b4ce6ee8eebd5",
-      "Id": "30d056df7d6943e19b3811e122df9cf3"
+      "End": "0f605c7803894f8eb7e69da66c9d4223",
+      "Id": "bbe5fc007a7c4a8c907d24d2d8b616f6"
     },
     {
       "Start": "4545cc8332a5425d9ec66cf9ecf1ca61",
@@ -168,9 +168,9 @@
       "Id": "2c6493ce871146d1be533e659cea8e23"
     },
     {
-      "Start": "3781ab9e74b94c1887247d6be937e90b",
+      "Start": "f51d7c1d544342c78a44160e1a547c8b",
       "End": "6017394d5e6940c3b91f2691c05b958d",
-      "Id": "bba8526b92a34adc944fea3d363864f4"
+      "Id": "d3b643a96a3d492ea300a3f3a7cf5ce5"
     }
   ],
   "Dependencies": [],
@@ -240,18 +240,18 @@
       },
       {
         "ShowGeometry": true,
-        "Name": "Element.SwitchJoinGeometryOrder",
-        "Id": "2615eab5fa7042e4b0c1855c3223d012",
+        "Name": "Element.SwitchGeometryJoinOrder",
+        "Id": "d61ea03f28d94a78a817ff0a031a4e36",
         "IsSetAsInput": false,
         "IsSetAsOutput": false,
         "Excluded": false,
-        "X": 372.12361941324372,
-        "Y": 249.36806204543268
+        "X": 384.51092292147149,
+        "Y": 247.64381410381185
       }
     ],
     "Annotations": [],
-    "X": -395.3420717975311,
-    "Y": -79.964974980876832,
+    "X": 58.257928202468918,
+    "Y": -67.164974980876877,
     "Zoom": 0.9540429248828125
   }
 }
