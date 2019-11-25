@@ -784,7 +784,9 @@ namespace Revit.Elements
             List<Element> joinedElements = new List<Element>();
             if (JoinGeometryUtils.AreElementsJoined(Document, this.InternalElement, otherElement.InternalElement))
             {
+                TransactionManager.Instance.EnsureInTransaction(Document);
                 JoinGeometryUtils.SwitchJoinOrder(Document, this.InternalElement, otherElement.InternalElement);
+                TransactionManager.Instance.TransactionTaskDone();
                 joinedElements.AddRange(new List<Element>() { this, otherElement });
             }
             return joinedElements;
