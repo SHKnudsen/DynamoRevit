@@ -779,7 +779,21 @@ namespace Revit.Elements
                 .ToList();
         }
 
+        /// <summary>
+        /// Gets all Elements intersecting the input element of a specefic category.
+        /// </summary>
+        /// <param name="category">Category of Elements to check intersection against</param>
+        /// <returns>List of intersection elements of the specified category</returns>
+        public IEnumerable<Element> GetIntersectingElementsOfCategory(Category category)
+        {
+            BuiltInCategory builtInCategory = (BuiltInCategory)System.Enum.Parse(typeof(BuiltInCategory),
+                                                                                 category.InternalCategory.Id.ToString());
 
+            ElementIntersectsElementFilter filter = new ElementIntersectsElementFilter(this.InternalElement);
+            FilteredElementCollector intersecting = new FilteredElementCollector(Document).WherePasses(filter)
+                                                                                          .OfCategory(builtInCategory);
+            return intersecting.Select(x => x.ToDSType(true)).ToList();
+        }
 
         #region Location extraction & manipulation
         /// <summary>
