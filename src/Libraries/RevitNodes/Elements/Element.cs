@@ -779,7 +779,24 @@ namespace Revit.Elements
                 .ToList();
         }
 
+        public IEnumerable<Element> JoinGeometry(Element otherElement)
+        {
+            ElementIntersectsElementFilter filter = new ElementIntersectsElementFilter(otherElement.InternalElement);
+            ICollection<Autodesk.Revit.DB.Element> collector = new FilteredElementCollector(Document).WherePasses(filter).ToElements();
+            var joinedElements = new List<Element>() { this, otherElement };
 
+            if (JoinGeometryUtils.AreElementsJoined(Document, this.InternalElement, otherElement.InternalElement))
+                return joinedElements;
+
+            if (collector.Count == 0)
+                throw new NullReferenceException(Properties.Resources.NonIntersectingElements);
+
+            TransactionManager.Instance.EnsureInTransaction(Document);
+            JoinGeometryUtils.JoinGeometry(Document, this.InternalElement, otherElement.InternalElement);
+            TransactionManager.Instance.TransactionTaskDone();
+
+            return joinedElements;
+        }
 
         #region Location extraction & manipulation
         /// <summary>
