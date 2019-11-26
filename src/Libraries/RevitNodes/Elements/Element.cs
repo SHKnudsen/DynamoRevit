@@ -779,6 +779,11 @@ namespace Revit.Elements
                 .ToList();
         }
 
+        /// <summary>
+        /// Joins two elements geometry if they are intersecting
+        /// </summary>
+        /// <param name="otherElement">Other element to join with</param>
+        /// <returns>The two joined elements</returns>
         public IEnumerable<Element> JoinGeometry(Element otherElement)
         {
             ElementIntersectsElementFilter filter = new ElementIntersectsElementFilter(otherElement.InternalElement);
