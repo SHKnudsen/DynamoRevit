@@ -789,10 +789,12 @@ namespace Revit.Elements
             List<Element> modifiedElements = new List<Element>();
             for (int i = 0; i < elements.Count; i++)
             {
-                Element[] joinedElements = elements[i].GetJoinedElements();
-                if (joinedElements.Length > 0)
+                List<Element> joinedElements = JoinGeometryUtils.GetJoinedElements(Document, elements[i].InternalElement)
+                                                                .Select(id => Document.GetElement(id).ToDSType(true))
+                                                                .ToList();
+                if (joinedElements.Count > 0)
                 {
-                    for (int j = 0; j < joinedElements.Length; j++)
+                    for (int j = 0; j < joinedElements.Count; j++)
                     {
                         JoinGeometryUtils.UnjoinGeometry(
                             Document,
