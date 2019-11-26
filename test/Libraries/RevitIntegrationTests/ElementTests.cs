@@ -170,9 +170,11 @@ namespace RevitSystemTests
 
             // Act 
             var firstJoinedElementId = GetPreviewValue("0ee537c473c04470b5041d16d9b5ab12");
+            var nonIntersectingElementsResult = GetPreviewValue("a9e31eafd9d5488ab843ea434c9243ed");
 
             // Assert
             Assert.AreEqual(expectedElementId, firstJoinedElementId);
+            Assert.IsNull(nonIntersectingElementsResult);
         }
     }
 }

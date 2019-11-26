@@ -780,21 +780,21 @@ namespace Revit.Elements
         }
 
         /// <summary>
-        /// Joins two elements geometry if they are intersecting
+        /// Joins the geometry of two elements, if they are intersecting.
         /// </summary>
         /// <param name="otherElement">Other element to join with</param>
         /// <returns>The two joined elements</returns>
         public IEnumerable<Element> JoinGeometry(Element otherElement)
         {
-            ElementIntersectsElementFilter filter = new ElementIntersectsElementFilter(otherElement.InternalElement);
-            ICollection<Autodesk.Revit.DB.Element> collector = new FilteredElementCollector(Document).WherePasses(filter).ToElements();
             var joinedElements = new List<Element>() { this, otherElement };
-
             if (JoinGeometryUtils.AreElementsJoined(Document, this.InternalElement, otherElement.InternalElement))
                 return joinedElements;
 
+            ElementIntersectsElementFilter filter = new ElementIntersectsElementFilter(otherElement.InternalElement);
+            ICollection<Autodesk.Revit.DB.Element> collector = new FilteredElementCollector(Document).WherePasses(filter).ToElements();
+
             if (collector.Count == 0)
-                throw new NullReferenceException(Properties.Resources.NonIntersectingElements);
+                throw new InvalidOperationException(Properties.Resources.NonIntersectingElements);
 
             TransactionManager.Instance.EnsureInTransaction(Document);
             JoinGeometryUtils.JoinGeometry(Document, this.InternalElement, otherElement.InternalElement);

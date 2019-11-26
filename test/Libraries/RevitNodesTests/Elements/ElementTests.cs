@@ -442,6 +442,7 @@ namespace RevitNodesTests.Elements
         [TestModel(@".\Element\elementJoin.rvt")]
         public void CanSuccessfullyJoinTwoIntersectingElements()
         {
+            // Arrange
             Document doc = DocumentManager.Instance.CurrentDBDocument;
             var primaryBeam = ElementSelector.ByElementId(208422, true);
             var nonIntersectingBeam = ElementSelector.ByElementId(209681, true);
@@ -449,22 +450,24 @@ namespace RevitNodesTests.Elements
             var notJoinedWall = ElementSelector.ByElementId(207960, true);
             var notJoinedFloor = ElementSelector.ByElementId(208259, true);
 
-            System.Type nonIntersectingTestExpectedExceptionType = typeof(System.NullReferenceException);
+            var nonIntersectingTestExpectedExceptionType = typeof(System.NullReferenceException);
             string nonIntersectingTestExpectedExceptionString = "Elements are not intersecting";
 
+            // Act
             List<int> joinedTestExpectedOutcome = new List<int> { 208422, 208572 };
             List<int> notJoinedTestExpectedOutcome = new List<int> { 207960, 208259 };
 
             var alreadyJoinedOutcome = primaryBeam.JoinGeometry(joinedBeam).Select(elem => elem.Id).ToList();
             var notJoinedIntersectingOutcome = notJoinedWall.JoinGeometry(notJoinedFloor).Select(elem => elem.Id).ToList();
 
+            // Assert
             Assert.AreEqual(joinedTestExpectedOutcome, alreadyJoinedOutcome);
             Assert.AreEqual(notJoinedTestExpectedOutcome, notJoinedIntersectingOutcome);
 
             // Non intersecting elements should throw a NullReferenceException
             // with the messages Elements are not intersecting
-            var ex = Assert.Throws<NullReferenceException>(() => primaryBeam.JoinGeometry(nonIntersectingBeam)); 
-            Assert.That(ex.Message, Is.EqualTo(nonIntersectingTestExpectedExceptionString));
+            var ex = Assert.Throws<InvalidOperationException>(() => primaryBeam.JoinGeometry(nonIntersectingBeam)); 
+            Assert.AreEqual(ex.Message, nonIntersectingTestExpectedExceptionString);
         }
 
     }
