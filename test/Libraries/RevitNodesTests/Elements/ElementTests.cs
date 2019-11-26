@@ -442,13 +442,23 @@ namespace RevitNodesTests.Elements
             var wall1 = ElementSelector.ByElementId(184176, true);
             var wall2 = ElementSelector.ByElementId(207960, true);
             var floor = ElementSelector.ByElementId(208259, true);
+            var doc = DocumentManager.Instance.CurrentDBDocument;
 
             // Are joined
-            bool orignalWall1AndWall2JoinedValue = wall1.AreJoined(wall2);
+            bool orignalWall1AndWall2JoinedValue = JoinGeometryUtils.AreElementsJoined(doc,
+                                                                                       wall1.InternalElement,
+                                                                                       wall2.InternalElement);
+            Assert.AreEqual(true, orignalWall1AndWall2JoinedValue);
             // Are joined
-            bool orignalWall1AndFloorJoinedValue = wall1.AreJoined(floor);
+            bool orignalWall1AndFloorJoinedValue = JoinGeometryUtils.AreElementsJoined(doc,
+                                                                                       wall1.InternalElement,
+                                                                                       floor.InternalElement);
+            Assert.AreEqual(true, orignalWall1AndFloorJoinedValue);
             // Are not joined
-            bool orignalWall2AndFloorJoinedValue = wall2.AreJoined(floor);
+            bool orignalWall2AndFloorJoinedValue = JoinGeometryUtils.AreElementsJoined(doc,
+                                                                                       wall2.InternalElement,
+                                                                                       floor.InternalElement);
+            Assert.AreEqual(true, orignalWall2AndFloorJoinedValue);
 
             var elementList = new List<Element>() { wall1, wall2, floor };
 
@@ -464,7 +474,6 @@ namespace RevitNodesTests.Elements
             Assert.AreNotEqual(newWall1AndFloorJoinedValue, orignalWall1AndFloorJoinedValue);
             // Are joined should be the same 
             Assert.AreEqual(newWall2AndFloorJoinedValue, orignalWall2AndFloorJoinedValue);
-
         }
 
         #endregion
