@@ -780,17 +780,17 @@ namespace Revit.Elements
         }
 
         /// <summary>
-        /// Switch the order of how two elements are geometry is joined. 
-        /// Note that changing this in 3D will also affect your 2D views.
+        /// Switch the order in which the geometry of two elements is joined. If the order is already as desired, elements are not affected. 
+        /// Note that changing this will affect both 3D and 2D views and that it is not the recommended way of managing wall joins.
         /// </summary>
         /// <param name="cuttingElement">The element that should be cutting the other element</param>
-        /// <param name="otherElement">The other element that are being cut by the cuttingElement</param>
+        /// <param name="otherElement">The other element that is being cut by the cuttingElement</param>
         /// <returns>Joined elements</returns>
         public static IEnumerable<Element> SwitchGeometryJoinOrder(Element cuttingElement, Element otherElement)
         {
             if (!JoinGeometryUtils.AreElementsJoined(Document, cuttingElement.InternalElement, otherElement.InternalElement))
             {
-                return new List<Element>();
+                throw new InvalidOperationException(Properties.Resources.InvalidSwitchJoinOrder);
             }
             if (JoinGeometryUtils.IsCuttingElementInJoin(Document, cuttingElement.InternalElement, otherElement.InternalElement))
             {

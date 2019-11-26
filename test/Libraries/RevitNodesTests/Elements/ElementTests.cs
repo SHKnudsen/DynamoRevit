@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 using Autodesk.DesignScript.Geometry;
@@ -437,35 +438,36 @@ namespace RevitNodesTests.Elements
 
         [Test]
         [TestModel(@".\Element\elementJoin.rvt")]
-        public void CanSuccessfullySwitchOrderOfTwoJoinedElements()
+        public void CanSwitchOrderOfTwoJoinedElements()
         {
             int cuttingElementId = 208422;
-            int cuttedElementId = 208572;
+            int cutElementId = 208572;
             int unjoinedElementId = 208259;
 
-            List<int> unchangedOrder = new List<int>() { cuttingElementId, cuttedElementId };
-            List<int> changedOrder = new List<int>() { cuttedElementId, cuttingElementId };
+            List<int> unchangedOrder = new List<int>() { cuttingElementId, cutElementId };
+            string invalidSwitchJoinOrderMessages = Revit.Properties.Resources.InvalidSwitchJoinOrder;
 
             // Joined elements
             var cuttingFraming = ElementSelector.ByElementId(cuttingElementId, true);
-            var cuttedFraming = ElementSelector.ByElementId(cuttedElementId, true);
+            var cutFraming = ElementSelector.ByElementId(cutElementId, true);
 
             // Not Joined element
             var unjoinedElement = ElementSelector.ByElementId(unjoinedElementId, true);
 
             // Elements already in the wanted join order
-            IEnumerable<Element> orderedElements = Element.SwitchGeometryJoinOrder(cuttingFraming, cuttedFraming);
+            IEnumerable<Element> orderedElements = Element.SwitchGeometryJoinOrder(cuttingFraming, cutFraming);
             List<int> orderedElementIds = orderedElements.Select(elem => elem.Id).ToList();
             CollectionAssert.AreEqual(unchangedOrder, orderedElementIds);
 
             // Elements not in wanted join order
-            IEnumerable<Element> switchedElements = Element.SwitchGeometryJoinOrder(cuttedFraming, cuttingFraming);
+            IEnumerable<Element> switchedElements = Element.SwitchGeometryJoinOrder(cutFraming, cuttingFraming);
             List<int> changedElementIds = switchedElements.Select(elem => elem.Id).ToList();
-            CollectionAssert.AreEqual(changedOrder, changedElementIds);
+            unchangedOrder.Reverse();
+            CollectionAssert.AreEqual(unchangedOrder, changedElementIds);
 
             // Element not joined
-            IEnumerable<Element> notJoinedElements = Element.SwitchGeometryJoinOrder(cuttedFraming, unjoinedElement);
-            CollectionAssert.AreEqual(new List<Element>(), notJoinedElements);
+            var ex = Assert.Throws<InvalidOperationException>(() => Element.SwitchGeometryJoinOrder(cutFraming, unjoinedElement));
+            Assert.AreEqual(ex.Message, invalidSwitchJoinOrderMessages);
         }
         #endregion
     }
