@@ -166,14 +166,36 @@ namespace RevitSystemTests
 
             // Act
             ViewModel.OpenCommand.Execute(testPath);
-
             RunCurrentModel();
-            var modifiedElementsOfFirstElement = GetPreviewValue("2bf6ae19361e4c8e841071411eb02fc8");
-            var modifiedElementsOfLastElement = GetPreviewValue("9d5adf5b0d2b4ae99187c4807dd5c3b4");
+
+            var areJoinedBeforeRun = GetPreviewValue("e31b7404cd6243578b0e50b5a525baa4");
+            var areJoinedAfterRun = GetPreviewValue("4779f361975a4a5fa5f8b0f6b94159ad");
+
+            // Assert - The preview value of areJoinedAfterRun are from a AllFalse node
+            // that checks if every output of AreJoined is false.
+            // returning true if all is false, meaning the output is true if everything has been unjoined
+            Assert.AreEqual(areJoinedBeforeRun, areJoinedAfterRun);
+        }
+
+        [Test]
+        [TestModel(@".\Element\elementJoin.rvt")]
+        public void CanUnjoinTwoElements()
+        {
+            // Arange
+            string samplePath = Path.Combine(workingDirectory, @".\Element\canUnjoinTwoElements.dyn");
+            string testPath = Path.GetFullPath(samplePath);
+            
+            // Act
+            ViewModel.OpenCommand.Execute(testPath);
+            RunCurrentModel();
+            var areJoinedBeforeRun = GetPreviewValue("c753a1ccf59f49dd8c01549b51dd2961");
+            Assert.AreEqual(true, areJoinedBeforeRun);
+            var areJoinedAfterRun = GetPreviewValue("5132f787bcdc44608b2cff2b7540c3e5");
+            var unjoinElementsException = GetPreviewValue("8fc0495f5b1047599609404407446c79");
 
             // Assert
-            Assert.AreEqual(3, modifiedElementsOfFirstElement);
-            Assert.IsNull(modifiedElementsOfLastElement);
+            Assert.AreNotEqual(areJoinedBeforeRun, areJoinedAfterRun);
+            Assert.IsNull(unjoinElementsException);
         }
     }
 }
