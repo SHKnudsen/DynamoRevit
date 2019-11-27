@@ -768,10 +768,13 @@ namespace Revit.Elements
                 return !ElementIDLifecycleManager<int>.GetInstance().IsRevitDeleted(InternalElementId.IntegerValue);
             }
         }
+
+        #region Geometry Join
+
         /// <summary>
-        /// Finds the elements that are joined with the given element.
+        /// Finds the elements whose geometry is joined with the given element.
         /// </summary>
-        /// <returns>All elements joined to the given element</returns>
+        /// <returns>All elements whose geometry is joined to the given element.</returns>
         public IEnumerable<Element> GetJoinedElements()
         {
             return JoinGeometryUtils.GetJoinedElements(Document, this.InternalElement)
@@ -781,11 +784,12 @@ namespace Revit.Elements
 
         /// <summary>
         /// Unjoin the geometry of two Elements.
-        /// This node provides exact control over elements that are unjoined but will perform a transaction in Revit for
-        /// each of the input Elements. Consider using the UnjoinAllGeometry node for batch unjoin operations.
+        /// This node provides control over two specific elements whose geometry is unjoined and will 
+        /// perform a transaction in Revit for each of the input Elements. 
+        /// Consider using the UnjoinAllGeometry node for batch unjoin operations.
         /// </summary>
-        /// <param name="otherElement">Other element to unjoin from the element</param>
-        /// <returns>Unjoined elements</returns>
+        /// <param name="otherElement">Other element to unjoin from the element.</param>
+        /// <returns>The input elements with their geometry unjoined.</returns>
         public IEnumerable<Element> UnjoinGeometry(Element otherElement)
         {
             if (!JoinGeometryUtils.AreElementsJoined(Document, this.InternalElement, otherElement.InternalElement))
@@ -801,11 +805,11 @@ namespace Revit.Elements
         }
 
         /// <summary>
-        /// Unjoins all elements from each other if they are joined.
+        /// Unjoins the geometry of all elements from each other if they are joined.
         /// This performs only one transaction in Revit.
         /// </summary>
         /// <param name="elements">List of elements to unjoin from each other</param>
-        /// <returns>All input Elements, now unjoined from each other.</returns>
+        /// <returns>All input Elements, with their geometry now unjoined from each other.</returns>
         public static IEnumerable<Element> UnjoinAllGeometry(List<Element> elements)
         {
             TransactionManager.Instance.EnsureInTransaction(Document);
@@ -828,6 +832,8 @@ namespace Revit.Elements
             TransactionManager.Instance.TransactionTaskDone();
             return elements;
         }
+
+        #endregion
 
         #region Location extraction & manipulation
         /// <summary>
