@@ -168,10 +168,12 @@ namespace RevitSystemTests
             ViewModel.OpenCommand.Execute(testPath);
 
             RunCurrentModel();
-            var modifiedElements = GetPreviewValue("2bf6ae19361e4c8e841071411eb02fc8");
+            var modifiedElementsOfFirstElement = GetPreviewValue("2bf6ae19361e4c8e841071411eb02fc8");
+            var modifiedElementsOfLastElement = GetPreviewValue("9d5adf5b0d2b4ae99187c4807dd5c3b4");
 
             // Assert
-            Assert.AreEqual(5, modifiedElements);
+            Assert.AreEqual(3, modifiedElementsOfFirstElement);
+            Assert.IsNull(modifiedElementsOfLastElement);
         }
     }
 }

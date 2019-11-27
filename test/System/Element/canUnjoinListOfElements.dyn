@@ -37,36 +37,6 @@
     {
       "ConcreteType": "Dynamo.Graph.Nodes.ZeroTouch.DSFunction, DynamoCore",
       "NodeType": "FunctionNode",
-      "FunctionSignature": "Revit.Elements.Element.UnjoinGeometry@Revit.Elements.Element[]",
-      "Id": "762b099145f84eefac385ae140f2fd7b",
-      "Inputs": [
-        {
-          "Id": "5f1e3f022d2045a189ad3f9c5a3b89f2",
-          "Name": "elements",
-          "Description": "List of elements to unjoin\n\nElement[]",
-          "UsingDefaultValue": false,
-          "Level": 2,
-          "UseLevels": false,
-          "KeepListStructure": false
-        }
-      ],
-      "Outputs": [
-        {
-          "Id": "ceb6d371b2d54138be5604d437dbc83d",
-          "Name": "Element[]",
-          "Description": "Elements that have been unjoined",
-          "UsingDefaultValue": false,
-          "Level": 2,
-          "UseLevels": false,
-          "KeepListStructure": false
-        }
-      ],
-      "Replication": "Auto",
-      "Description": "Unjoins elements if they are joined\n\nElement.UnjoinGeometry (elements: Element[]): Element[]"
-    },
-    {
-      "ConcreteType": "Dynamo.Graph.Nodes.ZeroTouch.DSFunction, DynamoCore",
-      "NodeType": "FunctionNode",
       "FunctionSignature": "DSCore.List.Count@var[]..[]",
       "Id": "2bf6ae19361e4c8e841071411eb02fc8",
       "Inputs": [
@@ -93,18 +63,118 @@
       ],
       "Replication": "Auto",
       "Description": "Returns the number of items stored in the given list.\n\nList.Count (list: var[]..[]): int"
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.ZeroTouch.DSFunction, DynamoCore",
+      "NodeType": "FunctionNode",
+      "FunctionSignature": "Revit.Elements.Element.UnjoinAllGeometry@Revit.Elements.Element[]",
+      "Id": "66782a2e292d4dfe81461be32763f044",
+      "Inputs": [
+        {
+          "Id": "e5cd8c6ed3ff4d89af922bfdbb3641b4",
+          "Name": "elements",
+          "Description": "List of elements to unjoin\n\nElement[]",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "c92f4b3a5fea4ac5b30f05318a5762a1",
+          "Name": "Element[][]",
+          "Description": "Elements that have been unjoined",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Auto",
+      "Description": "Unjoins elements if they are joined\n\nElement.UnjoinAllGeometry (elements: Element[]): Element[][]"
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.ZeroTouch.DSFunction, DynamoCore",
+      "NodeType": "FunctionNode",
+      "FunctionSignature": "DSCore.List.FirstItem@var[]..[]",
+      "Id": "df422ecaf0fb4b57bd442e2b13a6463a",
+      "Inputs": [
+        {
+          "Id": "e73125d184f94db0a259172add79696f",
+          "Name": "list",
+          "Description": "List to get the first item from.\n\nvar[]..[]",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "cd2e019037874618b8245022ebc9ce47",
+          "Name": "item",
+          "Description": "First item in the list.",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Auto",
+      "Description": "Returns the first item in a list.\n\nList.FirstItem (list: var[]..[]): var[]..[]"
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.ZeroTouch.DSFunction, DynamoCore",
+      "NodeType": "FunctionNode",
+      "FunctionSignature": "DSCore.List.LastItem@var[]..[]",
+      "Id": "9d5adf5b0d2b4ae99187c4807dd5c3b4",
+      "Inputs": [
+        {
+          "Id": "1c1bf36867854c7bafe0941f372da05d",
+          "Name": "list",
+          "Description": "List to get the last item of.\n\nvar[]..[]",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "bda9480d6d3442daa78bf7efce8082b9",
+          "Name": "last",
+          "Description": "Last item in the list.",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Auto",
+      "Description": "Retrieves the last item in a list.\n\nList.LastItem (list: var[]..[]): var[]..[]"
     }
   ],
   "Connectors": [
     {
       "Start": "5831049593394a94b50aff589cc980a5",
-      "End": "5f1e3f022d2045a189ad3f9c5a3b89f2",
-      "Id": "cc478ef7668241a9ae2fb597e6bcd093"
+      "End": "e5cd8c6ed3ff4d89af922bfdbb3641b4",
+      "Id": "70f5297da79048009b86d02b96a47bc8"
     },
     {
-      "Start": "ceb6d371b2d54138be5604d437dbc83d",
+      "Start": "c92f4b3a5fea4ac5b30f05318a5762a1",
+      "End": "e73125d184f94db0a259172add79696f",
+      "Id": "2e63137f5fda4039b5ef3c0abe0a4195"
+    },
+    {
+      "Start": "c92f4b3a5fea4ac5b30f05318a5762a1",
+      "End": "1c1bf36867854c7bafe0941f372da05d",
+      "Id": "af1c5c171ff2474bbe52757aaf9b34b0"
+    },
+    {
+      "Start": "cd2e019037874618b8245022ebc9ce47",
       "End": "03d503e4276641b783529b1308d81362",
-      "Id": "8024527a98524c25922aeaa52b749559"
+      "Id": "8453ebbc11574c4e978c11bbfd0261e7"
     }
   ],
   "Dependencies": [],
@@ -133,34 +203,54 @@
     },
     "NodeViews": [
       {
+        "ShowGeometry": true,
+        "Name": "Select Model Elements",
         "Id": "0efdd533d78b4af5af1971592c1368d7",
         "IsSetAsInput": false,
         "IsSetAsOutput": false,
-        "Name": "Select Model Elements",
-        "ShowGeometry": true,
         "Excluded": false,
         "X": 1051.2565782202948,
         "Y": 297.54491123084824
       },
       {
-        "Id": "762b099145f84eefac385ae140f2fd7b",
-        "IsSetAsInput": false,
-        "IsSetAsOutput": false,
-        "Name": "Element.UnjoinGeometry",
         "ShowGeometry": true,
-        "Excluded": false,
-        "X": 1393.0417514932669,
-        "Y": 298.4147871587345
-      },
-      {
+        "Name": "List.Count",
         "Id": "2bf6ae19361e4c8e841071411eb02fc8",
         "IsSetAsInput": false,
         "IsSetAsOutput": false,
-        "Name": "List.Count",
-        "ShowGeometry": true,
         "Excluded": false,
-        "X": 1728.919815715655,
-        "Y": 297.84790232165415
+        "X": 1909.5485554627342,
+        "Y": 294.31999724846906
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Element.UnjoinAllGeometry",
+        "Id": "66782a2e292d4dfe81461be32763f044",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 1385.7212844115652,
+        "Y": 297.81809312375884
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "List.FirstItem",
+        "Id": "df422ecaf0fb4b57bd442e2b13a6463a",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 1688.4318453372723,
+        "Y": 296.46915001558932
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "List.LastItem",
+        "Id": "9d5adf5b0d2b4ae99187c4807dd5c3b4",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 1694.7820744690055,
+        "Y": 422.0625706209803
       }
     ],
     "Annotations": [
@@ -315,8 +405,8 @@
         "Background": "#FFC1D676"
       }
     ],
-    "X": 10.812535385696009,
-    "Y": 155.69545457057785,
-    "Zoom": 0.9015590436601445
+    "X": -996.03372524399015,
+    "Y": -105.69236006085879,
+    "Zoom": 1.008669536820795
   }
 }

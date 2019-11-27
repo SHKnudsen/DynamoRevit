@@ -458,11 +458,11 @@ namespace RevitNodesTests.Elements
             bool orignalWall2AndFloorJoinedValue = JoinGeometryUtils.AreElementsJoined(doc,
                                                                                        wall2.InternalElement,
                                                                                        floor.InternalElement);
-            Assert.AreEqual(true, orignalWall2AndFloorJoinedValue);
+            Assert.AreEqual(false, orignalWall2AndFloorJoinedValue);
 
             var elementList = new List<Element>() { wall1, wall2, floor };
 
-            Element.UnjoinGeometry(elementList);
+            Element.UnjoinAllGeometry(elementList);
 
             bool newWall1AndWall2JoinedValue = wall1.AreJoined(wall2);
             bool newWall1AndFloorJoinedValue = wall1.AreJoined(floor);
