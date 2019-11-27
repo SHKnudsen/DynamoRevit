@@ -171,7 +171,7 @@ namespace RevitSystemTests
             var areJoinedBeforeRun = GetPreviewValue("e31b7404cd6243578b0e50b5a525baa4");
             var areJoinedAfterRun = GetPreviewValue("4779f361975a4a5fa5f8b0f6b94159ad");
 
-            // Assert - The preview value of areJoinedAfterRun are from a AllFalse node
+            // Assert - The preview value of areJoinedAfterRun comes from an AllFalse node
             // that checks if every output of AreJoined is false.
             // returning true if all is false, meaning the output is true if everything has been unjoined
             Assert.AreEqual(areJoinedBeforeRun, areJoinedAfterRun);
