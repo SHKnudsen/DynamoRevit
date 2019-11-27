@@ -194,6 +194,7 @@ namespace RevitSystemTests
             var unjoinElementsException = GetPreviewValue("8fc0495f5b1047599609404407446c79");
 
             // Assert
+            Assert.AreEqual(true, areJoinedBeforeRun);
             Assert.AreNotEqual(areJoinedBeforeRun, areJoinedAfterRun);
             Assert.IsNull(unjoinElementsException);
         }
