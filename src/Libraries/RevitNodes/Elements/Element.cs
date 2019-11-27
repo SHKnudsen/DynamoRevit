@@ -780,7 +780,7 @@ namespace Revit.Elements
         }
 
         /// <summary>
-        /// Unjoin two Elements geometry.
+        /// Unjoin the geometry of two Elements.
         /// Unlike the UnjoinAllGeometry node this will use a transaction for each of the input Elements,
         /// which will make it slower for many Elements but will give you more controle over what is unjoined.
         /// </summary>
