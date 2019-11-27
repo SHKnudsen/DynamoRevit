@@ -784,37 +784,30 @@ namespace Revit.Elements
         /// </summary>
         /// <param name="elements">List of elements to unjoin</param>
         /// <returns>Elements that have been unjoined</returns>
-        public static List<Element> UnjoinGeometry(List<Element> elements)
+        public static IEnumerable<IEnumerable<Element>> UnjoinAllGeometry(List<Element> elements)
         {
-            List<Element> modifiedElements = new List<Element>();
+            var modifiedElements = new List<List<Element>>();
             for (int i = 0; i < elements.Count; i++)
             {
+                var unjoinedElements = new List<Element>();
                 List<Element> joinedElements = JoinGeometryUtils.GetJoinedElements(Document, elements[i].InternalElement)
                                                                 .Select(id => Document.GetElement(id).ToDSType(true))
                                                                 .ToList();
                 if (joinedElements.Count <= 0)
+                {
+                    modifiedElements.Add(null);
                     continue;
-
+                }
+                    
                 for (int j = 0; j < joinedElements.Count; j++)
                 {
                     JoinGeometryUtils.UnjoinGeometry(
                         Document,
                         elements[i].InternalElement,
                         joinedElements[j].InternalElement);
-
-                    // check if the unjoined element is already in the modifiedElements list 
-                    // if not we add it here
-                    if (!modifiedElements.Any(item => item.Id == joinedElements[j].Id))
-                    {
-                        modifiedElements.Add(joinedElements[j]);
-                    }
-
+                    unjoinedElements.Add(joinedElements[j]);
                 }
-                // add the modified element to modifiedElements if its not already there
-                if (!modifiedElements.Any(item => item.Id == elements[i].Id))
-                {
-                    modifiedElements.Add(elements[i]);
-                }
+                modifiedElements.Add(unjoinedElements);
             }
             return modifiedElements;
         }
