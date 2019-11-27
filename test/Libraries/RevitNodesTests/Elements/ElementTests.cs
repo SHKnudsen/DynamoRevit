@@ -439,7 +439,7 @@ namespace RevitNodesTests.Elements
 
         [Test]
         [TestModel(@".\Element\elementIntersection.rvt")]
-        public void CanSuccessfullyGetIntersectingElementsOfSpeceficCategory()
+        public void CanGetIntersectingElementsOfSpeceficCategory()
         {
             // Element to check intersections on
             int intersectionElementId = 316167;
@@ -453,25 +453,37 @@ namespace RevitNodesTests.Elements
             int wallId = 316246;
             var wallElement = ElementSelector.ByElementId(wallId, true);
 
+            // Expected outcomes
+            var expectedStructuralFramingIds = new List<int>() { structuralFramingId };
+            var expectedFloorIds = new List<int>() { floorId };
+            var expectedWallIds = new List<int>() { wallId };
+
             // Get intersecting elements of category
-            Revit.Elements.Category structuralFrameCategory = Revit.Elements.Category.ByName("StructuralFraming");
-            int intersectedFraming = intersectionElement.GetIntersectingElementsOfCategory(structuralFrameCategory).FirstOrDefault<Element>().Id;
+            var structuralFrameCategory = Revit.Elements.Category.ByName("StructuralFraming");
+            List<int> intersectedFraming = GetIntersectingElementIds(intersectionElement, structuralFrameCategory);
 
-            Revit.Elements.Category floorCategory = Revit.Elements.Category.ByName("Floors");
-            int intersectedFloor = intersectionElement.GetIntersectingElementsOfCategory(floorCategory).FirstOrDefault<Element>().Id;
+            var floorCategory = Revit.Elements.Category.ByName("Floors");
+            List<int> intersectedFloorId = GetIntersectingElementIds(intersectionElement, floorCategory);
 
-            Revit.Elements.Category wallCategory = Revit.Elements.Category.ByName("Walls");
-            int intersectedWall = intersectionElement.GetIntersectingElementsOfCategory(wallCategory).FirstOrDefault<Element>().Id;
+            var wallCategory = Revit.Elements.Category.ByName("Walls");
+            List<int> intersectedWallId = GetIntersectingElementIds(intersectionElement, wallCategory);
 
             // Check if method returns null if there are no intersecting elements of the specified category
-            Revit.Elements.Category windowCategory = Revit.Elements.Category.ByName("Windows");
+            var windowCategory = Revit.Elements.Category.ByName("Windows");
             IEnumerable<Element> intersectedWindow = intersectionElement.GetIntersectingElementsOfCategory(windowCategory);
 
             // Assert
-            Assert.AreEqual(structuralFramingId, intersectedFraming);
-            Assert.AreEqual(floorId, intersectedFloor);
-            Assert.AreEqual(wallId, intersectedWall);
+            CollectionAssert.AreEqual(expectedStructuralFramingIds, intersectedFraming);
+            CollectionAssert.AreEqual(expectedFloorIds, intersectedFloorId);
+            CollectionAssert.AreEqual(expectedWallIds, intersectedWallId);
             Assert.AreEqual(new List<Element>(), intersectedWindow);
+        }
+
+        private static List<int> GetIntersectingElementIds(Element intersectionElement, Revit.Elements.Category category)
+        {
+            return intersectionElement.GetIntersectingElementsOfCategory(category)
+                                      .Select(elem => elem.Id)
+                                      .ToList();
         }
     }
 }

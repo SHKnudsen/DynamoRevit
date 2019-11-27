@@ -780,7 +780,7 @@ namespace Revit.Elements
         }
 
         /// <summary>
-        /// Gets all Elements intersecting the input element of a specefic category.
+        /// Gets all Elements intersecting the input element, that are of a specific category.
         /// </summary>
         /// <param name="category">Category of Elements to check intersection against</param>
         /// <returns>List of intersection elements of the specified category</returns>
@@ -792,6 +792,9 @@ namespace Revit.Elements
             ElementIntersectsElementFilter filter = new ElementIntersectsElementFilter(this.InternalElement);
             FilteredElementCollector intersecting = new FilteredElementCollector(Document).WherePasses(filter)
                                                                                           .OfCategory(builtInCategory);
+            if (!intersecting.Any())
+                return new List<Element>();
+
             return intersecting.Select(x => x.ToDSType(true)).ToList();
         }
 

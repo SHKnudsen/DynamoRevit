@@ -163,14 +163,13 @@ namespace RevitSystemTests
             // Arange
             string samplePath = Path.Combine(workingDirectory, @".\Element\canGetIntersectingElementsOfSpeceficCategory.dyn");
             string testPath = Path.GetFullPath(samplePath);
-
-            ViewModel.OpenCommand.Execute(testPath);
-            RunCurrentModel();
-
-            // Act - Get the intersecting element id of wall category
-            var actualIntersectingElementId = GetPreviewValue("438ec88918b94167887c7f4b2813ebfe");
             int expectedIntersectingElementId = 316246;
 
+            // Act - Get the intersecting element id of wall category
+            ViewModel.OpenCommand.Execute(testPath);
+            RunCurrentModel();
+            var actualIntersectingElementId = GetPreviewValue("438ec88918b94167887c7f4b2813ebfe");
+            
             // Assert
             Assert.AreEqual(expectedIntersectingElementId, actualIntersectingElementId);
         }
