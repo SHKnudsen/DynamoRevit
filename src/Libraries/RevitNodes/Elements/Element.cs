@@ -780,36 +780,53 @@ namespace Revit.Elements
         }
 
         /// <summary>
-        /// Unjoins elements if they are joined 
+        /// Unjoin two Elements geometry.
+        /// Unlike the UnjoinAllGeometry node this will use a transaction for each of the input Elements,
+        /// which will make it slower for many Elements but will give you more controle over what is unjoined.
         /// </summary>
-        /// <param name="elements">List of elements to unjoin</param>
-        /// <returns>Elements that have been unjoined</returns>
-        public static IEnumerable<IEnumerable<Element>> UnjoinAllGeometry(List<Element> elements)
+        /// <param name="otherElement">Other element to unjoin from the element</param>
+        /// <returns>Unjoined elements</returns>
+        public IEnumerable<Element> UnjoinGeometry(Element otherElement)
         {
-            var modifiedElements = new List<List<Element>>();
+            if (!JoinGeometryUtils.AreElementsJoined(Document, this.InternalElement, otherElement.InternalElement))
+                throw new InvalidOperationException(Properties.Resources.NotJoinedElements);
+
+            TransactionManager.Instance.EnsureInTransaction(Document);
+            JoinGeometryUtils.UnjoinGeometry(
+                        Document,
+                        this.InternalElement,
+                        otherElement.InternalElement);
+            TransactionManager.Instance.TransactionTaskDone();
+            return new List<Element>() { this, otherElement };
+        }
+
+        /// <summary>
+        /// Unjoins elements from each other if they are joined,
+        /// uses only one transaction which makes it faster than UnjoinGeometry
+        /// </summary>
+        /// <param name="elements">List of elements to unjoin from each other</param>
+        /// <returns>All input Elements</returns>
+        public static IEnumerable<Element> UnjoinAllGeometry(List<Element> elements)
+        {
+            TransactionManager.Instance.EnsureInTransaction(Document);
             for (int i = 0; i < elements.Count; i++)
             {
-                var unjoinedElements = new List<Element>();
                 List<Element> joinedElements = JoinGeometryUtils.GetJoinedElements(Document, elements[i].InternalElement)
                                                                 .Select(id => Document.GetElement(id).ToDSType(true))
                                                                 .ToList();
                 if (joinedElements.Count <= 0)
-                {
-                    modifiedElements.Add(null);
                     continue;
-                }
-                    
+
                 for (int j = 0; j < joinedElements.Count; j++)
                 {
                     JoinGeometryUtils.UnjoinGeometry(
                         Document,
                         elements[i].InternalElement,
                         joinedElements[j].InternalElement);
-                    unjoinedElements.Add(joinedElements[j]);
                 }
-                modifiedElements.Add(unjoinedElements);
             }
-            return modifiedElements;
+            TransactionManager.Instance.TransactionTaskDone();
+            return elements;
         }
 
         #region Location extraction & manipulation
