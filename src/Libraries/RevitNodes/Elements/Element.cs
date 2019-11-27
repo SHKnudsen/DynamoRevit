@@ -768,6 +768,7 @@ namespace Revit.Elements
                 return !ElementIDLifecycleManager<int>.GetInstance().IsRevitDeleted(InternalElementId.IntegerValue);
             }
         }
+        
         /// <summary>
         /// Finds the elements that are joined with the given element.
         /// </summary>
@@ -800,6 +801,30 @@ namespace Revit.Elements
             JoinGeometryUtils.SwitchJoinOrder(Document, cuttingElement.InternalElement, otherElement.InternalElement);
             TransactionManager.Instance.TransactionTaskDone();
             return new List<Element>() { cuttingElement, otherElement };
+        }
+        
+        /// <summary>
+        /// Joins the geometry of two elements, if they are intersecting.
+        /// </summary>
+        /// <param name="otherElement">Other element to join with</param>
+        /// <returns>The two joined elements</returns>
+        public IEnumerable<Element> JoinGeometry(Element otherElement)
+        {
+            var joinedElements = new List<Element>() { this, otherElement };
+            if (JoinGeometryUtils.AreElementsJoined(Document, this.InternalElement, otherElement.InternalElement))
+                return joinedElements;
+
+            ElementIntersectsElementFilter filter = new ElementIntersectsElementFilter(otherElement.InternalElement);
+            ICollection<Autodesk.Revit.DB.Element> collector = new FilteredElementCollector(Document).WherePasses(filter).ToElements();
+
+            if (collector.Count == 0)
+                throw new InvalidOperationException(Properties.Resources.NonIntersectingElements);
+
+            TransactionManager.Instance.EnsureInTransaction(Document);
+            JoinGeometryUtils.JoinGeometry(Document, this.InternalElement, otherElement.InternalElement);
+            TransactionManager.Instance.TransactionTaskDone();
+
+            return joinedElements;
         }
 
         #region Location extraction & manipulation
