@@ -805,7 +805,7 @@ namespace Revit.Elements
         /// This performs only one transaction in Revit.
         /// </summary>
         /// <param name="elements">List of elements to unjoin from each other</param>
-        /// <returns>All input Elements</returns>
+        /// <returns>All input Elements, now unjoined from each other.</returns>
         public static IEnumerable<Element> UnjoinAllGeometry(List<Element> elements)
         {
             TransactionManager.Instance.EnsureInTransaction(Document);
