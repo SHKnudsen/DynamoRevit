@@ -801,7 +801,7 @@ namespace Revit.Elements
         }
 
         /// <summary>
-        /// Unjoins elements from each other if they are joined,
+        /// Unjoins all elements from each other if they are joined.
         /// uses only one transaction which makes it faster than UnjoinGeometry
         /// </summary>
         /// <param name="elements">List of elements to unjoin from each other</param>
