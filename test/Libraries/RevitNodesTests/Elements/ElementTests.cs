@@ -439,7 +439,7 @@ namespace RevitNodesTests.Elements
 
         [Test]
         [TestModel(@".\Element\elementIntersection.rvt")]
-        public void CanGetIntersectingElementsOfSpeceficCategory()
+        public void CanGetIntersectingElementsOfSpecificCategory()
         {
             // Element to check intersections on
             int intersectionElementId = 316167;
