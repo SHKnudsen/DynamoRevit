@@ -173,7 +173,7 @@ namespace RevitSystemTests
 
             // Assert - The preview value of areJoinedAfterRun comes from an AllFalse node
             // that checks if every output of AreJoined is false,  returning
-            // returning true if all is false, meaning the output is true if everything has been unjoined
+            // true if all elements have been unjoined.
             Assert.AreEqual(areJoinedBeforeRun, areJoinedAfterRun);
         }
 
