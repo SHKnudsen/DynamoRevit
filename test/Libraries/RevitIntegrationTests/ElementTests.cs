@@ -179,6 +179,27 @@ namespace RevitSystemTests
 
         [Test]
         [TestModel(@".\Element\elementJoin.rvt")]
+        public void CanSwitchJoinOrderOfTwoJoinedElements()
+        {
+            // Arange
+            string samplePath = Path.Combine(workingDirectory, @".\Element\canSwitchJoinOrderOfTwoJoinedElements.dyn");
+            string testPath = Path.GetFullPath(samplePath);
+
+            int originalCuttingElementId = 208422;
+            int newOrderCuttingElementId = 208572;
+
+            // Act - get the Id of the first element from SwitchGeometryJoinOrder
+            ViewModel.OpenCommand.Execute(testPath);
+            RunCurrentModel();
+            var cuttingElementIdNewOrder = GetPreviewValue("8b96e9f628314bcab833ea4f830bc2a7");
+        
+            // Assert
+            Assert.AreEqual(newOrderCuttingElementId, cuttingElementIdNewOrder);
+            Assert.AreNotEqual(originalCuttingElementId, cuttingElementIdNewOrder);
+        }
+
+        [Test]
+        [TestModel(@".\Element\elementJoin.rvt")]
         public void CanUnjoinTwoElements()
         {
             // Arange
@@ -197,6 +218,27 @@ namespace RevitSystemTests
             Assert.AreEqual(true, areJoinedBeforeRun);
             Assert.AreNotEqual(areJoinedBeforeRun, areJoinedAfterRun);
             Assert.IsNull(unjoinElementsException);
+        }
+        
+        [Test]
+        [TestModel(@".\Element\elementJoin.rvt")]
+        public void CanJoinTwoIntersectingElements()
+        {
+            // Arange
+            string samplePath = Path.Combine(workingDirectory, @".\Element\canJoinTwoIntersectingElements.dyn");
+            string testPath = Path.GetFullPath(samplePath);
+            int expectedElementId = 208259;
+
+            ViewModel.OpenCommand.Execute(testPath);
+            RunCurrentModel();
+
+            // Act 
+            var firstJoinedElementId = GetPreviewValue("0ee537c473c04470b5041d16d9b5ab12");
+            var nonIntersectingElementsResult = GetPreviewValue("a9e31eafd9d5488ab843ea434c9243ed");
+
+            // Assert
+            Assert.AreEqual(expectedElementId, firstJoinedElementId);
+            Assert.IsNull(nonIntersectingElementsResult);
         }
     }
 }
