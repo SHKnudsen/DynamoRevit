@@ -476,7 +476,7 @@ namespace RevitNodesTests.Elements
             CollectionAssert.AreEqual(expectedStructuralFramingIds, intersectedFraming);
             CollectionAssert.AreEqual(expectedFloorIds, intersectedFloorId);
             CollectionAssert.AreEqual(expectedWallIds, intersectedWallId);
-            Assert.AreEqual(new List<Element>(), intersectedWindow);
+            CollectionAssert.AreEqual(new List<Element>(), intersectedWindow);
         }
 
         private static List<int> GetIntersectingElementIds(Element intersectionElement, Revit.Elements.Category category)
