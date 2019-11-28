@@ -693,6 +693,73 @@ namespace Revit.Elements
             }
         }
 
+        /// <summary>
+        /// Gets the sub component elements of the current Element.
+        /// </summary>
+        /// <returns>Sub component elements.</returns>
+        public IEnumerable<Element> GetSubComponents()
+        {
+            var elementCategory = this.InternalElement.Category.Name;
+            if (elementCategory == null)
+                throw new ArgumentNullException(nameof(this.InternalElement));
+            var subComponents = GetElementSubComponents(this.InternalElement, elementCategory);
+            return subComponents;
+        }
+
+        private IEnumerable<Element> GetElementSubComponents(Autodesk.Revit.DB.Element element, string elementCategoryName)
+        {
+            List<Element> componenets = new List<Element>();
+            switch (elementCategoryName)
+            {
+                case "Stairs":
+                    var stairElement = element as Autodesk.Revit.DB.Architecture.Stairs;
+                    List<ElementId> stairComponentIds = new List<ElementId>();
+                    stairComponentIds.AddRange(stairElement.GetStairsLandings().ToList());
+                    stairComponentIds.AddRange(stairElement.GetStairsRuns().ToList());
+                    stairComponentIds.AddRange(stairElement.GetStairsSupports().ToList());
+                    if (stairComponentIds.Count == 0 || stairComponentIds == null)
+                        throw new NullReferenceException(Properties.Resources.NoSubComponents);
+                    List<Element> stairComponenetElements = stairComponentIds.Select(id => Document.GetElement(id).ToDSType(true))
+                                                                             .ToList();
+                    componenets.AddRange(stairComponenetElements);
+                    break;
+
+                case "Structural Beam Systems":
+                    var beamSystemElement = element as Autodesk.Revit.DB.BeamSystem;
+                    List<ElementId> beamSystemComponentIds = beamSystemElement.GetBeamIds().ToList();
+                    if (beamSystemComponentIds.Count == 0 || beamSystemComponentIds == null)
+                        throw new NullReferenceException(Properties.Resources.NoSubComponents);
+                    List<Element> beamSystemComponenetElements = beamSystemComponentIds.Select(id => Document.GetElement(id).ToDSType(true))
+                                                                             .ToList();
+                    componenets.AddRange(beamSystemComponenetElements);
+                    break;
+
+                case "Railings":
+                    var railingElement = element as Autodesk.Revit.DB.Architecture.Railing;
+                    List<ElementId> railingComponentIds = railingElement.GetHandRails().ToList();
+                    railingComponentIds.Add(railingElement.TopRail);
+                    if (railingComponentIds.Count == 0 || railingComponentIds == null)
+                        throw new NullReferenceException(Properties.Resources.NoSubComponents);
+                    List<Element> railingComponenetElements = railingComponentIds.Select(id => Document.GetElement(id).ToDSType(true))
+                                                                                 .ToList();
+                    componenets.AddRange(railingComponenetElements);
+                    break;
+
+                default:
+                    var familyInstance = element as Autodesk.Revit.DB.FamilyInstance;
+                    if (familyInstance == null)
+                        throw new NullReferenceException(Properties.Resources.NoSubComponents);
+                    List<ElementId> componentIds = familyInstance.GetSubComponentIds().ToList();
+                    if (componentIds.Count == 0 || componentIds == null)
+                        throw new NullReferenceException(Properties.Resources.NoSubComponents);
+                    List<Element> componenetElements = componentIds.Select(id => Document.GetElement(id).ToDSType(true))
+                                                                   .ToList();
+                    componenets.AddRange(componenetElements);
+                    break;
+            }
+            return componenets;
+        }
+
         #region Location extraction & manipulation
 
         /// <summary>
