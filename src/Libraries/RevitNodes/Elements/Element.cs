@@ -699,19 +699,19 @@ namespace Revit.Elements
         /// <returns>Sub component elements.</returns>
         public IEnumerable<Element> GetSubComponents()
         {
-            var elementCategory = this.InternalElement.Category.Name;
-            if (elementCategory == null)
-                throw new ArgumentNullException(nameof(this.InternalElement));
-            var subComponents = GetElementSubComponents(this.InternalElement, elementCategory);
+            var subComponents = GetElementSubComponents(this.InternalElement);
             return subComponents;
         }
 
-        private IEnumerable<Element> GetElementSubComponents(Autodesk.Revit.DB.Element element, string elementCategoryName)
+        private IEnumerable<Element> GetElementSubComponents(Autodesk.Revit.DB.Element element)
         {
             List<Element> componenets = new List<Element>();
-            switch (elementCategoryName)
+            BuiltInCategory builtInCategory = (BuiltInCategory)System.Enum.Parse(typeof(BuiltInCategory),
+                                                                                 element.Id.ToString());
+
+            switch (builtInCategory)
             {
-                case "Stairs":
+                case BuiltInCategory.OST_Stairs:
                     var stairElement = element as Autodesk.Revit.DB.Architecture.Stairs;
                     List<ElementId> stairComponentIds = new List<ElementId>();
                     stairComponentIds.AddRange(stairElement.GetStairsLandings().ToList());
@@ -724,7 +724,7 @@ namespace Revit.Elements
                     componenets.AddRange(stairComponenetElements);
                     break;
 
-                case "Structural Beam Systems":
+                case BuiltInCategory.OST_StructuralFramingSystem:
                     var beamSystemElement = element as Autodesk.Revit.DB.BeamSystem;
                     List<ElementId> beamSystemComponentIds = beamSystemElement.GetBeamIds().ToList();
                     if (beamSystemComponentIds.Count == 0 || beamSystemComponentIds == null)
@@ -734,7 +734,7 @@ namespace Revit.Elements
                     componenets.AddRange(beamSystemComponenetElements);
                     break;
 
-                case "Railings":
+                case BuiltInCategory.OST_Railings:
                     var railingElement = element as Autodesk.Revit.DB.Architecture.Railing;
                     List<ElementId> railingComponentIds = railingElement.GetHandRails().ToList();
                     railingComponentIds.Add(railingElement.TopRail);
