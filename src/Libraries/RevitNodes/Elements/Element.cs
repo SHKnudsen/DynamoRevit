@@ -705,7 +705,7 @@ namespace Revit.Elements
 
         private IEnumerable<Element> GetElementSubComponents(Autodesk.Revit.DB.Element element)
         {
-            List<Element> componenets = new List<Element>();
+            List<Element> components = new List<Element>();
             BuiltInCategory builtInCategory = (BuiltInCategory)System.Enum.Parse(typeof(BuiltInCategory),
                                                                                  element.Id.ToString());
 
@@ -717,32 +717,33 @@ namespace Revit.Elements
                     stairComponentIds.AddRange(stairElement.GetStairsLandings().ToList());
                     stairComponentIds.AddRange(stairElement.GetStairsRuns().ToList());
                     stairComponentIds.AddRange(stairElement.GetStairsSupports().ToList());
-                    if (stairComponentIds.Count == 0 || stairComponentIds == null)
-                        throw new NullReferenceException(Properties.Resources.NoSubComponents);
-                    List<Element> stairComponenetElements = stairComponentIds.Select(id => Document.GetElement(id).ToDSType(true))
+                    if (stairComponentIds.Count == 0)
+                        throw new InvalidOperationException(Properties.Resources.NoSubComponents);
+                    List<Element> stairComponentElements = stairComponentIds.Select(id => Document.GetElement(id).ToDSType(true))
                                                                              .ToList();
-                    componenets.AddRange(stairComponenetElements);
+                    components.AddRange(stairComponentElements);
                     break;
 
                 case BuiltInCategory.OST_StructuralFramingSystem:
                     var beamSystemElement = element as Autodesk.Revit.DB.BeamSystem;
                     List<ElementId> beamSystemComponentIds = beamSystemElement.GetBeamIds().ToList();
-                    if (beamSystemComponentIds.Count == 0 || beamSystemComponentIds == null)
-                        throw new NullReferenceException(Properties.Resources.NoSubComponents);
-                    List<Element> beamSystemComponenetElements = beamSystemComponentIds.Select(id => Document.GetElement(id).ToDSType(true))
+                    if (beamSystemComponentIds.Count == 0)
+                        throw new InvalidOperationException(Properties.Resources.NoSubComponents);
+                    List<Element> beamSystemComponentElements = beamSystemComponentIds.Select(id => Document.GetElement(id).ToDSType(true))
                                                                              .ToList();
-                    componenets.AddRange(beamSystemComponenetElements);
+                    components.AddRange(beamSystemComponentElements);
                     break;
 
                 case BuiltInCategory.OST_Railings:
                     var railingElement = element as Autodesk.Revit.DB.Architecture.Railing;
-                    List<ElementId> railingComponentIds = railingElement.GetHandRails().ToList();
+                    List<ElementId> railingComponentIds = new List<ElementId>();
+                    railingComponentIds.AddRange(railingElement.GetHandRails().ToList());
                     railingComponentIds.Add(railingElement.TopRail);
-                    if (railingComponentIds.Count == 0 || railingComponentIds == null)
-                        throw new NullReferenceException(Properties.Resources.NoSubComponents);
-                    List<Element> railingComponenetElements = railingComponentIds.Select(id => Document.GetElement(id).ToDSType(true))
+                    if (railingComponentIds.Count == 0)
+                        throw new InvalidOperationException(Properties.Resources.NoSubComponents);
+                    List<Element> railingComponentElements = railingComponentIds.Select(id => Document.GetElement(id).ToDSType(true))
                                                                                  .ToList();
-                    componenets.AddRange(railingComponenetElements);
+                    components.AddRange(railingComponentElements);
                     break;
 
                 default:
@@ -752,12 +753,12 @@ namespace Revit.Elements
                     List<ElementId> componentIds = familyInstance.GetSubComponentIds().ToList();
                     if (componentIds.Count == 0 || componentIds == null)
                         throw new NullReferenceException(Properties.Resources.NoSubComponents);
-                    List<Element> componenetElements = componentIds.Select(id => Document.GetElement(id).ToDSType(true))
+                    List<Element> componentElements = componentIds.Select(id => Document.GetElement(id).ToDSType(true))
                                                                    .ToList();
-                    componenets.AddRange(componenetElements);
+                    components.AddRange(componentElements);
                     break;
             }
-            return componenets;
+            return components;
         }
 
         #region Location extraction & manipulation

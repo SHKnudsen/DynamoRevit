@@ -283,10 +283,9 @@ namespace RevitNodesTests.Elements
             var resultBeamSystemSubComponents = beamSystem.GetSubComponents().Select(x => x.Id).ToList();
             var resultStairSubComponents = stair.GetSubComponents().Select(x => x.Id).ToList();
             var resultRailingSubComponents = railing.GetSubComponents().Select(x => x.Id).ToList();
-
+            var wallSubComponentsException = Assert.Throws<System.NullReferenceException>(() => wall.GetSubComponents());
 
             // Assert
-            var wallSubComponentsException = Assert.Throws<System.NullReferenceException>(() => wall.GetSubComponents());
             Assert.AreEqual(wallSubComponentsException.Message, expectedExceptionMessageWallSubComponents);
             CollectionAssert.AreEqual(expectedWindowSubComponents, resultWindowSubComponents);
             CollectionAssert.AreEqual(expectedBeamSystemSubComponents, resultBeamSystemSubComponents);
