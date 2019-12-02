@@ -718,6 +718,15 @@ namespace Revit.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Element has no sub components.
+        /// </summary>
+        internal static string NoSubComponents {
+            get {
+                return ResourceManager.GetString("NoSubComponents", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The FamilyInstance is not an adaptive component..
         /// </summary>
         internal static string NotAdaptiveComponentError {
