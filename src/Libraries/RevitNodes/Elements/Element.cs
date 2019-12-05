@@ -761,6 +761,23 @@ namespace Revit.Elements
             return components;
         }
 
+        /// <summary>
+        /// Returns the type Element with the given name.
+        /// </summary>
+        /// <param name="name">Name of the type</param>
+        /// <returns>Type Element</returns>
+        public static Element ElementTypeByName(string name)
+        {
+            if (String.IsNullOrWhiteSpace(name))
+                throw new ArgumentNullException(nameof(name));
+
+            var elementType = DocumentManager.Instance
+                .ElementsOfType<Autodesk.Revit.DB.ElementType>()
+                .FirstOrDefault(x => x.Name == name).ToDSType(true);
+
+            return elementType;
+        }
+
         #region Location extraction & manipulation
 
         /// <summary>
