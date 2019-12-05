@@ -78,6 +78,5 @@ namespace RevitSystemTests
             Assert.AreEqual(expectedBeamParentElementId, resultBeamParentElement);
             Assert.AreEqual(expectedWindowParentElementId, resultWindowParentElement);
         }
-
     }
 }
