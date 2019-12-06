@@ -59,24 +59,35 @@ namespace RevitSystemTests
         }
 
         [Test]
-        [TestModel(@".\Element\elementComponents.rvt")]
-        public void CanGetElementSuperComponent()
+        [TestModel(@".\Element\elementTransform.rvt")]
+        public void CanTransformElement()
         {
             // Arrange
-            string samplePath = Path.Combine(workingDirectory, @".\Element\canGetElementParentElement.dyn");
+            var delta = 0.001;
+            string samplePath = Path.Combine(workingDirectory, @".\Element\canTransformElement.dyn");
             string testPath = Path.GetFullPath(samplePath);
-            int expectedWindowParentElementId = 319481;
-            int expectedBeamParentElementId = 319537;
+            var expectedLocationX = 5317.185;
+            var expectedLocationY = -364.392;
 
             // Act
             ViewModel.OpenCommand.Execute(testPath);
             RunCurrentModel();
-            var resultWindowParentElement = GetPreviewValue("54c8d93d86494469b9e0cd06c78d248b");
-            var resultBeamParentElement = GetPreviewValue("85a73f659194410db9d9cf27355b0fd6");
+            var transformedLocationX = GetPreviewValue("3280c1e7e17e4caabed24d5819904bcb") as double?;
+            var transformedLocationY = GetPreviewValue("c8939e3477f844d5963a1fc98420fc08") as double?;
+            var originalLocationX = GetPreviewValue("ab73733213ab4f7a95d7c0dd86dd7011") as double?;
+            var originalLocationY = GetPreviewValue("8924547b83f24e718e9c9589ae288489") as double?;
 
             // Assert
-            Assert.AreEqual(expectedBeamParentElementId, resultBeamParentElement);
-            Assert.AreEqual(expectedWindowParentElementId, resultWindowParentElement);
+            Assert.IsNotNull(transformedLocationX);
+            Assert.IsNotNull(transformedLocationY);
+            Assert.IsNotNull(originalLocationX);
+            Assert.IsNotNull(originalLocationY);
+
+            Assert.AreNotEqual(transformedLocationX, originalLocationX);
+            Assert.AreNotEqual(transformedLocationY, originalLocationY);
+
+            Assert.AreEqual(expectedLocationX, transformedLocationX, delta);
+            Assert.AreEqual(expectedLocationY, transformedLocationY, delta);
         }
     }
 }
