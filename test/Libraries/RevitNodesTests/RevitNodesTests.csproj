@@ -85,6 +85,7 @@
     <Compile Include="Elements\DividedPathTests.cs" />
     <Compile Include="Elements\DividedSurfaceTests.cs" />
     <Compile Include="Elements\DocumentTests.cs" />
+    <Compile Include="Elements\ElementTypeTests.cs" />
     <Compile Include="Elements\ElementTests.cs" />
     <Compile Include="Elements\FillPatternTests.cs" />
     <Compile Include="Elements\FilterTests.cs" />

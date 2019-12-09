@@ -293,23 +293,5 @@ namespace RevitNodesTests.Elements
             CollectionAssert.AreEqual(expectedRailingSubComponents, resultRailingSubComponents);
 
         }
-
-        [Test]
-        [TestModel(@".\element.rvt")]
-        public void CanGetElementTypeByName()
-        {
-            // Arrange - get element from model
-            string elementTypeName = "24\" x 24\"";
-            string emptyTypeName = "";
-            int expectedId = 60411;
-
-            // Act
-            Element typeElement = Element.ElementTypeByName(elementTypeName);
-            Assert.Throws<System.ArgumentNullException>(() => Element.ElementTypeByName(emptyTypeName));
-            int typeId = typeElement.InternalElement.Id.IntegerValue;
-
-            // Assert
-            Assert.AreEqual(expectedId, typeId);
-        }
     }
 }

@@ -57,23 +57,5 @@ namespace RevitSystemTests
             Assert.AreEqual(expectedBeamSystemSubElementCount, resultBeamSystemSubElementCount);
             Assert.IsNull(resultWallSubElement);
         }
-
-        [Test]
-        [TestModel(@".\element.rvt")]
-        public void CanGetElementTypeByName()
-        {
-            // Arrange
-            string samplePath = Path.Combine(workingDirectory, @".\Element\canGetElementTypeByName.dyn");
-            string testPath = Path.GetFullPath(samplePath);
-            int expectedId = 60411;
-
-            // Act
-            ViewModel.OpenCommand.Execute(testPath);
-
-            RunCurrentModel();
-
-            // Assert
-            Assert.AreEqual(expectedId, GetPreviewValue("880295ffe9b24d21b20e1ac1a63c2bb8"));
-        }
     }
 }
