@@ -59,6 +59,11 @@ namespace Revit.Elements
             return DividedPath.FromExisting(ele, isRevitOwned);
         }
 
+        public static ElementType Wrap(Autodesk.Revit.DB.ElementType elementType, bool isRevitOwned)
+        {
+            return ElementType.FromExisting(elementType, isRevitOwned);
+        }
+
         public static DividedSurface Wrap(Autodesk.Revit.DB.DividedSurface ele, bool isRevitOwned)
         {
             return DividedSurface.FromExisting(ele, isRevitOwned);

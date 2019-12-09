@@ -331,6 +331,15 @@ namespace Revit.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to There is no ElementType of the given name in the current Document.
+        /// </summary>
+        internal static string ElementTypeNameNotFound {
+            get {
+                return ResourceManager.GetString("ElementTypeNameNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to End point list is empty.
         /// </summary>
         internal static string EndPointListEmpty {
