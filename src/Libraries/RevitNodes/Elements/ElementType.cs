@@ -43,7 +43,7 @@ namespace Revit.Elements
         /// Private constructor for the Element
         /// </summary>
         /// <param name="elementType"></param>
-        private ElementType(Autodesk.Revit.DB.ElementType elementType)
+        private protected ElementType(Autodesk.Revit.DB.ElementType elementType)
         {
             SafeInit(() => InitElementType(elementType));
         }
@@ -130,21 +130,9 @@ namespace Revit.Elements
             if (String.IsNullOrWhiteSpace(name))
                 throw new ArgumentNullException(nameof(name));
 
+         
             ElementType newElementType = FromExisting(this.InternalElementType.Duplicate(name), true);
             return newElementType;  
-        }
-
-        /// <summary>
-        /// Get the preview image of an element. This image is similar to what is seen in
-        /// the Revit UI when selecting the type of an element.
-        /// </summary>
-        /// <param name="size">The width and height of the preview image in pixels.</param>
-        /// <returns>The preview image. null if there is no preview image.</returns>
-        public Bitmap GetPreviewImage(int size)
-        {
-            System.Drawing.Size imageSize = new System.Drawing.Size(size, size);
-            Bitmap bitmapImage = this.InternalElementType.GetPreviewImage(imageSize);
-            return bitmapImage;
         }
 
         #endregion
@@ -167,7 +155,6 @@ namespace Revit.Elements
 
             if (elementType == null)
                 throw new KeyNotFoundException(Properties.Resources.ElementTypeNameNotFound);
-
             return FromExisting(elementType, true);
         }
 
@@ -187,6 +174,23 @@ namespace Revit.Elements
             {
                 IsRevitOwned = isRevitOwned
             };
+        }
+
+        #endregion
+
+        #region Public methods
+
+        /// <summary>
+        /// Get the preview image of an element. This image is similar to what is seen in
+        /// the Revit UI when selecting the type of an element.
+        /// </summary>
+        /// <param name="size">The width and height of the preview image in pixels.</param>
+        /// <returns>The preview image. null if there is no preview image.</returns>
+        public Bitmap GetPreviewImage(int size)
+        {
+            System.Drawing.Size imageSize = new System.Drawing.Size(size, size);
+            Bitmap bitmapImage = this.InternalElementType.GetPreviewImage(imageSize);
+            return bitmapImage;
         }
 
         #endregion
