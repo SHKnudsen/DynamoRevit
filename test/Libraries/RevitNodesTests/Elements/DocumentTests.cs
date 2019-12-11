@@ -114,5 +114,25 @@ namespace RevitNodesTests.Elements
             Directory.Delete(nonExistingTempFolder, true);
             Directory.Delete(existingTempFolder, true);
         }
+
+        [Test]
+        [TestModel(@".\SampleModel.rvt")]
+        public void CanPurgeUnusedElementsFromDocument()
+        {
+            // Arrange
+            int expectedPurgedElementNumber = 19;
+            string expectedPurgeMessageFirstRun = string.Format(Revit.Properties.Resources.PurgedElements, expectedPurgedElementNumber);
+            string expectedPurgeMessageSecondRun = Revit.Properties.Resources.NoElementsToPurge;
+
+            // Act
+            var document = Document.Current;
+            var resultFirstRun = document.PurgeUnused();
+            var resultSecondRun = document.PurgeUnused();
+
+            // Assert
+            Assert.AreEqual(expectedPurgeMessageFirstRun, resultFirstRun);
+            Assert.AreEqual(expectedPurgeMessageSecondRun, resultSecondRun);
+        }
+
     }
 }

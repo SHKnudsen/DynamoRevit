@@ -12,7 +12,7 @@ using RTF.Framework;
 namespace RevitSystemTests
 {
     [TestFixture]
-    class DocumentTests : RevitSystemTestBase
+    public class DocumentTests : RevitSystemTestBase
     {
         [Test]
         [TestModel(@"./empty.rfa")]
@@ -141,12 +141,32 @@ namespace RevitSystemTests
             // Act
             ViewModel.OpenCommand.Execute(testPath);
             RunCurrentModel();
+
             string resultWorksharingPath = GetPreviewValue("3f5e9a8cb7344c52a3c4937455ee68b1") as string;
             var resultIsCloudPath = GetPreviewValue("1b62b04935b84f58a31bf45efe48955d");
 
             // Assert
             Assert.IsTrue(resultWorksharingPath.Contains(expectedWorksharingFilePath));
             Assert.AreEqual(expectedIsCloudPathResult, resultIsCloudPath);
+        }
+
+        [Test]
+        [TestModel(@".\SampleModel.rvt")]
+        public void CanPurgeUnusedElementsFromDocument()
+        {
+            // Arange
+            string samplePath = Path.Combine(workingDirectory, @".\Document\canPurgeUnusedElementsFromDocument.dyn");
+            string testPath = Path.GetFullPath(samplePath);
+            int expectedPurgedElementNumber = 19;
+            string expectedNodeOutput = string.Format("Purged {0} elements, form the current document", expectedPurgedElementNumber);
+
+            // Act
+            ViewModel.OpenCommand.Execute(testPath);
+            RunCurrentModel();
+            var purgeUnusedOutput = GetPreviewValue("7997eedbf6bd4822b5ca8b8cf0819de2");
+
+            // Assert
+            Assert.AreEqual(purgeUnusedOutput, expectedNodeOutput);
         }
     }
 }
