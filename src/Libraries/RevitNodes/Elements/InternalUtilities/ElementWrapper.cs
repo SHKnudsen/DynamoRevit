@@ -336,6 +336,11 @@ namespace Revit.Elements
             return PathOfTravel.FromExisting(ele, isRevitOwned);
         }
 
+        public static RoofType Wrap(Autodesk.Revit.DB.RoofType ele, bool isRevitOwned)
+        {
+            return RoofType.FromExisting(ele, isRevitOwned);
+        }
+
       #endregion
 
    }
