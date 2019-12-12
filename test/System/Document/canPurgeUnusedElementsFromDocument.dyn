@@ -12,13 +12,22 @@
     {
       "ConcreteType": "Dynamo.Graph.Nodes.ZeroTouch.DSFunction, DynamoCore",
       "NodeType": "FunctionNode",
-      "FunctionSignature": "Revit.Application.Document.PurgeUnused",
+      "FunctionSignature": "Revit.Application.Document.PurgeUnused@bool",
       "Id": "7997eedbf6bd4822b5ca8b8cf0819de2",
       "Inputs": [
         {
           "Id": "20ae7b8a1d484b36b41562aee7ea9741",
           "Name": "document",
           "Description": "Revit.Application.Document",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "fe84fdef176b4cd6b126cb11691d8daa",
+          "Name": "runRecursively",
+          "Description": "bool",
           "UsingDefaultValue": false,
           "Level": 2,
           "UseLevels": false,
@@ -37,7 +46,7 @@
         }
       ],
       "Replication": "Auto",
-      "Description": "Document.PurgeUnused ( ): string"
+      "Description": "Purge unused Elements from the model. This node is not able to purge materials and material assets\n\nDocument.PurgeUnused (runRecursively: bool): string"
     },
     {
       "ConcreteType": "Dynamo.Graph.Nodes.ZeroTouch.DSFunction, DynamoCore",
@@ -58,13 +67,38 @@
       ],
       "Replication": "Auto",
       "Description": "Get the current document\n\nDocument.Current: Document"
+    },
+    {
+      "ConcreteType": "CoreNodeModels.Input.BoolSelector, CoreNodeModels",
+      "NodeType": "BooleanInputNode",
+      "InputValue": true,
+      "Id": "3bff80c32bcb436e9e5b0c9b24ba760d",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "57c905adff5c414db87efcba669b8150",
+          "Name": "",
+          "Description": "Boolean",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Selection between a true and false."
     }
   ],
   "Connectors": [
     {
       "Start": "97a42bb3f8424d4bb4017a9901b14363",
       "End": "20ae7b8a1d484b36b41562aee7ea9741",
-      "Id": "522909a253204c95ae61bfb51f785830"
+      "Id": "7457b7a8f38b4fa49af2c1e27cde3ffd"
+    },
+    {
+      "Start": "57c905adff5c414db87efcba669b8150",
+      "End": "fe84fdef176b4cd6b126cb11691d8daa",
+      "Id": "2a225f9fec2743269c0ed690d0529a1d"
     }
   ],
   "Dependencies": [],
@@ -111,11 +145,21 @@
         "Excluded": false,
         "X": 97.333333333333314,
         "Y": 169.33333333333334
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Boolean",
+        "Id": "3bff80c32bcb436e9e5b0c9b24ba760d",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 102.66666666666657,
+        "Y": 263.33333333333331
       }
     ],
     "Annotations": [],
-    "X": 0.0,
-    "Y": 0.0,
-    "Zoom": 1.0
+    "X": -109.58882235528941,
+    "Y": -89.349301397205579,
+    "Zoom": 1.4341317365269461
   }
 }

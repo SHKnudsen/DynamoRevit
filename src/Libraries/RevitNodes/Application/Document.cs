@@ -98,7 +98,7 @@ namespace Revit.Application
         /// Purge unused Elements from the model. This node is not able to purge materials and material assets
         /// </summary>
         /// <returns></returns>
-        public string PurgeUnused()
+        public string PurgeUnused(bool runRecursively)
         {
             //The internal GUID of the Performance Adviser Rule 
             const string purgeGuid = "e8c63650-70b7-435a-9010-ec97660c1bda";
@@ -116,18 +116,36 @@ namespace Revit.Application
                 }
             }
 
-            //Attempting to recover all purgeable elements and delete them from the document
-            List<ElementId> purgeableElementIds = getPurgeableElementIds(this.InternalDocument, performanceAdviserRuleId);
-            if (purgeableElementIds == null) 
+            TransactionManager.Instance.EnsureInTransaction(this.InternalDocument);
+            int purgeCount = purgeElements(this.InternalDocument, performanceAdviserRuleId, runRecursively);
+            TransactionManager.Instance.TransactionTaskDone();
+            if (purgeCount == 0)
             {
                 return Properties.Resources.NoElementsToPurge;
+
             }
-            TransactionManager.Instance.EnsureInTransaction(this.InternalDocument);
-            this.InternalDocument.Delete(purgeableElementIds);
-            TransactionManager.Instance.TransactionTaskDone();
-            return string.Format(Properties.Resources.PurgedElements, purgeableElementIds.Count);
+            return string.Format(Properties.Resources.PurgedElements, purgeCount);
         }
 
+        private static int purgeElements(Autodesk.Revit.DB.Document document, List<PerformanceAdviserRuleId> performanceAdviserRuleId, bool runRecursively)
+        {
+            int purgedElements = 0;
+            List<ElementId> purgeableElementIds = getPurgeableElementIds(document, performanceAdviserRuleId);
+            if (purgeableElementIds == null)
+            {
+                return purgedElements;
+            }
+            if (runRecursively && purgeableElementIds.Count > 0)
+            {
+                purgedElements += purgeableElementIds.Count;
+                document.Delete(purgeableElementIds);
+                return purgedElements += purgeElements(document, performanceAdviserRuleId, runRecursively);
+            }
+            purgedElements += purgeableElementIds.Count;
+            document.Delete(purgeableElementIds);
+            return purgedElements;
+
+        }
         private static List<Autodesk.Revit.DB.ElementId> getPurgeableElementIds(Autodesk.Revit.DB.Document document, List<PerformanceAdviserRuleId> performanceAdviserRuleId)
         {
             List<Autodesk.Revit.DB.FailureMessage> failureMessages = PerformanceAdviser.GetPerformanceAdviser().ExecuteRules(document,

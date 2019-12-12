@@ -151,13 +151,13 @@ namespace RevitSystemTests
         }
 
         [Test]
-        [TestModel(@".\SampleModel.rvt")]
+        [TestModel(@".\Document\DocumentPurgeUnusedTest.rvt")]
         public void CanPurgeUnusedElementsFromDocument()
         {
             // Arange
             string samplePath = Path.Combine(workingDirectory, @".\Document\canPurgeUnusedElementsFromDocument.dyn");
             string testPath = Path.GetFullPath(samplePath);
-            int expectedPurgedElementNumber = 19;
+            int expectedPurgedElementNumber = 396;
             string expectedNodeOutput = string.Format("Purged {0} elements, form the current document", expectedPurgedElementNumber);
 
             // Act

@@ -1,6 +1,7 @@
 ﻿using NUnit.Framework;
 using Revit.Application;
 using Revit.Elements;
+using RevitServices.Transactions;
 using RevitTestServices;
 using RTF.Framework;
 using System;
@@ -116,22 +117,38 @@ namespace RevitNodesTests.Elements
         }
 
         [Test]
-        [TestModel(@".\SampleModel.rvt")]
-        public void CanPurgeUnusedElementsFromDocument()
+        [TestModel(@".\Document\DocumentPurgeUnusedTest.rvt")]
+        public void CanRecursivelyPurgeUnusedElementsFromDocument()
         {
             // Arrange
-            int expectedPurgedElementNumber = 19;
+            int expectedPurgedElementNumber = 396;
             string expectedPurgeMessageFirstRun = string.Format(Revit.Properties.Resources.PurgedElements, expectedPurgedElementNumber);
             string expectedPurgeMessageSecondRun = Revit.Properties.Resources.NoElementsToPurge;
 
             // Act
             var document = Document.Current;
-            var resultFirstRun = document.PurgeUnused();
-            var resultSecondRun = document.PurgeUnused();
+            var resultFirstRun = document.PurgeUnused(true);
+            var resultSecondRun = document.PurgeUnused(true);
 
             // Assert
             Assert.AreEqual(expectedPurgeMessageFirstRun, resultFirstRun);
             Assert.AreEqual(expectedPurgeMessageSecondRun, resultSecondRun);
+        }
+
+        [Test]
+        [TestModel(@".\Document\DocumentPurgeUnusedTest.rvt")]
+        public void CanPurgeUnusedElementsFromDocument()
+        {
+            // Arrange
+            int expectedPurgedElementNumber = 393;
+            string expectedPurgeMessageFirstRun = string.Format(Revit.Properties.Resources.PurgedElements, expectedPurgedElementNumber);
+
+            // Act
+            var document = Document.Current;
+            var resultFirstRun = document.PurgeUnused(false);
+
+            // Assert
+            Assert.AreEqual(expectedPurgeMessageFirstRun, resultFirstRun);
         }
 
     }
