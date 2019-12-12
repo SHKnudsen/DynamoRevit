@@ -318,6 +318,7 @@ namespace RevitNodesTests.Elements
             Assert.AreEqual(expectedBeamParentElement, resultBeamParentElement);
         }
         
+        [Test]
         [TestModel((@".\Element\elementTransform.rvt"))]
         public void CanTransformElement()
         {

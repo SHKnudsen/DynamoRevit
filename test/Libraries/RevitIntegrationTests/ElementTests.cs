@@ -59,6 +59,27 @@ namespace RevitSystemTests
         }
 
         [Test]
+        [TestModel(@".\Element\elementComponents.rvt")]
+        public void CanGetElementParentElement()
+        {
+            // Arrange
+            string samplePath = Path.Combine(workingDirectory, @".\Element\canGetElementParentElement.dyn");
+            string testPath = Path.GetFullPath(samplePath);
+            int expectedWindowParentElementId = 319481;
+            int expectedBeamParentElementId = 319537;
+
+            // Act
+            ViewModel.OpenCommand.Execute(testPath);
+            RunCurrentModel();
+            var resultWindowParentElement = GetPreviewValue("54c8d93d86494469b9e0cd06c78d248b");
+            var resultBeamParentElement = GetPreviewValue("85a73f659194410db9d9cf27355b0fd6");
+
+            // Assert
+            Assert.AreEqual(expectedBeamParentElementId, resultBeamParentElement);
+            Assert.AreEqual(expectedWindowParentElementId, resultWindowParentElement);
+        }
+
+        [Test]
         [TestModel(@".\Element\elementTransform.rvt")]
         public void CanTransformElement()
         {
