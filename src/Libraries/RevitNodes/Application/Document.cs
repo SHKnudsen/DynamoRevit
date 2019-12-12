@@ -97,8 +97,9 @@ namespace Revit.Application
         /// <summary>
         /// Purge unused Elements from the model. This node is not able to purge materials and material assets
         /// </summary>
+        /// <param name="deepPurge">Similar to clicking the purge button multiple times in Revit.</param>
         /// <returns></returns>
-        public string PurgeUnused(bool runRecursively)
+        public string PurgeUnused(bool deepPurge)
         {
             //The internal GUID of the Performance Adviser Rule 
             const string purgeGuid = "e8c63650-70b7-435a-9010-ec97660c1bda";
@@ -117,7 +118,7 @@ namespace Revit.Application
             }
 
             TransactionManager.Instance.EnsureInTransaction(this.InternalDocument);
-            int purgeCount = purgeElements(this.InternalDocument, performanceAdviserRuleId, runRecursively);
+            int purgeCount = purgeElements(this.InternalDocument, performanceAdviserRuleId, deepPurge);
             TransactionManager.Instance.TransactionTaskDone();
             if (purgeCount == 0)
             {
