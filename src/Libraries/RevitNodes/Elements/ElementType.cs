@@ -3,6 +3,7 @@ using Autodesk.Revit.DB;
 using DSCore.IO;
 using DynamoServices;
 using RevitServices.Persistence;
+using RevitServices.Transactions;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -130,8 +131,9 @@ namespace Revit.Elements
             if (String.IsNullOrWhiteSpace(name))
                 throw new ArgumentNullException(nameof(name));
 
-         
+            TransactionManager.Instance.EnsureInTransaction(Document);
             ElementType newElementType = FromExisting(this.InternalElementType.Duplicate(name), true);
+            TransactionManager.Instance.TransactionTaskDone();
             return newElementType;  
         }
 
