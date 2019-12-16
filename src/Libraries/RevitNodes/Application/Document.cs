@@ -5,6 +5,7 @@ using Revit.GeometryConversion;
 
 using RevitServices.Persistence;
 using System;
+using RevitServices.Transactions;
 using View = Revit.Elements.Views.View;
 
 namespace Revit.Application
@@ -27,7 +28,7 @@ namespace Revit.Application
         /// <summary>
         /// Get the active view for the document
         /// </summary>
-        public View ActiveView 
+        public View ActiveView
         {
             get
             {
@@ -107,6 +108,26 @@ namespace Revit.Application
                     loc.Latitude.ToDegrees(),
                     loc.Longitude.ToDegrees());
             }
+        }
+
+        /// <summary>
+        /// Saves all of the input families at a given location.
+        /// </summary>
+        /// <param name="family">The families to save</param>
+        /// <param name="directoryPath">Directory to save the families in</param>
+        /// <returns>Saved families</returns>
+        public Element SaveFamilyLibrary(Family family, string directoryPath)
+        {
+            // Close all transactions
+            var trans = TransactionManager.Instance;
+            trans.ForceCloseTransaction();
+
+            var fam = family.InternalFamily;
+            var familyDocument = this.InternalDocument.EditFamily(fam);
+            var name = fam.Name + ".rfa";
+            familyDocument.SaveAs(directoryPath + "//" + name);
+            familyDocument.Close(false);
+            return family.InternalElement.ToDSType(true);
         }
     }
 
