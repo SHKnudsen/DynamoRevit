@@ -1,5 +1,6 @@
-﻿using System.IO;
-
+﻿using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 using NUnit.Framework;
 
 using RevitServices.Persistence;
@@ -76,24 +77,36 @@ namespace RevitSystemTests
         }
 
         [Test]
-        [TestModel(@".\Document\LocalModel\Project1_LocalFile.rvt")]
-        public void CanGetWorksharingModelPath()
+        [Test]
+        [TestModel(@".\element.rvt")]
+        public void CanSaveFamiliesInCurrentDocument()
         {
-            // Arrange
-            string samplePath = Path.Combine(workingDirectory, @".\Document\canGetWorksharingModelPath.dyn");
+            // Arange
+            string samplePath = Path.Combine(workingDirectory, @".\Document\canSaveFamiliesInCurrentDocument.dyn");
             string testPath = Path.GetFullPath(samplePath);
-            string expectedWorksharingFilePath = @"DynamoRevit\test\System\Document\CentralModel";
-            bool expectedIsCloudPathResult = false;
+
+            int expectedElementId = 137650;
+            string expectedSavedFamilyFileName = "Rectangular Column.rfa";
+            int expectedSavedFileCount = 1;
 
             // Act
             ViewModel.OpenCommand.Execute(testPath);
             RunCurrentModel();
-            string resultWorksharingPath = GetPreviewValue("3f5e9a8cb7344c52a3c4937455ee68b1") as string;
-            var resultIsCloudPath = GetPreviewValue("1b62b04935b84f58a31bf45efe48955d");
+            
+            var resultElementId = GetPreviewValue("6c63a2a458db4e1da7eba8bcc2b05ae4");
+            string savedFamilyDirectoryPath = GetPreviewValue("0af5cc47acab47369c479f3a4b198306").ToString();
+
+            List<string> files = Directory.GetFiles(savedFamilyDirectoryPath).Select(x => Path.GetFileName(x)).ToList();
+            int resultSavedFileCount = files.Count;
+            string savedFamilyName = files.FirstOrDefault();
 
             // Assert
-            Assert.IsTrue(resultWorksharingPath.Contains(expectedWorksharingFilePath));
-            Assert.AreEqual(expectedIsCloudPathResult, resultIsCloudPath);
+            Assert.AreEqual(expectedElementId, resultElementId);
+            Assert.AreEqual(expectedSavedFileCount, resultSavedFileCount);
+            Assert.AreEqual(savedFamilyName, expectedSavedFamilyFileName);
+
+            // Clean up
+            Directory.Delete(savedFamilyDirectoryPath, true);
         }
 
         [Test]
