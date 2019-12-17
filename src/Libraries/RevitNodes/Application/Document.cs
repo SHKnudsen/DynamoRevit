@@ -1,9 +1,10 @@
 ﻿
+using Autodesk.Revit.DB;
 using Revit.Elements;
 using Revit.GeometryConversion;
 
 using RevitServices.Persistence;
-
+using System;
 using View = Revit.Elements.Views.View;
 
 namespace Revit.Application
@@ -60,6 +61,20 @@ namespace Revit.Application
         public static Document Current
         {
             get { return new Document(DocumentManager.Instance.CurrentDBDocument); }
+        }
+
+        /// <summary>
+        /// Gets the worksharing path of the current document
+        /// </summary>
+        public string GetWorksharingPath
+        {
+            get
+            {
+                ModelPath modelPath = this.InternalDocument.GetWorksharingCentralModelPath();
+                if (modelPath == null)
+                    throw new NullReferenceException(Properties.Resources.DocumentNotWorkshared);
+                return ModelPathUtils.ConvertModelPathToUserVisiblePath(modelPath); 
+            }
         }
 
         /// <summary>
