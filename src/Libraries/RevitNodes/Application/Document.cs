@@ -21,7 +21,7 @@ namespace Revit.Application
 
         internal Document(Autodesk.Revit.DB.Document currentDBDocument)
         {
-            InternalDocument = currentDBDocument;
+            InternalDocument = currentDBDocument;  
         }
 
         /// <summary>
@@ -70,11 +70,24 @@ namespace Revit.Application
         {
             get
             {
-                ModelPath modelPath = this.InternalDocument.GetWorksharingCentralModelPath();
+                ModelPath modelPath = WorksharingModelPath;
                 if (modelPath == null)
                     throw new NullReferenceException(Properties.Resources.DocumentNotWorkshared);
                 return ModelPathUtils.ConvertModelPathToUserVisiblePath(modelPath); 
             }
+        }
+
+        /// <summary>
+        /// Whether the Worksharing path represents a path on an Autodesk server such as BIM360.
+        /// </summary>
+        public bool IsCloudPath
+        {
+            get{ return WorksharingModelPath.CloudPath; }
+        }
+
+        internal ModelPath WorksharingModelPath
+        {
+            get { return this.InternalDocument.GetWorksharingCentralModelPath(); }
         }
 
         /// <summary>
