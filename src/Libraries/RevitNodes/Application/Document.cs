@@ -231,6 +231,8 @@ namespace Revit.Application
             
             if (!runRecursively)
             {
+                if (purgableElementIds == null)
+                    return purgedElementIds;
                 purgedElementIds.AddRange(purgableElementIds);
                 this.InternalDocument.Delete(purgableElementIds);
                 return purgedElementIds;
