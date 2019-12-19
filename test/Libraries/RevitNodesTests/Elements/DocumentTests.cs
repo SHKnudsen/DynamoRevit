@@ -145,7 +145,7 @@ namespace RevitNodesTests.Elements
 
             // Act
             var document = Document.Current;
-            var resultFirstRun = document.PurgeUnused(false);
+            var resultFirstRun = document.PurgeUnused();
 
             // Assert
             Assert.AreEqual(expectedPurgeMessageFirstRun, resultFirstRun);
