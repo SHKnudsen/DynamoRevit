@@ -62,11 +62,11 @@
     {
       "ConcreteType": "Dynamo.Graph.Nodes.ZeroTouch.DSFunction, DynamoCore",
       "NodeType": "FunctionNode",
-      "FunctionSignature": "Revit.Application.Document.GetWorksharingPath",
-      "Id": "3f5e9a8cb7344c52a3c4937455ee68b1",
+      "FunctionSignature": "Revit.Application.Document.WorksharingPath",
+      "Id": "c699cecf62434bcba194378b819af876",
       "Inputs": [
         {
-          "Id": "897ccdf76555473e861ac3de48e76460",
+          "Id": "646eaa662ea747a29f75065da7ae614b",
           "Name": "document",
           "Description": "Revit.Application.Document",
           "UsingDefaultValue": false,
@@ -77,7 +77,7 @@
       ],
       "Outputs": [
         {
-          "Id": "ffcdebf07ddd41b3a40de263bb21f255",
+          "Id": "09e095d5a7104f8c866ac71bee5eb1eb",
           "Name": "string",
           "Description": "string",
           "UsingDefaultValue": false,
@@ -87,19 +87,19 @@
         }
       ],
       "Replication": "Auto",
-      "Description": "Gets the worksharing path of the current document\n\nDocument.GetWorksharingPath: string"
+      "Description": "Gets the worksharing path of the current document\n\nDocument.WorksharingPath: string"
     }
   ],
   "Connectors": [
     {
       "Start": "09257adc85d441d7aa32ea236cc038b9",
-      "End": "897ccdf76555473e861ac3de48e76460",
-      "Id": "8df6b063a8c74c25bfd4885b67db8379"
+      "End": "c5ecdc29ee3247aa9fbcfbbc977f099a",
+      "Id": "696c6ccd878544cfa59c4e001f2610ed"
     },
     {
       "Start": "09257adc85d441d7aa32ea236cc038b9",
-      "End": "c5ecdc29ee3247aa9fbcfbbc977f099a",
-      "Id": "696c6ccd878544cfa59c4e001f2610ed"
+      "End": "646eaa662ea747a29f75065da7ae614b",
+      "Id": "bfacbbd59c634a2290195bbe0a876662"
     }
   ],
   "Dependencies": [],
@@ -149,13 +149,13 @@
       },
       {
         "ShowGeometry": true,
-        "Name": "Document.GetWorksharingPath",
-        "Id": "3f5e9a8cb7344c52a3c4937455ee68b1",
+        "Name": "Document.WorksharingPath",
+        "Id": "c699cecf62434bcba194378b819af876",
         "IsSetAsInput": false,
         "IsSetAsOutput": false,
         "Excluded": false,
-        "X": 584.75482575904414,
-        "Y": 211.50525272336034
+        "X": 579.69066208670438,
+        "Y": 202.87939315322558
       }
     ],
     "Annotations": [],

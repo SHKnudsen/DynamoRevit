@@ -28,13 +28,11 @@ namespace RevitNodesTests.Elements
             bool expectedIsCloudPathResult = false;
 
             // Act
-            string resultWorksharingPath = doc.GetWorksharingPath;
+            string resultWorksharingPath = doc.WorksharingPath;
             bool resultIsCloudPath = doc.IsCloudPath;
 
-            bool worksharingPathIsCorrect = resultWorksharingPath.Contains(expectedWorksharingFilePath);
-
             // Assert
-            Assert.IsTrue(worksharingPathIsCorrect);
+            Assert.IsTrue(resultWorksharingPath.Contains(expectedWorksharingFilePath));
             Assert.AreEqual(expectedIsCloudPathResult, resultIsCloudPath);
         }
 
@@ -48,13 +46,11 @@ namespace RevitNodesTests.Elements
             bool expectedIsCloudPathResult = true;
 
             // Act
-            string resultWorksharingPath = doc.GetWorksharingPath;
+            string resultWorksharingPath = doc.WorksharingPath;
             bool resultIsCloudPath = doc.IsCloudPath;
 
-            bool worksharingPathIsCorrect = resultWorksharingPath.Contains(expectedWorksharingFilePath);
-
             // Assert
-            Assert.IsTrue(worksharingPathIsCorrect);
+            Assert.IsTrue(resultWorksharingPath.Contains(expectedWorksharingFilePath));
             Assert.AreEqual(expectedIsCloudPathResult, resultIsCloudPath);
         }
 
@@ -78,7 +74,7 @@ namespace RevitNodesTests.Elements
 
         private void GetWorksharingPathThrowsNullReferenceInNonSharedDocument()
         {
-            string worksharePath = Document.Current.GetWorksharingPath;
+            string worksharePath = Document.Current.WorksharingPath;
         }
 
     }

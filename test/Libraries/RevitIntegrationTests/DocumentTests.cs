@@ -91,10 +91,8 @@ namespace RevitSystemTests
             string resultWorksharingPath = GetPreviewValue("3f5e9a8cb7344c52a3c4937455ee68b1") as string;
             var resultIsCloudPath = GetPreviewValue("1b62b04935b84f58a31bf45efe48955d");
 
-            bool worksharingPathIsCorrect = resultWorksharingPath.Contains(expectedWorksharingFilePath);
-
             // Assert
-            Assert.IsTrue(worksharingPathIsCorrect);
+            Assert.IsTrue(resultWorksharingPath.Contains(expectedWorksharingFilePath));
             Assert.AreEqual(expectedIsCloudPathResult, resultIsCloudPath);
         }
 
@@ -114,10 +112,8 @@ namespace RevitSystemTests
             string resultWorksharingPath = GetPreviewValue("3f5e9a8cb7344c52a3c4937455ee68b1") as string;
             var resultIsCloudPath = GetPreviewValue("1b62b04935b84f58a31bf45efe48955d");
 
-            bool worksharingPathIsCorrect = resultWorksharingPath.Contains(expectedWorksharingFilePath);
-
             // Assert
-            Assert.IsTrue(worksharingPathIsCorrect);
+            Assert.IsTrue(resultWorksharingPath.Contains(expectedWorksharingFilePath));
             Assert.AreEqual(expectedIsCloudPathResult, resultIsCloudPath);
         }
     }

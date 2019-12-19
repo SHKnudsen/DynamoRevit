@@ -66,7 +66,7 @@ namespace Revit.Application
         /// <summary>
         /// Gets the worksharing path of the current document
         /// </summary>
-        public string GetWorksharingPath
+        public string WorksharingPath
         {
             get
             {
