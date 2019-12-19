@@ -450,4 +450,7 @@
   <data name="NotHostElement" xml:space="preserve">
     <value>Element is not a Host Element</value>
   </data>
+  <data name="DocumentNotWorkshared" xml:space="preserve">
+    <value>Current Document is not workshared</value>
+  </data>
 </root>
