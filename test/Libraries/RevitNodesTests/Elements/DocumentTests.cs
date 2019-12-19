@@ -87,21 +87,21 @@ namespace RevitNodesTests.Elements
             // Arrange
             var saveableFamily = ElementSelector.ByElementId(110049, true);
             var noneditableFamily = ElementSelector.ByElementId(20915, true);
+            string savedFamilyName = saveableFamily.Name + ".rfa";
 
             string tempFolder = Path.Combine(Path.GetTempPath(), Path.GetRandomFileName());
             Directory.CreateDirectory(tempFolder);
             
-            int expectedSavedFamilyId = 110049;
+            string expectedSavedFilePath = tempFolder + "//" + savedFamilyName;
 
             // Act
             var doc = Document.Current;
             var resultSavedFamily = doc.SaveFamilyLibrary((Family)saveableFamily, tempFolder);
-            int resultElementId = resultSavedFamily.Id;
             var resultnoneditableFamily = Assert.Throws<Autodesk.Revit.Exceptions.ArgumentException>(() => doc.SaveFamilyLibrary((Family)noneditableFamily, tempFolder));
             var fileExist = File.Exists(Path.Combine(tempFolder, saveableFamily.Name + ".rfa"));
 
             // Assert
-            Assert.AreEqual(expectedSavedFamilyId, resultElementId);
+            Assert.AreEqual(expectedSavedFilePath, resultSavedFamily);
             Assert.IsTrue(fileExist);
 
             // Clean up

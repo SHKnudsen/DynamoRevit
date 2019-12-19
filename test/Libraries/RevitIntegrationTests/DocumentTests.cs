@@ -77,36 +77,55 @@ namespace RevitSystemTests
         }
 
         [Test]
-        [Test]
         [TestModel(@".\element.rvt")]
-        public void CanSaveFamiliesInCurrentDocument()
+        public void CanSaveFamilyInCurrentDocument()
         {
             // Arange
             string samplePath = Path.Combine(workingDirectory, @".\Document\canSaveFamiliesInCurrentDocument.dyn");
             string testPath = Path.GetFullPath(samplePath);
 
-            int expectedElementId = 137650;
             string expectedSavedFamilyFileName = "Rectangular Column.rfa";
             int expectedSavedFileCount = 1;
 
             // Act
             ViewModel.OpenCommand.Execute(testPath);
             RunCurrentModel();
-            
-            var resultElementId = GetPreviewValue("6c63a2a458db4e1da7eba8bcc2b05ae4");
+
             string savedFamilyDirectoryPath = GetPreviewValue("0af5cc47acab47369c479f3a4b198306").ToString();
 
             List<string> files = Directory.GetFiles(savedFamilyDirectoryPath).Select(x => Path.GetFileName(x)).ToList();
             int resultSavedFileCount = files.Count;
             string savedFamilyName = files.FirstOrDefault();
+            var fileExistInFolder = File.Exists(Path.GetFullPath(Path.Combine(savedFamilyDirectoryPath, expectedSavedFamilyFileName)));
 
             // Assert
-            Assert.AreEqual(expectedElementId, resultElementId);
             Assert.AreEqual(expectedSavedFileCount, resultSavedFileCount);
             Assert.AreEqual(savedFamilyName, expectedSavedFamilyFileName);
+            Assert.IsTrue(fileExistInFolder);
 
             // Clean up
             Directory.Delete(savedFamilyDirectoryPath, true);
+        }
+
+        [Test]
+        [TestModel(@".\Document\LocalModel\Project1_LocalFile.rvt")]
+        public void CanGetWorksharingModelPath()
+        {
+            // Arrange
+            string samplePath = Path.Combine(workingDirectory, @".\Document\canGetWorksharingModelPath.dyn");
+            string testPath = Path.GetFullPath(samplePath);
+            string expectedWorksharingFilePath = @"DynamoRevit\test\System\Document\CentralModel";
+            bool expectedIsCloudPathResult = false;
+
+            // Act
+            ViewModel.OpenCommand.Execute(testPath);
+            RunCurrentModel();
+            string resultWorksharingPath = GetPreviewValue("3f5e9a8cb7344c52a3c4937455ee68b1") as string;
+            var resultIsCloudPath = GetPreviewValue("1b62b04935b84f58a31bf45efe48955d");
+
+            // Assert
+            Assert.IsTrue(resultWorksharingPath.Contains(expectedWorksharingFilePath));
+            Assert.AreEqual(expectedIsCloudPathResult, resultIsCloudPath);
         }
 
         [Test]

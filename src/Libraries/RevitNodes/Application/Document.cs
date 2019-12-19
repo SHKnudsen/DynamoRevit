@@ -115,8 +115,8 @@ namespace Revit.Application
         /// </summary>
         /// <param name="family">The families to save</param>
         /// <param name="directoryPath">Directory to save the families in</param>
-        /// <returns>Saved families</returns>
-        public Element SaveFamilyLibrary(Family family, string directoryPath)
+        /// <returns>File path of saved families</returns>
+        public string SaveFamilyLibrary(Family family, string directoryPath)
         {
             // Close all transactions
             var trans = TransactionManager.Instance;
@@ -125,9 +125,10 @@ namespace Revit.Application
             var fam = family.InternalFamily;
             var familyDocument = this.InternalDocument.EditFamily(fam);
             var name = fam.Name + ".rfa";
-            familyDocument.SaveAs(directoryPath + "//" + name);
+            string filePath = directoryPath + "//" + name;
+            familyDocument.SaveAs(filePath);
             familyDocument.Close(false);
-            return family.InternalElement.ToDSType(true);
+            return filePath;
         }
     }
 
