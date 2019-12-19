@@ -2,7 +2,7 @@
   "Uuid": "63a7d158-2656-4ee0-a872-df8ec05719ba",
   "IsCustomNode": false,
   "Description": null,
-  "Name": "CanSaveFamiliesInCurrentDocument",
+  "Name": "canSaveFamiliesInCurrentDocument",
   "ElementResolver": {
     "ResolutionMap": {}
   },
@@ -48,7 +48,7 @@
         {
           "Id": "9bd3a98ec58645249500f371d112c8dc",
           "Name": "family",
-          "Description": "The family to save\n\nFamily",
+          "Description": "The families to save\n\nFamily",
           "UsingDefaultValue": false,
           "Level": 2,
           "UseLevels": false,
@@ -67,8 +67,8 @@
       "Outputs": [
         {
           "Id": "269e0d904f104561b72b06520d4c1976",
-          "Name": "Element",
-          "Description": "Saved families",
+          "Name": "string",
+          "Description": "File path of saved families",
           "UsingDefaultValue": false,
           "Level": 2,
           "UseLevels": false,
@@ -76,7 +76,7 @@
         }
       ],
       "Replication": "Auto",
-      "Description": "Saves all of the input families at a given location.\n\nDocument.SaveFamilyLibrary (family: Family, directoryPath: string): Element"
+      "Description": "Saves all of the input families at a given location.\n\nDocument.SaveFamilyLibrary (family: Family, directoryPath: string): string"
     },
     {
       "ConcreteType": "Dynamo.Graph.Nodes.ZeroTouch.DSFunction, DynamoCore",
@@ -177,36 +177,6 @@
       ],
       "Replication": "Disabled",
       "Description": "Visualize the output of node."
-    },
-    {
-      "ConcreteType": "Dynamo.Graph.Nodes.ZeroTouch.DSFunction, DynamoCore",
-      "NodeType": "FunctionNode",
-      "FunctionSignature": "Revit.Elements.Element.Id",
-      "Id": "6c63a2a458db4e1da7eba8bcc2b05ae4",
-      "Inputs": [
-        {
-          "Id": "3f466a5e081f4363bc50feb039943dfa",
-          "Name": "element",
-          "Description": "Revit.Elements.Element",
-          "UsingDefaultValue": false,
-          "Level": 2,
-          "UseLevels": false,
-          "KeepListStructure": false
-        }
-      ],
-      "Outputs": [
-        {
-          "Id": "01a817d5f6f3405a9b582dafb5b1de97",
-          "Name": "int",
-          "Description": "int",
-          "UsingDefaultValue": false,
-          "Level": 2,
-          "UseLevels": false,
-          "KeepListStructure": false
-        }
-      ],
-      "Replication": "Auto",
-      "Description": "Get the Element Id for this element\n\nElement.Id: int"
     }
   ],
   "Connectors": [
@@ -214,11 +184,6 @@
       "Start": "96e674bc03e4449ea9e3f0a7a4712e37",
       "End": "83dbb310fb1d49888af0183c7f4d964c",
       "Id": "c0147f85a8af459cbbcdbc57cf3c6e13"
-    },
-    {
-      "Start": "269e0d904f104561b72b06520d4c1976",
-      "End": "3f466a5e081f4363bc50feb039943dfa",
-      "Id": "1eb14d4689ab44998bbadc1f1b053891"
     },
     {
       "Start": "ad27e7780ee745ccb4e0552cc6e66994",
@@ -325,21 +290,11 @@
         "Excluded": false,
         "X": 126.7911099994748,
         "Y": 432.55783448017445
-      },
-      {
-        "ShowGeometry": true,
-        "Name": "Element.Id",
-        "Id": "6c63a2a458db4e1da7eba8bcc2b05ae4",
-        "IsSetAsInput": false,
-        "IsSetAsOutput": false,
-        "Excluded": false,
-        "X": 789.40130055159671,
-        "Y": 216.50525225057612
       }
     ],
     "Annotations": [],
-    "X": 102.4898030293581,
-    "Y": -49.10430770016464,
-    "Zoom": 1.3591838068004634
+    "X": 346.66666666666663,
+    "Y": 73.982349772646046,
+    "Zoom": 1.0
   }
 }
