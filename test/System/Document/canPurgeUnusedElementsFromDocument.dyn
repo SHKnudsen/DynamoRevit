@@ -25,9 +25,9 @@
           "KeepListStructure": false
         },
         {
-          "Id": "fe84fdef176b4cd6b126cb11691d8daa",
-          "Name": "runRecursively",
-          "Description": "bool",
+          "Id": "6492e6c52a594df7b4b8826cbcc0365c",
+          "Name": "deepPurge",
+          "Description": "Similar to clicking the purge button multiple times in Revit.\n\nbool",
           "UsingDefaultValue": false,
           "Level": 2,
           "UseLevels": false,
@@ -37,8 +37,8 @@
       "Outputs": [
         {
           "Id": "7efde0d7a1c54cdcae0b4b012c810b66",
-          "Name": "string",
-          "Description": "string",
+          "Name": "var[]",
+          "Description": "Purged element ids",
           "UsingDefaultValue": false,
           "Level": 2,
           "UseLevels": false,
@@ -46,7 +46,7 @@
         }
       ],
       "Replication": "Auto",
-      "Description": "Purge unused Elements from the model. This node is not able to purge materials and material assets\n\nDocument.PurgeUnused (runRecursively: bool): string"
+      "Description": "Purge unused Elements from the model. This node is not able to purge materials and material assets\n\nDocument.PurgeUnused (deepPurge: bool): var[]"
     },
     {
       "ConcreteType": "Dynamo.Graph.Nodes.ZeroTouch.DSFunction, DynamoCore",
@@ -72,11 +72,11 @@
       "ConcreteType": "CoreNodeModels.Input.BoolSelector, CoreNodeModels",
       "NodeType": "BooleanInputNode",
       "InputValue": true,
-      "Id": "3bff80c32bcb436e9e5b0c9b24ba760d",
+      "Id": "36a526a6e7dc49279c09b4b719157aae",
       "Inputs": [],
       "Outputs": [
         {
-          "Id": "57c905adff5c414db87efcba669b8150",
+          "Id": "7367ee6542af4cb38293ad77b5134639",
           "Name": "",
           "Description": "Boolean",
           "UsingDefaultValue": false,
@@ -93,12 +93,12 @@
     {
       "Start": "97a42bb3f8424d4bb4017a9901b14363",
       "End": "20ae7b8a1d484b36b41562aee7ea9741",
-      "Id": "7457b7a8f38b4fa49af2c1e27cde3ffd"
+      "Id": "522909a253204c95ae61bfb51f785830"
     },
     {
-      "Start": "57c905adff5c414db87efcba669b8150",
-      "End": "fe84fdef176b4cd6b126cb11691d8daa",
-      "Id": "2a225f9fec2743269c0ed690d0529a1d"
+      "Start": "7367ee6542af4cb38293ad77b5134639",
+      "End": "6492e6c52a594df7b4b8826cbcc0365c",
+      "Id": "741dcb6cec39405fb847c00516f38221"
     }
   ],
   "Dependencies": [],
@@ -110,7 +110,7 @@
       "HasRunWithoutCrash": true,
       "IsVisibleInDynamoLibrary": true,
       "Version": "2.6.0.7034",
-      "RunType": "Automatic",
+      "RunType": "Manual",
       "RunPeriod": "1000"
     },
     "Camera": {
@@ -149,17 +149,17 @@
       {
         "ShowGeometry": true,
         "Name": "Boolean",
-        "Id": "3bff80c32bcb436e9e5b0c9b24ba760d",
+        "Id": "36a526a6e7dc49279c09b4b719157aae",
         "IsSetAsInput": false,
         "IsSetAsOutput": false,
         "Excluded": false,
-        "X": 102.66666666666657,
-        "Y": 263.33333333333331
+        "X": 90.000000000000028,
+        "Y": 271.33333333333337
       }
     ],
     "Annotations": [],
-    "X": -109.58882235528941,
-    "Y": -89.349301397205579,
-    "Zoom": 1.4341317365269461
+    "X": 350.6351385519489,
+    "Y": -61.032545380260274,
+    "Zoom": 1.2292518240025416
   }
 }
