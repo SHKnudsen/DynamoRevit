@@ -125,11 +125,11 @@ namespace Revit.Application
         /// <returns>Purged element ids</returns>
         public List<int> PurgeUnused(bool deepPurge = false)
         {
-            //The internal GUID of the Performance Adviser Rule 
-            const string purgeGuid = "e8c63650-70b7-435a-9010-ec97660c1bda";
+            //The internal GUID of the purge Performance Adviser Rule 
+            const string purgePerformanceAdviserRuleGuid = "e8c63650-70b7-435a-9010-ec97660c1bda";
 
             IList<PerformanceAdviserRuleId> performanceAdviserRules = PerformanceAdviser.GetPerformanceAdviser().GetAllRuleIds();
-            List<PerformanceAdviserRuleId> performanceAdviserRuleId = performanceAdviserRules.Where(x => x.Guid.ToString() == purgeGuid).ToList();
+            List<PerformanceAdviserRuleId> performanceAdviserRuleId = performanceAdviserRules.Where(x => x.Guid.ToString() == purgePerformanceAdviserRuleGuid).ToList();
             List<ElementId> purgedElementIds = new List<ElementId>();
             TransactionManager.Instance.EnsureInTransaction(this.InternalDocument);
             

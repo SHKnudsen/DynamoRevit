@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+
 using NUnit.Framework;
 
 using RevitServices.Persistence;
@@ -157,16 +158,15 @@ namespace RevitSystemTests
             // Arange
             string samplePath = Path.Combine(workingDirectory, @".\Document\canPurgeUnusedElementsFromDocument.dyn");
             string testPath = Path.GetFullPath(samplePath);
-            int expectedPurgedElementNumber = 396;
-            string expectedNodeOutput = string.Format("Purged {0} elements, form the current document", expectedPurgedElementNumber);
+            var expectedPurgedElementIds = new List<int>() { 217063, 221347, 216753, 208080, 210695, 416 };
 
             // Act
             ViewModel.OpenCommand.Execute(testPath);
             RunCurrentModel();
-            var purgeUnusedOutput = GetPreviewValue("7997eedbf6bd4822b5ca8b8cf0819de2");
+            var purgeUnusedOutput = GetPreviewCollection("7997eedbf6bd4822b5ca8b8cf0819de2");
 
             // Assert
-            Assert.AreEqual(purgeUnusedOutput, expectedNodeOutput);
+            CollectionAssert.AreEqual(purgeUnusedOutput, expectedPurgedElementIds);
         }
     }
 }

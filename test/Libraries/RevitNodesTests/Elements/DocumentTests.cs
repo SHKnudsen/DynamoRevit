@@ -6,6 +6,7 @@ using RevitTestServices;
 using RTF.Framework;
 using System;
 using System.IO;
+using System.Collections.Generic;
 
 namespace RevitNodesTests.Elements
 {
@@ -121,18 +122,17 @@ namespace RevitNodesTests.Elements
         public void CanRecursivelyPurgeUnusedElementsFromDocument()
         {
             // Arrange
-            int expectedPurgedElementNumber = 396;
-            string expectedPurgeMessageFirstRun = string.Format(Revit.Properties.Resources.PurgedElements, expectedPurgedElementNumber);
+            var expectedPurgedElementIds = new List<int>() { 217063, 221347, 216753, 208080, 210695, 416 };
             string expectedPurgeMessageSecondRun = Revit.Properties.Resources.NoElementsToPurge;
-
-            // Act
+            
+            // Act - second purge should throw exception as there is nothing left to purge after during PurgeUnused(true).
             var document = Document.Current;
             var resultFirstRun = document.PurgeUnused(true);
-            var resultSecondRun = document.PurgeUnused(true);
+            var resultSecondRun = Assert.Throws<System.InvalidOperationException>(() => document.PurgeUnused(true));
 
             // Assert
-            Assert.AreEqual(expectedPurgeMessageFirstRun, resultFirstRun);
-            Assert.AreEqual(expectedPurgeMessageSecondRun, resultSecondRun);
+            Assert.AreEqual(expectedPurgedElementIds, resultFirstRun);
+            Assert.AreEqual(expectedPurgeMessageSecondRun, resultSecondRun.Message);
         }
 
         [Test]
@@ -140,15 +140,17 @@ namespace RevitNodesTests.Elements
         public void CanPurgeUnusedElementsFromDocument()
         {
             // Arrange
-            int expectedPurgedElementNumber = 393;
-            string expectedPurgeMessageFirstRun = string.Format(Revit.Properties.Resources.PurgedElements, expectedPurgedElementNumber);
+            var expectedPurgedElementIdsFirstRun = new List<int>() { 217063, 221347 };
+            var expectedPurgedElementIdsSecondRun = new List<int>() { 216753,208080,210695,416 };
 
-            // Act
+            // Act - as we are not running recursivly, second run should return element ids
             var document = Document.Current;
             var resultFirstRun = document.PurgeUnused();
+            var resultSecondRun = document.PurgeUnused();
 
             // Assert
-            Assert.AreEqual(expectedPurgeMessageFirstRun, resultFirstRun);
+            Assert.AreEqual(expectedPurgedElementIdsFirstRun, resultFirstRun);
+            Assert.AreEqual(expectedPurgedElementIdsSecondRun, resultSecondRun);
         }
 
     }

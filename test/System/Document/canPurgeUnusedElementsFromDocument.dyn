@@ -27,7 +27,7 @@
         {
           "Id": "6492e6c52a594df7b4b8826cbcc0365c",
           "Name": "deepPurge",
-          "Description": "Similar to clicking the purge button multiple times in Revit.\n\nbool",
+          "Description": "Similar to clicking the purge button multiple times in Revit.\n\nbool\nDefault value : false (disabled)",
           "UsingDefaultValue": false,
           "Level": 2,
           "UseLevels": false,
@@ -37,7 +37,7 @@
       "Outputs": [
         {
           "Id": "7efde0d7a1c54cdcae0b4b012c810b66",
-          "Name": "var[]",
+          "Name": "int[]",
           "Description": "Purged element ids",
           "UsingDefaultValue": false,
           "Level": 2,
@@ -46,7 +46,7 @@
         }
       ],
       "Replication": "Auto",
-      "Description": "Purge unused Elements from the model. This node is not able to purge materials and material assets\n\nDocument.PurgeUnused (deepPurge: bool): var[]"
+      "Description": "Purge unused Elements from the model.\n\nDocument.PurgeUnused (deepPurge: bool = false): int[]"
     },
     {
       "ConcreteType": "Dynamo.Graph.Nodes.ZeroTouch.DSFunction, DynamoCore",
@@ -93,7 +93,7 @@
     {
       "Start": "97a42bb3f8424d4bb4017a9901b14363",
       "End": "20ae7b8a1d484b36b41562aee7ea9741",
-      "Id": "522909a253204c95ae61bfb51f785830"
+      "Id": "2074118efc7f4458bc9c34048f41985a"
     },
     {
       "Start": "7367ee6542af4cb38293ad77b5134639",
@@ -154,12 +154,12 @@
         "IsSetAsOutput": false,
         "Excluded": false,
         "X": 90.000000000000028,
-        "Y": 271.33333333333337
+        "Y": 279.91702589409022
       }
     ],
     "Annotations": [],
-    "X": 350.6351385519489,
-    "Y": -61.032545380260274,
-    "Zoom": 1.2292518240025416
+    "X": -25.530921025464522,
+    "Y": 2.8976283518936725,
+    "Zoom": 0.8543331767099992
   }
 }
