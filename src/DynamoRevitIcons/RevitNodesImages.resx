@@ -9325,11 +9325,59 @@
         zQ0z56S+fhBFpxFFpxFFpxFFpxFFpxFFpxFFZ6GhP1g6ciTBBSdyAAAAAElFTkSuQmCC
 </value>
   </data>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="Revit.Application.Document.GetWorksharingPath.Large" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>Resources\Revit.Application.Document.GetWorksharingPath.Large.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="Revit.Application.Document.GetWorksharingPath.Large" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        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
+        AAAAAElFTkSuQmCC
+</value>
   </data>
-  <data name="Revit.Application.Document.GetWorksharingPath.Small" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>Resources\Revit.Application.Document.GetWorksharingPath.Small.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="Revit.Application.Document.GetWorksharingPath.Small" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAACEAAAAhCAYAAABX5MJvAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
+        YQUAAAAJcEhZcwAACxIAAAsSAdLdfvwAAAJwSURBVFhH7Za/a1NRFMf7J9T/wD/BJS8/ehtCf5BCKi8J
+        6OBQEoSQQSwtKMFBgoNb3IIExNbpQRazunVwcnfoUOjoWOlQRPH2fE9zHvc9T8vLk14Xhw/vnO+993u+
+        ycuFLFlr/zmq6BtV9I0q+kYVfaOKwnQ6XSYOiTPC3gDWO5pHFlRRIOMjDJlMJueDweD0OuZBQK4gqijA
+        eDwe/zLG2EKhcC2yL28QVRRg2m631cEusm84HP7IE0QVhUVDoM4TRBWFRUL0+33eCxZ9NaooZA3R7XY5
+        iMKZ5ptGFQUYZQmhIbcm7amhisL/EEI6RDUIbL1UinvU0LT+VkLAPNratJ8aWzwMoIaGtbBcjvtbCwFG
+        62vxUAkFzQ0p/V+HIJMaGI1GttFoxCGAoWFane57vd43nKeavYhlbRZINGb/Q6fSfXVe2Xlpg8oqmxXr
+        D21pe8cG1U1bfvScNdTYU37wlJ+guH6f10RDDw+cufKrfkcYd56QaMze++OVJ28t03/DpjBAXWr17OqL
+        jxwIxqgx0OwdWPMs4qHQUfN+2oezWBdP8pu584REQxu/wgTAwA2BJwajxrqEwBOD8O1gEHo3IJ4IBI38
+        jtx5QqIxu+9OeODj13IoDsHMh3BQZwB61HIWyKfHeQ5Ee7KG+CKfBEaJEGTIg/Ckr12CSSi8DnllADV+
+        T25PfofuPCHR0OY7xY3wIFipfUbqVqv1s9ls/q5U1+IfqiA9XoO7hrq2UeerHYbhBbzmfjNCvSF/CC50
+        zzu461EUXdBfvNOs4MycpuabRhVdyOgeMczBXc1PQxV9o4q+UUXfqKJvVNE3qugXu3QJGwE3f1VpsiwA
+        AAAASUVORK5CYII=
+</value>
   </data>
 </root>
