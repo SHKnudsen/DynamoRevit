@@ -6,6 +6,8 @@ using Revit.GeometryConversion;
 using RevitServices.Persistence;
 using System;
 using RevitServices.Transactions;
+using System;
+using System.IO;
 using View = Revit.Elements.Views.View;
 
 namespace Revit.Application
@@ -113,11 +115,17 @@ namespace Revit.Application
         /// <summary>
         /// Saves all of the input families at a given location.
         /// </summary>
-        /// <param name="family">The families to save</param>
-        /// <param name="directoryPath">Directory to save the families in</param>
+        /// <param name="family">The Revit family to save</param>
+        /// <param name="directoryPath">Directory to save the family to. If directory does not exist, it will be created.</param>
         /// <returns>File path of saved families</returns>
-        public string SaveFamilyLibrary(Family family, string directoryPath)
+        public string SaveFamilyLibraryToFolder(Family family, string directoryPath)
         {
+            var dir = new DirectoryInfo(directoryPath);
+            if (!dir.Exists)
+            {
+                Directory.CreateDirectory(directoryPath);
+            }
+
             // Close all transactions
             var trans = TransactionManager.Instance;
             trans.ForceCloseTransaction();
@@ -125,7 +133,7 @@ namespace Revit.Application
             var fam = family.InternalFamily;
             var familyDocument = this.InternalDocument.EditFamily(fam);
             var name = fam.Name + ".rfa";
-            string filePath = directoryPath + "//" + name;
+            string filePath = Path.Combine(directoryPath, name);
             familyDocument.SaveAs(filePath);
             familyDocument.Close(false);
             return filePath;

@@ -33,74 +33,6 @@
     {
       "ConcreteType": "Dynamo.Graph.Nodes.ZeroTouch.DSFunction, DynamoCore",
       "NodeType": "FunctionNode",
-      "FunctionSignature": "Revit.Application.Document.SaveFamilyLibrary@Revit.Elements.Family,string",
-      "Id": "86d25d95c3da4f1fa283e8553832b406",
-      "Inputs": [
-        {
-          "Id": "14502c2b99ac49f19fa6237b5bb9c848",
-          "Name": "document",
-          "Description": "Revit.Application.Document",
-          "UsingDefaultValue": false,
-          "Level": 2,
-          "UseLevels": false,
-          "KeepListStructure": false
-        },
-        {
-          "Id": "9bd3a98ec58645249500f371d112c8dc",
-          "Name": "family",
-          "Description": "The families to save\n\nFamily",
-          "UsingDefaultValue": false,
-          "Level": 2,
-          "UseLevels": false,
-          "KeepListStructure": false
-        },
-        {
-          "Id": "4465b2d4df4545e6a126d70f6d7f1281",
-          "Name": "directoryPath",
-          "Description": "Directory to save the families in\n\nstring",
-          "UsingDefaultValue": false,
-          "Level": 2,
-          "UseLevels": false,
-          "KeepListStructure": false
-        }
-      ],
-      "Outputs": [
-        {
-          "Id": "269e0d904f104561b72b06520d4c1976",
-          "Name": "string",
-          "Description": "File path of saved families",
-          "UsingDefaultValue": false,
-          "Level": 2,
-          "UseLevels": false,
-          "KeepListStructure": false
-        }
-      ],
-      "Replication": "Auto",
-      "Description": "Saves all of the input families at a given location.\n\nDocument.SaveFamilyLibrary (family: Family, directoryPath: string): string"
-    },
-    {
-      "ConcreteType": "Dynamo.Graph.Nodes.ZeroTouch.DSFunction, DynamoCore",
-      "NodeType": "FunctionNode",
-      "FunctionSignature": "Revit.Application.Document.Current",
-      "Id": "f2a3d6badf1447769b69d5405f1f5c47",
-      "Inputs": [],
-      "Outputs": [
-        {
-          "Id": "ad27e7780ee745ccb4e0552cc6e66994",
-          "Name": "Document",
-          "Description": "Document",
-          "UsingDefaultValue": false,
-          "Level": 2,
-          "UseLevels": false,
-          "KeepListStructure": false
-        }
-      ],
-      "Replication": "Auto",
-      "Description": "Get the current document\n\nDocument.Current: Document"
-    },
-    {
-      "ConcreteType": "Dynamo.Graph.Nodes.ZeroTouch.DSFunction, DynamoCore",
-      "NodeType": "FunctionNode",
       "FunctionSignature": "Revit.Elements.FamilyInstance.GetFamily",
       "Id": "0bbe48de12de4212bb6126db0887a2e8",
       "Inputs": [
@@ -177,6 +109,74 @@
       ],
       "Replication": "Disabled",
       "Description": "Visualize the output of node."
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.ZeroTouch.DSFunction, DynamoCore",
+      "NodeType": "FunctionNode",
+      "FunctionSignature": "Revit.Application.Document.SaveFamilyLibraryToFolder@Revit.Elements.Family,string",
+      "Id": "fcbdef4233b74ad7a70babda905908ac",
+      "Inputs": [
+        {
+          "Id": "43fee35f09a64b2e88abb2765c0f4b59",
+          "Name": "document",
+          "Description": "Revit.Application.Document",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "09d619a26ba94d0ba37d651954ee5f68",
+          "Name": "family",
+          "Description": "The families to save\n\nFamily",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "66fd2aec7cb747fd92babfe977fc07f0",
+          "Name": "directoryPath",
+          "Description": "Directory to save the families in\n\nstring",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "2efa38db2e2a4ffe86896f0d4f794229",
+          "Name": "string",
+          "Description": "File path of saved families",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Auto",
+      "Description": "Saves all of the input families at a given location.\n\nDocument.SaveFamilyLibraryToFolder (family: Family, directoryPath: string): string"
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.ZeroTouch.DSFunction, DynamoCore",
+      "NodeType": "FunctionNode",
+      "FunctionSignature": "Revit.Application.Document.Current",
+      "Id": "f2a3d6badf1447769b69d5405f1f5c47",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "c39036e5f6c843f8aef6796b426143ad",
+          "Name": "Document",
+          "Description": "Document",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Auto",
+      "Description": "Get the current document\n\nDocument.Current: Document"
     }
   ],
   "Connectors": [
@@ -186,14 +186,9 @@
       "Id": "c0147f85a8af459cbbcdbc57cf3c6e13"
     },
     {
-      "Start": "ad27e7780ee745ccb4e0552cc6e66994",
-      "End": "14502c2b99ac49f19fa6237b5bb9c848",
-      "Id": "729b314c2fc84c949468f4f8ab7abe92"
-    },
-    {
       "Start": "3f5b554d5f244d6592109e5dd1647778",
-      "End": "9bd3a98ec58645249500f371d112c8dc",
-      "Id": "d651472466d84c22b1737704be0ffc47"
+      "End": "09d619a26ba94d0ba37d651954ee5f68",
+      "Id": "671ad2b3c4164f16926fb693564cb88b"
     },
     {
       "Start": "7dfed39667814b26a2602aaab14c1665",
@@ -202,8 +197,13 @@
     },
     {
       "Start": "7dfed39667814b26a2602aaab14c1665",
-      "End": "4465b2d4df4545e6a126d70f6d7f1281",
-      "Id": "775dc10cbbef45a3bf5feadbd47828cc"
+      "End": "66fd2aec7cb747fd92babfe977fc07f0",
+      "Id": "0e3495bc2f9f44028d19c8ece5df26a7"
+    },
+    {
+      "Start": "c39036e5f6c843f8aef6796b426143ad",
+      "End": "43fee35f09a64b2e88abb2765c0f4b59",
+      "Id": "db6fa79799e24c2183a94c9bb6391657"
     }
   ],
   "Dependencies": [],
@@ -215,7 +215,7 @@
       "HasRunWithoutCrash": true,
       "IsVisibleInDynamoLibrary": true,
       "Version": "2.6.0.7034",
-      "RunType": "Automatic",
+      "RunType": "Manual",
       "RunPeriod": "1000"
     },
     "Camera": {
@@ -240,26 +240,6 @@
         "Excluded": false,
         "X": -53.333333333333371,
         "Y": 244.66666666666674
-      },
-      {
-        "ShowGeometry": true,
-        "Name": "Document.SaveFamilyLibrary",
-        "Id": "86d25d95c3da4f1fa283e8553832b406",
-        "IsSetAsInput": false,
-        "IsSetAsOutput": false,
-        "Excluded": false,
-        "X": 469.33333333333337,
-        "Y": 215.33333333333331
-      },
-      {
-        "ShowGeometry": true,
-        "Name": "Document.Current",
-        "Id": "f2a3d6badf1447769b69d5405f1f5c47",
-        "IsSetAsInput": false,
-        "IsSetAsOutput": false,
-        "Excluded": false,
-        "X": 285.5150741317093,
-        "Y": 158.81079930786677
       },
       {
         "ShowGeometry": true,
@@ -290,11 +270,31 @@
         "Excluded": false,
         "X": 126.7911099994748,
         "Y": 432.55783448017445
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Document.SaveFamilyLibraryToFolder",
+        "Id": "fcbdef4233b74ad7a70babda905908ac",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 539.0464886251234,
+        "Y": 213.99786783368427
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Document.Current",
+        "Id": "f2a3d6badf1447769b69d5405f1f5c47",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 274.71784366682346,
+        "Y": 153.31920682517642
       }
     ],
     "Annotations": [],
-    "X": 346.66666666666663,
-    "Y": 73.982349772646046,
-    "Zoom": 1.0
+    "X": -31.871666666666783,
+    "Y": 173.27512968345422,
+    "Zoom": 0.8425
   }
 }

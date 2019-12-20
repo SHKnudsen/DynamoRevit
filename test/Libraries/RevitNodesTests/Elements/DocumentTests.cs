@@ -89,23 +89,30 @@ namespace RevitNodesTests.Elements
             var noneditableFamily = ElementSelector.ByElementId(20915, true);
             string savedFamilyName = saveableFamily.Name + ".rfa";
 
-            string tempFolder = Path.Combine(Path.GetTempPath(), Path.GetRandomFileName());
-            Directory.CreateDirectory(tempFolder);
-            
-            string expectedSavedFilePath = tempFolder + "//" + savedFamilyName;
+            string nonExistingTempFolder = Path.Combine(Path.GetTempPath(), Path.GetRandomFileName());
+            string existingTempFolder = Path.Combine(Path.GetTempPath(), Path.GetRandomFileName());
+            Directory.CreateDirectory(existingTempFolder);
+
+            string expectedSavedFilePathNonExistingFolder = Path.GetFullPath(Path.Combine(nonExistingTempFolder, savedFamilyName));
+            string expectedSavedFilePathExistingFolder = Path.GetFullPath(Path.Combine(existingTempFolder, savedFamilyName));
 
             // Act
             var doc = Document.Current;
-            var resultSavedFamily = doc.SaveFamilyLibrary((Family)saveableFamily, tempFolder);
-            var resultnoneditableFamily = Assert.Throws<Autodesk.Revit.Exceptions.ArgumentException>(() => doc.SaveFamilyLibrary((Family)noneditableFamily, tempFolder));
-            var fileExist = File.Exists(Path.Combine(tempFolder, saveableFamily.Name + ".rfa"));
+            var resultSavedFamilyInNonExistingFolder = doc.SaveFamilyLibraryToFolder((Family)saveableFamily, nonExistingTempFolder);
+            var resultSavedFamilyInExistingFolder = doc.SaveFamilyLibraryToFolder((Family)saveableFamily, existingTempFolder);
+            var resultnoneditableFamily = Assert.Throws<Autodesk.Revit.Exceptions.ArgumentException>(() => doc.SaveFamilyLibraryToFolder((Family)noneditableFamily, existingTempFolder));
+            var fileExistInNonExistingFolder = File.Exists(Path.Combine(nonExistingTempFolder, saveableFamily.Name + ".rfa"));
+            var fileExistInExistingFolder = File.Exists(Path.Combine(existingTempFolder, saveableFamily.Name + ".rfa"));
 
             // Assert
-            Assert.AreEqual(expectedSavedFilePath, resultSavedFamily);
-            Assert.IsTrue(fileExist);
+            Assert.AreEqual(expectedSavedFilePathNonExistingFolder, resultSavedFamilyInNonExistingFolder);
+            Assert.AreEqual(expectedSavedFilePathExistingFolder, resultSavedFamilyInExistingFolder);
+            Assert.IsTrue(fileExistInNonExistingFolder);
+            Assert.IsTrue(fileExistInExistingFolder);
 
             // Clean up
-            Directory.Delete(tempFolder, true);
+            Directory.Delete(nonExistingTempFolder, true);
+            Directory.Delete(existingTempFolder, true);
         }
     }
 }
