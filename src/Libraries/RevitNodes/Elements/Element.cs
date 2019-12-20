@@ -174,7 +174,7 @@ namespace Revit.Elements
         /// Returns the FamilyType for this Element. Returns null if the Element cannot have a FamilyType assigned.
         /// </summary>
         /// <returns name="ElementType">Element Type or Null.</returns>
-        public Element ElementType
+        public ElementType ElementType
         {
             get
             {
@@ -186,7 +186,7 @@ namespace Revit.Elements
                 else
                 {
                     var doc = DocumentManager.Instance.CurrentDBDocument;
-                    return doc.GetElement(typeId).ToDSType(true);
+                    return doc.GetElement(typeId).ToDSType(true) as ElementType;
                 }
             }
         }
