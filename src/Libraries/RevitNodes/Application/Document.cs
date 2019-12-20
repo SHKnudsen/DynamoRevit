@@ -98,14 +98,14 @@ namespace Revit.Application
         /// <summary>
         /// Purge unused Elements from the model.
         /// </summary>
-        /// <param name="deepPurge">Similar to clicking the purge button multiple times in Revit, the node will repeatedly purge until there is nothing left to remove.</param>
+        /// <param name="fullPurge">Similar to clicking the purge button multiple times in Revit, the node will repeatedly purge until there is nothing left to remove.</param>
         /// <returns>Purged element ids</returns>
-        public List<int> PurgeUnused(bool deepPurge = false)
+        public List<int> PurgeUnused(bool fullPurge = false)
         {
             List<ElementId> purgedElementIds = new List<ElementId>();
             TransactionManager.Instance.EnsureInTransaction(this.InternalDocument);
 
-            purgedElementIds.AddRange(PurgeElements(deepPurge));
+            purgedElementIds.AddRange(PurgeElements(fullPurge));
             purgedElementIds.AddRange(PurgeMaterials());
 
             TransactionManager.Instance.TransactionTaskDone();
