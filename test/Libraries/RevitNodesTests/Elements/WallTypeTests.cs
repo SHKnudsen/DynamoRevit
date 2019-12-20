@@ -44,7 +44,6 @@ namespace RevitNodesTests.Elements
             var resultWallTypeWidth = wallType.Width;
             var resultWallTypeKind = wallType.Kind;
             var resultWallTypeFunction = wallType.Function;
-            var thermal = wallType.GetThermalProperties();
 
             // Assert
             Assert.AreEqual(expectedWallTypeName, resultWallTypeName);
