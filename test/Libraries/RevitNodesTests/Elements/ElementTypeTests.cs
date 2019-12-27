@@ -31,7 +31,7 @@ namespace RevitNodesTests.Elements
             var wall = ElementSelector.ByElementId(184176, true);
             var column = ElementSelector.ByElementId(184324, true);
 
-            var expectedWallTypeName = "Generic - 8";
+            var expectedWallTypeName = "Generic - 8\"";
             var expectedWallTypeFamilyName = "Basic Wall";
             var expectedWallTypeCanBeDeleted = true;
             var expectedWallTypeCanBeCopied = true;
@@ -105,11 +105,27 @@ namespace RevitNodesTests.Elements
             var typeElement = Revit.Elements.ElementType.ByName(elementTypeName);
             var noElementTypeFound = Assert.Throws<KeyNotFoundException>(() => Revit.Elements.ElementType.ByName(expectedDuplicatedElementTypeName));
             var duplicatedType = typeElement.Duplicate(expectedDuplicatedElementTypeName);
-            var duplicatedTypeElementName = typeElement.Name;
+            var duplicatedTypeElementName = duplicatedType.Name;
 
             // Assert
             Assert.AreEqual(expectedDuplicatedElementTypeName, duplicatedTypeElementName);
             Assert.AreEqual(Revit.Properties.Resources.ElementTypeNameNotFound, noElementTypeFound.Message);
+        }
+
+        [Test]
+        [TestModel(@".\element.rvt")]
+        public void CanGetElementTypePreviewImage()
+        {
+            // Arrange
+            var wall = ElementSelector.ByElementId(184176, true);
+            var expectedGetPreviewImageType = typeof(System.Drawing.Bitmap);
+
+            // Act
+            var typeElement = wall.ElementType;
+            var previewImage = typeElement.GetPreviewImage(500);
+
+            // Assert
+            Assert.AreEqual(expectedGetPreviewImageType, previewImage.GetType());
         }
     }
 }
