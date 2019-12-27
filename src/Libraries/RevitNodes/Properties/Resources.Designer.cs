@@ -709,6 +709,15 @@ namespace Revit.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to FloorType has no StructuralMaterial assigned.
+        /// </summary>
+        internal static string NoStructuralMaterialAssigned {
+            get {
+                return ResourceManager.GetString("NoStructuralMaterialAssigned", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Element has no sub components.
         /// </summary>
         internal static string NoSubComponents {

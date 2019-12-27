@@ -112,6 +112,7 @@
     <Compile Include="Elements\ReferencePointTests.cs" />
     <Compile Include="Elements\ParseEnumTests.cs" />
     <Compile Include="Elements\PerformanceAdvTests.cs" />
+    <Compile Include="Elements\RoofTypeTests.cs" />
     <Compile Include="Elements\RoomTests.cs" />
     <Compile Include="Elements\RevisionTests.cs" />
     <Compile Include="Elements\SunSettingsTests.cs" />

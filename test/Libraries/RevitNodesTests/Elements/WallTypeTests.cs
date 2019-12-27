@@ -29,7 +29,7 @@ namespace RevitNodesTests.Elements
 
         [Test]
         [TestModel(@".\element.rvt")]
-        public void canGetWallTypeProperties()
+        public void CanGetWallTypeProperties()
         {
             // Arrange
             var wall = ElementSelector.ByElementId(184176, true);
@@ -52,6 +52,34 @@ namespace RevitNodesTests.Elements
             Assert.AreEqual(expectedWallTypeFunction, resultWallTypeFunction);
         }
 
+        [Test]
+        [TestModel(@".\element.rvt")]
+        public void CanGetWallTypeThermalProperties()
+        {
+            // Arrange
+            var wall = ElementSelector.ByElementId(184176, true);
+            double expectedWallTypeAbsorptance = 0.7;
+            double expectedWallTypeHeatTransferCoefficient = 1E+30;
+            double expectedWallTypeRoughness = 3;
+            double expectedWallTypeThermalMass = 0;
+            double expectedWallTypeThermalResistance = 0;
+
+            // Act
+            var wallType = wall.ElementType as WallType;
+            var thermalProperties = wallType.GetThermalProperties();
+            double resultWallTypeAbsorptance = (double)thermalProperties["Absorptance"];
+            double resultWallTypeHeatTransferCoefficient = (double)thermalProperties["HeatTransferCoefficient"];
+            double resultWallTypeRoughness = (double)thermalProperties["Roughness"];
+            double resultWallTypeThermalMass = (double)thermalProperties["ThermalMass"];
+            double resultWallTypeThermalResistance = (double)thermalProperties["ThermalResistance"];
+
+            // Assert
+            Assert.AreEqual(expectedWallTypeAbsorptance, resultWallTypeAbsorptance, 0.001);
+            Assert.AreEqual(expectedWallTypeHeatTransferCoefficient, resultWallTypeHeatTransferCoefficient, 0.001);
+            Assert.AreEqual(expectedWallTypeRoughness, resultWallTypeRoughness, 0.001);
+            Assert.AreEqual(expectedWallTypeThermalMass, resultWallTypeThermalMass, 0.001);
+            Assert.AreEqual(expectedWallTypeThermalResistance, resultWallTypeThermalResistance, 0.001);
+        }
     }
 
 }
