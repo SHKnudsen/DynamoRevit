@@ -121,8 +121,8 @@ namespace Revit.Elements
         public Element GetStructuralMaterial()
         {
             ElementId materialId = InternalFloorType.StructuralMaterialId;
-            if (materialId == null)
-                throw new NullReferenceException(nameof(GetStructuralMaterial));
+            if (materialId == null || materialId.IntegerValue < 0)
+                throw new InvalidOperationException(Properties.Resources.NoStructuralMaterialAssigned);
             return Document.GetElement(materialId).ToDSType(true);
         }
 
