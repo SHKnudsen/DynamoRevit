@@ -98,9 +98,9 @@ namespace RevitNodesTests.Elements
 
             // Act
             var doc = Document.Current;
-            var resultSavedFamilyInNonExistingFolder = doc.SaveFamilyLibraryToFolder((Family)saveableFamily, nonExistingTempFolder);
-            var resultSavedFamilyInExistingFolder = doc.SaveFamilyLibraryToFolder((Family)saveableFamily, existingTempFolder);
-            var resultnoneditableFamily = Assert.Throws<Autodesk.Revit.Exceptions.ArgumentException>(() => doc.SaveFamilyLibraryToFolder((Family)noneditableFamily, existingTempFolder));
+            var resultSavedFamilyInNonExistingFolder = doc.SaveFamilyToFolder((Family)saveableFamily, nonExistingTempFolder);
+            var resultSavedFamilyInExistingFolder = doc.SaveFamilyToFolder((Family)saveableFamily, existingTempFolder);
+            var resultnoneditableFamily = Assert.Throws<Autodesk.Revit.Exceptions.ArgumentException>(() => doc.SaveFamilyToFolder((Family)noneditableFamily, existingTempFolder));
             var fileExistInNonExistingFolder = File.Exists(Path.Combine(nonExistingTempFolder, savedFamilyName));
             var fileExistInExistingFolder = File.Exists(Path.Combine(existingTempFolder, savedFamilyName));
 

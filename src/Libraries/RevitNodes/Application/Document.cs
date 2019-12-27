@@ -118,7 +118,7 @@ namespace Revit.Application
         /// <param name="family">The Revit family to save</param>
         /// <param name="directoryPath">Directory to save the family to. If directory does not exist, it will be created.</param>
         /// <returns>File path of saved families</returns>
-        public string SaveFamilyLibraryToFolder(Family family, string directoryPath)
+        public string SaveFamilyToFolder(Family family, string directoryPath)
         {
             var dir = new DirectoryInfo(directoryPath);
             if (!dir.Exists)
