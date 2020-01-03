@@ -125,7 +125,7 @@ namespace RevitNodesTests.Elements
             var expectedPurgedElementIds = new List<int>() { 217063, 221347, 216753, 208080, 210695, 416 };
             string expectedPurgeMessageSecondRun = Revit.Properties.Resources.NoElementsToPurge;
             
-            // Act - second purge should throw exception as there is nothing left to purge after during PurgeUnused(true).
+            // Act - second purge should throw exception as there is nothing left to purge after doing PurgeUnused(true).
             var document = Document.Current;
             var resultFirstRun = document.PurgeUnused(true);
             var resultSecondRun = Assert.Throws<System.InvalidOperationException>(() => document.PurgeUnused(true));

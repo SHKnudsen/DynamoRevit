@@ -130,48 +130,47 @@ namespace Revit.Application
             if (elementTypes == null)
                 return new List<ElementId>();
 
-            var nonPurgedElements = new List<Autodesk.Revit.DB.ElementId>();
+            var nonPurgedElements = new HashSet<ElementId>();
 
             for (int i = 0; i < elementTypes.Count; i++)
             {
-                HostObjAttributes hostObj = elementTypes[i] as HostObjAttributes;
-                if (hostObj != null)
-                {
-                    var compundStructure = hostObj.GetCompoundStructure();
-                    if (compundStructure == null)
-                        continue;
+                nonPurgedElements.UnionWith(GetNonPurgableMaterialIds(elementTypes[i]));
+            }
 
+            List<ElementId> purgableMaterials = materials.Except(nonPurgedElements).ToList();
+            if (purgableMaterials.Count > 0)
+                this.InternalDocument.Delete(purgableMaterials);
+
+            List<ElementId> purgedMaterials = new List<ElementId>();
+            purgedMaterials.AddRange(PurgeMaterialAssets(nonPurgedElements.ToList()));
+            purgedMaterials.AddRange(purgableMaterials);
+
+            return purgedMaterials;
+        }
+
+        private static HashSet<ElementId> GetNonPurgableMaterialIds(Autodesk.Revit.DB.Element type)
+        {
+            HostObjAttributes hostObj = type as HostObjAttributes;
+            HashSet<ElementId> usedMaterialIds = new HashSet<ElementId>();
+            if (hostObj != null)
+            {
+                var compundStructure = hostObj.GetCompoundStructure();
+                if (compundStructure != null)
+                {
                     int layerCount = compundStructure.LayerCount;
                     for (int j = 0; j < layerCount; j++)
                     {
-                        ElementId elementId = compundStructure.GetMaterialId(j);
-                        if (materials.Contains(elementId))
-                        {
-                            nonPurgedElements.Add(elementId);
-                            materials.Remove(elementId);
-                        }
-                        
+                        usedMaterialIds.Add(compundStructure.GetMaterialId(j));
                     }
-                    continue;
                 }
-
-                List<ElementId> elementMaterialIds = elementTypes[i].GetMaterialIds(false).ToList();
-                if (elementMaterialIds.Any())
-                {
-                    materials.RemoveAll(purgedId => elementMaterialIds.Exists(elemId => purgedId == elemId));
-                    nonPurgedElements.AddRange(elementMaterialIds.Where(elmeMatId => !nonPurgedElements.Any(nonPurgedElemeMatId => nonPurgedElemeMatId == elmeMatId)));
-                }
-
-                if (!materials.Any())
-                    break;
             }
-            if (materials.Count > 0)
-                this.InternalDocument.Delete(materials);
-            List<ElementId> purgedMaterials = new List<ElementId>();
-            purgedMaterials.AddRange(PurgeMaterialAssets(nonPurgedElements));
-            purgedMaterials.AddRange(materials);
 
-            return purgedMaterials;
+            List<ElementId> elementMaterialIds = type.GetMaterialIds(false).ToList();
+            if (elementMaterialIds.Any())
+            {
+                usedMaterialIds.UnionWith(elementMaterialIds);
+            }
+            return usedMaterialIds;
         }
 
         private List<Autodesk.Revit.DB.ElementId> PurgeMaterialAssets(List<Autodesk.Revit.DB.ElementId> elementIds)
@@ -186,10 +185,17 @@ namespace Revit.Application
             int elementIdsCount = elementIds.Count();
             for (int i = 0; i < elementIdsCount; i++)
             {
-                var material = this.InternalDocument.GetElement(elementIds[i]) as Autodesk.Revit.DB.Material;
-                propertySet.Remove(material.ThermalAssetId);
-                propertySet.Remove(material.StructuralAssetId);
-                appearanceAssetIds.Remove(material.AppearanceAssetId);
+                try
+                {
+                    var material = this.InternalDocument.GetElement(elementIds[i]) as Autodesk.Revit.DB.Material;
+                    propertySet.Remove(material.ThermalAssetId);
+                    propertySet.Remove(material.StructuralAssetId);
+                    appearanceAssetIds.Remove(material.AppearanceAssetId);
+                }
+                catch (Exception)
+                {
+                    continue;
+                }
             }
 
             if (appearanceAssetIds.Count > 0)
