@@ -21,7 +21,7 @@ namespace Revit.Elements
         #region Internal properties
 
         /// <summary>
-        /// An internal reference to the ElementType
+        /// An internal reference to the ElementType.
         /// </summary>
         internal Autodesk.Revit.DB.ElementType InternalElementType
         {
@@ -29,7 +29,7 @@ namespace Revit.Elements
         }
 
         /// <summary>
-        /// Reference to the Element
+        /// Reference to the Element.
         /// </summary>
         public override Autodesk.Revit.DB.Element InternalElement
         {
@@ -41,7 +41,7 @@ namespace Revit.Elements
         #region Private constructors
 
         /// <summary>
-        /// Private constructor for the Element
+        /// Private constructor for the Element.
         /// </summary>
         /// <param name="elementType"></param>
         private protected ElementType(Autodesk.Revit.DB.ElementType elementType)
@@ -51,22 +51,10 @@ namespace Revit.Elements
 
         /// <summary>
         /// Initialize a ElementType element
+        /// and sets the ElementType property, element id, and unique id.
         /// </summary>
         /// <param name="elementType"></param>
         private void InitElementType(Autodesk.Revit.DB.ElementType elementType)
-        {
-            InternalSetElementType(elementType);
-        }
-
-        #endregion
-
-        #region Private mutators
-
-        /// <summary>
-        /// Set the ElementType property, element id, and unique id
-        /// </summary>
-        /// <param name="elementType"></param>
-        private void InternalSetElementType(Autodesk.Revit.DB.ElementType elementType)
         {
             this.InternalElementType = elementType;
             this.InternalElementId = elementType.Id;
@@ -78,7 +66,7 @@ namespace Revit.Elements
         #region Public properties
 
         /// <summary>
-        /// The name of the ElementType
+        /// The name of the ElementType.
         /// </summary>
         public new string Name
         {
@@ -86,7 +74,7 @@ namespace Revit.Elements
         }
 
         /// <summary>
-        /// The FamilyName of the ElementType
+        /// The FamilyName of the ElementType.
         /// </summary>
         public  string FamilyName
         {
@@ -94,7 +82,7 @@ namespace Revit.Elements
         }
 
         /// <summary>
-        /// Determine if this ElementType can be deleted
+        /// Determine if this ElementType can be deleted.
         /// </summary>
         public bool CanBeDeleted
         {
@@ -102,7 +90,7 @@ namespace Revit.Elements
         }
 
         /// <summary>
-        /// Determine if this ElementType can create a copy
+        /// Determine if this ElementType can be copied.
         /// </summary>
         public bool CanBeCopied
         {
@@ -110,7 +98,7 @@ namespace Revit.Elements
         }
 
         /// <summary>
-        /// Determine if this ElementType can be renamed
+        /// Determine if this ElementType can be renamed.
         /// </summary>
         public bool CanBeRenamed
         {
@@ -188,7 +176,7 @@ namespace Revit.Elements
         /// </summary>
         /// <param name="size">The width and height of the preview image in pixels.</param>
         /// <returns>The preview image. null if there is no preview image.</returns>
-        public Bitmap GetPreviewImage(int size)
+        public Bitmap GetPreviewImage(int size = 500)
         {
             System.Drawing.Size imageSize = new System.Drawing.Size(size, size);
             Bitmap bitmapImage = this.InternalElementType.GetPreviewImage(imageSize);

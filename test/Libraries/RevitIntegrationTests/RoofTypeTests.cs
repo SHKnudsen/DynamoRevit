@@ -16,6 +16,8 @@ namespace RevitSystemTests
     [TestFixture]
     class RoofTypeTests : RevitSystemTestBase
     {
+        private const double Tolerance = 0.001;
+
         [Test]
         [TestModel(@".\RoofType\RoofType.rvt")]
         public void CanGetRoofTypeThermalProperties()
@@ -26,7 +28,7 @@ namespace RevitSystemTests
 
             double expectedRoofTypeAbsorptance = 0.7;
             double expectedRoofTypeHeatTransferCoefficient = 0.15892777;
-            double expectedRoofTypeRoughness = 3;
+            int expectedRoofTypeRoughness = 3;
             double expectedRoofTypeThermalMass = 1056333.2;
             double expectedRoofTypeThermalResistance = 6.29216624;
 
@@ -41,11 +43,11 @@ namespace RevitSystemTests
             var resultRoofTypeThermalResistance = GetPreviewValue("1ca68872f565419b838cdbb8306057d3");
 
             // Assert
-            Assert.AreEqual(expectedRoofTypeAbsorptance, (double)resultRoofTypeAbsorptance, 0.001);
-            Assert.AreEqual(expectedRoofTypeHeatTransferCoefficient, (double)resultRoofTypeHeatTransferCoefficient, 0.001);
-            Assert.AreEqual(expectedRoofTypeRoughness, (double)resultRoofTypeRoughness, 0.001);
-            Assert.AreEqual(expectedRoofTypeThermalMass, (double)resultRoofTypeThermalMass, 0.001);
-            Assert.AreEqual(expectedRoofTypeThermalResistance, (double)resultRoofTypeThermalResistance, 0.001);
+            Assert.AreEqual(expectedRoofTypeAbsorptance, (double)resultRoofTypeAbsorptance, Tolerance);
+            Assert.AreEqual(expectedRoofTypeHeatTransferCoefficient, (double)resultRoofTypeHeatTransferCoefficient, Tolerance);
+            Assert.AreEqual(expectedRoofTypeRoughness, resultRoofTypeRoughness);
+            Assert.AreEqual(expectedRoofTypeThermalMass, (double)resultRoofTypeThermalMass, Tolerance);
+            Assert.AreEqual(expectedRoofTypeThermalResistance, (double)resultRoofTypeThermalResistance, Tolerance);
         }
     }
 }

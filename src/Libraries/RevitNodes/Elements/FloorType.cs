@@ -118,12 +118,12 @@ namespace Revit.Elements
         /// Gets the structural material of the FloorType.
         /// </summary>
         /// <returns>Returns the material that defines the element's structural analysis properties.</returns>
-        public Element GetStructuralMaterial()
+        public Material GetStructuralMaterial()
         {
             ElementId materialId = InternalFloorType.StructuralMaterialId;
             if (materialId == null || materialId.IntegerValue < 0)
                 throw new InvalidOperationException(Properties.Resources.NoStructuralMaterialAssigned);
-            return Document.GetElement(materialId).ToDSType(true);
+            return Document.GetElement(materialId).ToDSType(true) as Material;
         }
 
         /// <summary>
@@ -141,19 +141,13 @@ namespace Revit.Elements
             if (thermalProperties == null)
                 throw new InvalidOperationException(nameof(GetThermalProperties));
 
-            double absorptance = thermalProperties.Absorptance;
-            double heatTransferCoefficient = thermalProperties.HeatTransferCoefficient;
-            double roughness = thermalProperties.Roughness;
-            double thermalMass = thermalProperties.ThermalMass;
-            double thermalResistance = thermalProperties.ThermalResistance;
-
             return new Dictionary<string, object>
             {
-                { absorptanceOutputPort, absorptance },
-                { heatTransferCoefficientOutputPort, heatTransferCoefficient },
-                { roughnessOutputPort, roughness },
-                { thermalMassOutputPort, thermalMass },
-                { thermalResistanceOutputPort, thermalResistance }
+                { absorptanceOutputPort, thermalProperties.Absorptance },
+                { heatTransferCoefficientOutputPort, thermalProperties.HeatTransferCoefficient },
+                { roughnessOutputPort, thermalProperties.Roughness },
+                { thermalMassOutputPort, thermalProperties.ThermalMass },
+                { thermalResistanceOutputPort, thermalProperties.ThermalResistance }
             };
         }
 

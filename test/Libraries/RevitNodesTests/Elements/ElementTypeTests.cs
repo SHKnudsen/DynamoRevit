@@ -119,13 +119,16 @@ namespace RevitNodesTests.Elements
             // Arrange
             var wall = ElementSelector.ByElementId(184176, true);
             var expectedGetPreviewImageType = typeof(System.Drawing.Bitmap);
+            var imageSize = 500;
+            var expectedImageSize = new System.Drawing.Size(imageSize, imageSize);
 
             // Act
             var typeElement = wall.ElementType;
-            var previewImage = typeElement.GetPreviewImage(500);
+            var previewImage = typeElement.GetPreviewImage(imageSize);
 
             // Assert
             Assert.AreEqual(expectedGetPreviewImageType, previewImage.GetType());
+            Assert.AreEqual(expectedImageSize, previewImage.Size);
         }
     }
 }

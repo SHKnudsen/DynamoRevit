@@ -16,6 +16,8 @@ namespace RevitSystemTests
     [TestFixture]
     class WallTypeTests : RevitSystemTestBase
     {
+        private const double Tolerance = 0.001;
+
         [Test]
         [TestModel(@".\element.rvt")]
         public void canGetWallTypeProperties()
@@ -39,7 +41,7 @@ namespace RevitSystemTests
 
             // Assert
             Assert.AreEqual(expectedWallTypeName, resultWallTypeName);
-            Assert.AreEqual(expectedWallTypeWidth, (double)resultWallTypeWidth, 0.001);
+            Assert.AreEqual(expectedWallTypeWidth, (double)resultWallTypeWidth, Tolerance);
             Assert.AreEqual(expectedWallTypeKind, resultWallTypeKind);
             Assert.AreEqual(expectedWallTypeFunction, resultWallTypeFunction);
         }
@@ -54,7 +56,7 @@ namespace RevitSystemTests
 
             double expectedWallTypeAbsorptance = 0.7;
             double expectedWallTypeHeatTransferCoefficient = 1E+30;
-            double expectedWallTypeRoughness = 3;
+            int expectedWallTypeRoughness = 3;
             double expectedWallTypeThermalMass = 0;
             double expectedWallTypeThermalResistance = 0;
 
@@ -65,15 +67,15 @@ namespace RevitSystemTests
             var resultWallTypeAbsorptance = GetPreviewValue("56cb939de2cc4ca4a21731ba78f4299b");
             var resultWallTypeHeatTransferCoefficient = GetPreviewValue("6d63251353044032b5167428b7749f62");
             var resultWallTypeRoughness = GetPreviewValue("9cd0f885729641dc928f93250bae096a");
-            var resultWallTypeThermalMass = GetPreviewValue("531d75472d3d462fa93724bbe74058fe");
+            var resultWallTypeThermalMass = GetPreviewValue("e60b5201ae23449196beb090d0d825d1");
             var resultWallTypeThermalResistance = GetPreviewValue("1ca68872f565419b838cdbb8306057d3");
 
             // Assert
-            Assert.AreEqual(expectedWallTypeAbsorptance, (double)resultWallTypeAbsorptance, 0.001);
-            Assert.AreEqual(expectedWallTypeHeatTransferCoefficient, (double)resultWallTypeHeatTransferCoefficient, 0.001);
-            Assert.AreEqual(expectedWallTypeRoughness, (double)resultWallTypeRoughness, 0.001);
-            Assert.AreEqual(expectedWallTypeThermalMass, (double)resultWallTypeThermalMass, 0.001);
-            Assert.AreEqual(expectedWallTypeThermalResistance, (double)resultWallTypeThermalResistance, 0.001);
+            Assert.AreEqual(expectedWallTypeAbsorptance, (double)resultWallTypeAbsorptance, Tolerance);
+            Assert.AreEqual(expectedWallTypeHeatTransferCoefficient, (double)resultWallTypeHeatTransferCoefficient, Tolerance);
+            Assert.AreEqual(expectedWallTypeRoughness, resultWallTypeRoughness);
+            Assert.AreEqual(expectedWallTypeThermalMass, (double)resultWallTypeThermalMass, Tolerance);
+            Assert.AreEqual(expectedWallTypeThermalResistance, (double)resultWallTypeThermalResistance, Tolerance);
         }
     }
 }

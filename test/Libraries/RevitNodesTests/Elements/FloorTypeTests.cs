@@ -10,6 +10,7 @@ namespace RevitNodesTests.Elements
     [TestFixture]
     public class FloorTypeTests : RevitNodeTestBase
     {
+        private const double Tolerance = 0.00001;
 
         [Test]
         [TestModel(@".\Empty.rvt")]
@@ -36,7 +37,7 @@ namespace RevitNodesTests.Elements
             var floor = ElementSelector.ByElementId(316138, true);
             double expectedFloorTypeAbsorptance = 0.7;
             double expectedFloorTypeHeatTransferCoefficient = 0.117437;
-            double expectedFloorTypeRoughness = 3;
+            int expectedFloorTypeRoughness = 3;
             double expectedFloorTypeThermalMass = 365549.43;
             double expectedFloorTypeThermalResistance = 8.515159;
 
@@ -45,16 +46,16 @@ namespace RevitNodesTests.Elements
             var thermalProperties = floorType.GetThermalProperties();
             double resultFloorTypeAbsorptance = (double)thermalProperties["Absorptance"];
             double resultFloorTypeHeatTransferCoefficient = (double)thermalProperties["HeatTransferCoefficient"];
-            double resultFloorTypeRoughness = (double)thermalProperties["Roughness"];
+            double resultFloorTypeRoughness = (int)thermalProperties["Roughness"];
             double resultFloorTypeThermalMass = (double)thermalProperties["ThermalMass"];
             double resultFloorTypeThermalResistance = (double)thermalProperties["ThermalResistance"];
 
             // Assert
-            Assert.AreEqual(expectedFloorTypeAbsorptance, resultFloorTypeAbsorptance, 0.00001);
-            Assert.AreEqual(expectedFloorTypeHeatTransferCoefficient, resultFloorTypeHeatTransferCoefficient, 0.00001);
-            Assert.AreEqual(expectedFloorTypeRoughness, resultFloorTypeRoughness, 0.00001);
-            Assert.AreEqual(expectedFloorTypeThermalMass, resultFloorTypeThermalMass, 0.00001);
-            Assert.AreEqual(expectedFloorTypeThermalResistance, resultFloorTypeThermalResistance, 0.00001);
+            Assert.AreEqual(expectedFloorTypeAbsorptance, resultFloorTypeAbsorptance, Tolerance);
+            Assert.AreEqual(expectedFloorTypeHeatTransferCoefficient, resultFloorTypeHeatTransferCoefficient, Tolerance);
+            Assert.AreEqual(expectedFloorTypeRoughness, resultFloorTypeRoughness, Tolerance);
+            Assert.AreEqual(expectedFloorTypeThermalMass, resultFloorTypeThermalMass, Tolerance);
+            Assert.AreEqual(expectedFloorTypeThermalResistance, resultFloorTypeThermalResistance, Tolerance);
         }
 
         [Test]

@@ -132,19 +132,13 @@ namespace Revit.Elements
             if (thermalProperties == null)
                 throw new InvalidOperationException(nameof(GetThermalProperties));
 
-            double absorptance = thermalProperties.Absorptance;
-            double heatTransferCoefficient = thermalProperties.HeatTransferCoefficient;
-            double roughness = thermalProperties.Roughness;
-            double thermalMass = thermalProperties.ThermalMass;
-            double thermalResistance = thermalProperties.ThermalResistance;
-
             return new Dictionary<string, object>
             {
-                { absorptanceOutputPort, absorptance },
-                { heatTransferCoefficientOutputPort, heatTransferCoefficient },
-                { roughnessOutputPort, roughness },
-                { thermalMassOutputPort, thermalMass },
-                { thermalResistanceOutputPort, thermalResistance }
+                { absorptanceOutputPort, thermalProperties.Absorptance },
+                { heatTransferCoefficientOutputPort, thermalProperties.HeatTransferCoefficient },
+                { roughnessOutputPort, thermalProperties.Roughness },
+                { thermalMassOutputPort, thermalProperties.ThermalMass },
+                { thermalResistanceOutputPort, thermalProperties.ThermalResistance }
             };
         }
 

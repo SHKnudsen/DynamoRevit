@@ -463,6 +463,6 @@
     <value>There is no ElementType of the given name in the current Document</value>
   </data>
   <data name="NoStructuralMaterialAssigned" xml:space="preserve">
-    <value>FloorType has no StructuralMaterial assigned</value>
+    <value>FloorType has no structural material assigned</value>
   </data>
 </root>
