@@ -68,6 +68,19 @@ namespace Revit.Application
             get { return new Document(DocumentManager.Instance.CurrentDBDocument); }
         }
 
+        private List<PerformanceAdviserRuleId> performanceAdviserRuleIds;
+        private List<PerformanceAdviserRuleId> PerformanceAdviserRuleIds
+        {
+            get
+            {
+                if (performanceAdviserRuleIds == null)
+                {
+                    performanceAdviserRuleIds = GetPerfromanceAdviserRuleIdForPurge();
+                }
+                return performanceAdviserRuleIds;
+            }
+        }
+
         /// <summary>
         /// Gets the worksharing path of the current document
         /// </summary>
@@ -118,15 +131,19 @@ namespace Revit.Application
 
         private List<ElementId> PurgeMaterials()
         {
-            List<Autodesk.Revit.DB.ElementId> materials = new FilteredElementCollector(this.InternalDocument).OfClass(typeof(Autodesk.Revit.DB.Material))
-                                                                                                           .ToElementIds()
-                                                                                                           .ToList();
+            List<Autodesk.Revit.DB.ElementId> materials = new FilteredElementCollector(this.InternalDocument)
+                .OfClass(typeof(Autodesk.Revit.DB.Material))
+                .ToElementIds()
+                .ToList();
+
             if (materials == null)
                 return new List<ElementId>();
 
-            List<Autodesk.Revit.DB.Element> elementTypes = new FilteredElementCollector(this.InternalDocument).WhereElementIsElementType()
-                                                                                                              .ToElements()
-                                                                                                              .ToList();
+            List<Autodesk.Revit.DB.Element> elementTypes = new FilteredElementCollector(this.InternalDocument)
+                .WhereElementIsElementType()
+                .ToElements()
+                .ToList();
+
             if (elementTypes == null)
                 return new List<ElementId>();
 
@@ -175,13 +192,16 @@ namespace Revit.Application
 
         private List<Autodesk.Revit.DB.ElementId> PurgeMaterialAssets(List<Autodesk.Revit.DB.ElementId> elementIds)
         {
-            List<ElementId> appearanceAssetIds = new FilteredElementCollector(this.InternalDocument).OfClass(typeof(AppearanceAssetElement))
-                                                                                                    .ToElementIds()
-                                                                                                    .ToList();
+            List<ElementId> appearanceAssetIds = new FilteredElementCollector(this.InternalDocument)
+                .OfClass(typeof(AppearanceAssetElement))
+                .ToElementIds()
+                .ToList();
 
-            List<ElementId> propertySet = new FilteredElementCollector(this.InternalDocument).OfClass(typeof(PropertySetElement))
-                                                                                             .ToElementIds()
-                                                                                             .ToList();
+            List<ElementId> propertySet = new FilteredElementCollector(this.InternalDocument)
+                .OfClass(typeof(PropertySetElement))
+                .ToElementIds()
+                .ToList();
+
             int elementIdsCount = elementIds.Count();
             for (int i = 0; i < elementIdsCount; i++)
             {
@@ -203,7 +223,7 @@ namespace Revit.Application
             if (propertySet.Count > 0)
                 this.InternalDocument.Delete(propertySet);
 
-            List<ElementId> purgedElementIds = new List<ElementId>(appearanceAssetIds.Concat(propertySet));
+            var purgedElementIds = new List<ElementId>(appearanceAssetIds.Concat(propertySet));
             return purgedElementIds;
         }
 
@@ -216,10 +236,12 @@ namespace Revit.Application
             {
                 if (purgeableElementIds == null)
                     return purgedElementIds;
+
                 purgedElementIds.AddRange(purgeableElementIds);
                 this.InternalDocument.Delete(purgeableElementIds);
                 return purgedElementIds;
             }
+
             if (purgeableElementIds == null)
                 return purgedElementIds;
 
@@ -233,7 +255,7 @@ namespace Revit.Application
         private List<Autodesk.Revit.DB.ElementId> GetPurgeableElementIds()
         {
             List<Autodesk.Revit.DB.FailureMessage> failureMessages = PerformanceAdviser.GetPerformanceAdviser()
-                                                                                       .ExecuteRules(this.InternalDocument, GetPerfromanceAdviserRuleId())
+                                                                                       .ExecuteRules(this.InternalDocument, PerformanceAdviserRuleIds)
                                                                                        .ToList();
             if (failureMessages.Count > 0)
             {
@@ -243,7 +265,7 @@ namespace Revit.Application
             return null;
         }
 
-        private static List<PerformanceAdviserRuleId> GetPerfromanceAdviserRuleId()
+        private static List<PerformanceAdviserRuleId> GetPerfromanceAdviserRuleIdForPurge()
         {
             //The internal GUID of the purge Performance Adviser Rule 
             const string purgePerformanceAdviserRuleGuid = "e8c63650-70b7-435a-9010-ec97660c1bda";
