@@ -70,14 +70,14 @@ namespace RevitNodesTests.Elements
             var thermalProperties = wallType.GetThermalProperties();
             double resultWallTypeAbsorptance = (double)thermalProperties["Absorptance"];
             double resultWallTypeHeatTransferCoefficient = (double)thermalProperties["HeatTransferCoefficient"];
-            double resultWallTypeRoughness = (int)thermalProperties["Roughness"];
+            int resultWallTypeRoughness = (int)thermalProperties["Roughness"];
             double resultWallTypeThermalMass = (double)thermalProperties["ThermalMass"];
             double resultWallTypeThermalResistance = (double)thermalProperties["ThermalResistance"];
 
             // Assert
             Assert.AreEqual(expectedWallTypeAbsorptance, resultWallTypeAbsorptance, Tolerance);
             Assert.AreEqual(expectedWallTypeHeatTransferCoefficient, resultWallTypeHeatTransferCoefficient, Tolerance);
-            Assert.AreEqual(expectedWallTypeRoughness, resultWallTypeRoughness, Tolerance);
+            Assert.AreEqual(expectedWallTypeRoughness, resultWallTypeRoughness);
             Assert.AreEqual(expectedWallTypeThermalMass, resultWallTypeThermalMass, Tolerance);
             Assert.AreEqual(expectedWallTypeThermalResistance, resultWallTypeThermalResistance, Tolerance);
         }

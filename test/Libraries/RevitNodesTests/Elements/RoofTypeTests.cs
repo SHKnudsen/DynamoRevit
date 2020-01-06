@@ -28,14 +28,14 @@ namespace RevitNodesTests.Elements
             var thermalProperties = roofType.GetThermalProperties();
             double resultRoofTypeAbsorptance = (double)thermalProperties["Absorptance"];
             double resultRoofTypeHeatTransferCoefficient = (double)thermalProperties["HeatTransferCoefficient"];
-            double resultRoofTypeRoughness = (int)thermalProperties["Roughness"];
+            int resultRoofTypeRoughness = (int)thermalProperties["Roughness"];
             double resultRoofTypeThermalMass = (double)thermalProperties["ThermalMass"];
             double resultRoofTypeThermalResistance = (double)thermalProperties["ThermalResistance"];
 
             // Assert
             Assert.AreEqual(expectedRoofTypeAbsorptance, resultRoofTypeAbsorptance, Tolerance);
             Assert.AreEqual(expectedRoofTypeHeatTransferCoefficient, resultRoofTypeHeatTransferCoefficient, Tolerance);
-            Assert.AreEqual(expectedRoofTypeRoughness, resultRoofTypeRoughness, Tolerance);
+            Assert.AreEqual(expectedRoofTypeRoughness, resultRoofTypeRoughness);
             Assert.AreEqual(expectedRoofTypeThermalMass, resultRoofTypeThermalMass, Tolerance);
             Assert.AreEqual(expectedRoofTypeThermalResistance, resultRoofTypeThermalResistance, Tolerance);
         }
