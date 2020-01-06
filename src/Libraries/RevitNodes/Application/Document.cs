@@ -154,15 +154,13 @@ namespace Revit.Application
                 nonPurgedElements.UnionWith(GetNonPurgableMaterialIds(elementTypes[i]));
             }
 
-            List<ElementId> purgableMaterials = materials.Except(nonPurgedElements).ToList();
-            if (purgableMaterials.Count > 0)
-                this.InternalDocument.Delete(purgableMaterials);
+            List<ElementId> purgeableMaterials = materials.Except(nonPurgedElements).ToList();
+            if (purgeableMaterials.Count > 0)
+                this.InternalDocument.Delete(purgeableMaterials);
 
-            List<ElementId> purgedMaterials = new List<ElementId>();
-            purgedMaterials.AddRange(PurgeMaterialAssets(nonPurgedElements.ToList()));
-            purgedMaterials.AddRange(purgableMaterials);
+            List<ElementId> purgedMaterialAssets = PurgeMaterialAssets(nonPurgedElements.ToList());
 
-            return purgedMaterials;
+            return purgeableMaterials.Concat(purgedMaterialAssets).ToList();
         }
 
         private static HashSet<ElementId> GetNonPurgableMaterialIds(Autodesk.Revit.DB.Element type)
@@ -197,6 +195,8 @@ namespace Revit.Application
                 .ToElementIds()
                 .ToList();
 
+            // The PropertySetElement contains either the Thermal or Structural Asset
+            // https://forums.autodesk.com/t5/revit-api-forum/material-assets-collector-appearance-structural-physical-amp/td-p/7256944
             List<ElementId> propertySet = new FilteredElementCollector(this.InternalDocument)
                 .OfClass(typeof(PropertySetElement))
                 .ToElementIds()
@@ -223,31 +223,24 @@ namespace Revit.Application
             if (propertySet.Count > 0)
                 this.InternalDocument.Delete(propertySet);
 
-            var purgedElementIds = new List<ElementId>(appearanceAssetIds.Concat(propertySet));
-            return purgedElementIds;
+            return appearanceAssetIds.Concat(propertySet).ToList();
         }
 
         private List<ElementId> PurgeElements(bool runRecursively)
         {
             List<ElementId> purgedElementIds = new List<ElementId>();
             List<ElementId> purgeableElementIds = GetPurgeableElementIds();
-            
-            if (!runRecursively)
-            {
-                if (purgeableElementIds == null)
-                    return purgedElementIds;
-
-                purgedElementIds.AddRange(purgeableElementIds);
-                this.InternalDocument.Delete(purgeableElementIds);
-                return purgedElementIds;
-            }
 
             if (purgeableElementIds == null)
                 return purgedElementIds;
 
             purgedElementIds.AddRange(purgeableElementIds);
             this.InternalDocument.Delete(purgeableElementIds);
-            purgedElementIds.AddRange(PurgeElements(runRecursively));
+
+            if (runRecursively)
+            {
+                purgedElementIds.AddRange(PurgeElements(runRecursively));
+            }
 
             return purgedElementIds;
         }

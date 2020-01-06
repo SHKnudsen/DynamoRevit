@@ -158,7 +158,7 @@ namespace RevitSystemTests
             // Arange
             string samplePath = Path.Combine(workingDirectory, @".\Document\canPurgeUnusedElementsFromDocument.dyn");
             string testPath = Path.GetFullPath(samplePath);
-            var expectedPurgedElementIds = new List<int>() { 217063, 221347, 216753, 208080, 210695, 416 };
+            var expectedPurgedElementIds = new List<int>() { 217063, 221347, 216753, 416, 208080, 210695 };
 
             // Act
             ViewModel.OpenCommand.Execute(testPath);

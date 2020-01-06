@@ -430,9 +430,6 @@
     <value>Current Document is not workshared</value>
   </data>
   <data name="NoElementsToPurge" xml:space="preserve">
-    <value>No Elements to purge in the current document</value>
-  </data>
-  <data name="PurgedElements" xml:space="preserve">
-    <value>Purged {0} elements, form the current document</value>
+    <value>No Elements to purge in the current document.</value>
   </data>
 </root>

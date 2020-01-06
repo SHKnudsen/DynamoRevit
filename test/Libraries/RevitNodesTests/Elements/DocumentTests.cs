@@ -122,7 +122,7 @@ namespace RevitNodesTests.Elements
         public void CanRecursivelyPurgeUnusedElementsFromDocument()
         {
             // Arrange
-            var expectedPurgedElementIds = new List<int>() { 217063, 221347, 216753, 208080, 210695, 416 };
+            var expectedPurgedElementIds = new List<int>() { 217063, 221347, 216753, 416, 208080, 210695 };
             string expectedPurgeMessageSecondRun = Revit.Properties.Resources.NoElementsToPurge;
             
             // Act - second purge should throw exception as there is nothing left to purge after doing PurgeUnused(true).
@@ -141,7 +141,7 @@ namespace RevitNodesTests.Elements
         {
             // Arrange
             var expectedPurgedElementIdsFirstRun = new List<int>() { 217063, 221347 };
-            var expectedPurgedElementIdsSecondRun = new List<int>() { 216753,208080,210695,416 };
+            var expectedPurgedElementIdsSecondRun = new List<int>() { 216753, 416, 208080, 210695 };
 
             // Act - as we are not running recursivly, second run should return element ids
             var document = Document.Current;
