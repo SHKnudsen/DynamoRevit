@@ -304,6 +304,15 @@ namespace Revit.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Document is not a valid Family Document..
+        /// </summary>
+        internal static string DocumentNotFamilyDocument {
+            get {
+                return ResourceManager.GetString("DocumentNotFamilyDocument", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Current Document is not workshared.
         /// </summary>
         internal static string DocumentNotWorkshared {
@@ -718,6 +727,14 @@ namespace Revit.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to No Elements to purge in the current document..
+        /// </summary>
+        internal static string NoElementsToPurge {
+            get {
+                return ResourceManager.GetString("NoElementsToPurge", resourceCulture);
+            }
+        }
+
         ///   Looks up a localized string similar to Element has no child Elements.
         /// </summary>
         internal static string NoChildElements {
@@ -735,20 +752,11 @@ namespace Revit.Properties {
             }
         }
         
-        /// <summary>
         ///   Looks up a localized string similar to Element has no parent component.
         /// </summary>
         internal static string NoParentElement {
             get {
                 return ResourceManager.GetString("NoParentElement", resourceCulture);
-            }
-        }
-
-        ///   Looks up a localized string similar to No Elements to purge in the current document..
-        /// </summary>
-        internal static string NoElementsToPurge {
-            get {
-                return ResourceManager.GetString("NoElementsToPurge", resourceCulture);
             }
         }
         
@@ -1136,6 +1144,15 @@ namespace Revit.Properties {
         internal static string WallTypeNotFound {
             get {
                 return ResourceManager.GetString("WallTypeNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Input value for this parameter needs to be of type {0}..
+        /// </summary>
+        internal static string WrongStorageType {
+            get {
+                return ResourceManager.GetString("WrongStorageType", resourceCulture);
             }
         }
     }
