@@ -389,4 +389,38 @@
   <data name="PortDataViewToolTip" xml:space="preserve">
     <value>The View</value>
   </data>
+  <data name="SelectModelElementsByCategoryDescription" xml:space="preserve">
+    <value>Select multiple elements from the Revit document filtered by Category.</value>
+    <comment>Description for Select Model Elements By Category</comment>
+  </data>
+  <data name="RoofTypesDescription" xml:space="preserve">
+    <value>All roof types in the current document.</value>
+  </data>
+  <data name="SheetsDescription" xml:space="preserve">
+    <value>All sheets available in the current document.</value>
+  </data>
+  <data name="ViewFamilyTypes" xml:space="preserve">
+    <value>All view family types in the current document.</value>
+  </data>
+  <data name="PortDataNotEnclosedRoomsToolTip" xml:space="preserve">
+    <value>Not Enclosed Rooms in the document</value>
+  </data>
+  <data name="PortDataPlacedRoomsToolTip" xml:space="preserve">
+    <value>Placed Rooms in the document</value>
+  </data>
+  <data name="PortDataRedundantRoomsToolTip" xml:space="preserve">
+    <value>Redundant Rooms in the document</value>
+  </data>
+  <data name="PortDataUnplacedRoomsToolTip" xml:space="preserve">
+    <value>Unplaced Rooms in the document</value>
+  </data>
+  <data name="RoomsByStatusDescription" xml:space="preserve">
+    <value>Returns all rooms in the document grouped by status</value>
+  </data>
+  <data name="ElementById" xml:space="preserve">
+    <value>Gets the Element with the specified Id</value>
+  </data>
+  <data name="PortDataByElementId" xml:space="preserve">
+    <value>Element Id as string, int or ElementId</value>
+  </data>
 </root>
